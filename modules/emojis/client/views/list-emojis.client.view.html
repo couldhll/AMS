@@ -1,0 +1,22 @@
+<section ng-controller="EmojisController" ng-init="find()">
+  <div class="page-header">
+    <h1>Emoji</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="emoji in emojis" ui-sref="emoji.view({emojiId: emoji._id})" class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="emoji.created | date:'mediumDate'"></span>
+        by
+        <span ng-bind="emoji.user.displayName"></span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="emoji.title"></h4>
+      <p class="list-group-item-text" ng-bind="emoji.content"></p>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" ng-if="emoji.$resolved && !emoji.length">
+    No emoji yet, why don't you <a ui-sref="emojis.create">create one</a>?
+  </div>
+  <div class="gridStyle" ng-grid="gridOptions">
+  </div>
+</section>
