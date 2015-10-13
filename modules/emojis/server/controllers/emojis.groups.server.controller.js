@@ -16,7 +16,7 @@ exports.create = function (req, res) {
   emojiGroup.user = req.user;
   emojiGroup.emojis = req.emojis;
 
-  emoji.save(function (err) {
+  emojiGroup.save(function (err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
@@ -42,7 +42,7 @@ exports.update = function (req, res) {
 
   emojiGroup.name = req.body.name;
 
-  article.save(function (err) {
+  emojiGroup.save(function (err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
@@ -59,7 +59,7 @@ exports.update = function (req, res) {
 exports.delete = function (req, res) {
   var emojiGroup = req.emojiGroup;
 
-  article.remove(function (err) {
+  emojiGroup.remove(function (err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
