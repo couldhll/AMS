@@ -27,6 +27,9 @@ var EmojiSchema = new Schema({
   group: {
     type: Schema.ObjectId,
     ref: 'EmojiGroup'
+  },
+  index: {
+    type: Number
   }
 });
 

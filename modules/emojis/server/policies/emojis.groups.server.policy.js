@@ -20,15 +20,21 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/emojiGroups/:emojiGroupId',
       permissions: '*'
+    }, {
+      resources: '/api/emojiGroups/:emojiGroupId/emojis',
+      permissions: '*'
     }]
   }, {
     roles: ['user'],
     allows: [{
       resources: '/api/emojiGroups',
-      permissions: ['get', 'post']
+      permissions: '*'
     }, {
       resources: '/api/emojiGroups/:emojiGroupId',
-      permissions: ['get']
+      permissions: '*'
+    }, {
+      resources: '/api/emojiGroups/:emojiGroupId/emojis',
+      permissions: '*'
     }]
   }, {
     roles: ['guest'],
@@ -37,6 +43,9 @@ exports.invokeRolesPolicies = function () {
       permissions: ['get']
     }, {
       resources: '/api/emojiGroups/:emojiGroupId',
+      permissions: ['get']
+    }, {
+      resources: '/api/emojiGroups/:emojiGroupId/emojis',
       permissions: ['get']
     }]
   }]);

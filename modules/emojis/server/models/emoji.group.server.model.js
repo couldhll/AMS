@@ -27,7 +27,10 @@ var EmojiGroupSchema = new Schema({
   emojis: [{
     type: Schema.ObjectId,
     ref: 'Emoji'
-  }]
+  }],
+  index: {
+    type: Number
+  }
 });
 
 mongoose.model('EmojiGroup', EmojiGroupSchema);

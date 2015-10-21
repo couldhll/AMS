@@ -13,14 +13,15 @@ angular.module('emojis').run(['Menus',
 
     // Add the dropdown list item
     Menus.addSubMenuItem('topbar', 'emojis', {
-      title: 'List Emoji',
-      state: 'emojis.list'
+      title: 'Manage Emoji',
+      state: 'emojis.manage',
+      roles: ['user']
     });
 
     // Add the dropdown create item
     Menus.addSubMenuItem('topbar', 'emojis', {
-      title: 'Create Emoji',
-      state: 'emojis.create',
+      title: 'Export Emoji',
+      state: 'emojis.export',
       roles: ['user']
     });
   }

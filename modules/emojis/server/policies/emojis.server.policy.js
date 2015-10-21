@@ -25,10 +25,10 @@ exports.invokeRolesPolicies = function () {
     roles: ['user'],
     allows: [{
       resources: '/api/emojis',
-      permissions: ['get', 'post']
+      permissions: '*'
     }, {
       resources: '/api/emojis/:emojiId',
-      permissions: ['get']
+      permissions: '*'
     }]
   }, {
     roles: ['guest'],

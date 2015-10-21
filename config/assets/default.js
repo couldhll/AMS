@@ -5,7 +5,8 @@ module.exports = {
     lib: {
       css: [
         'public/lib/bootstrap/dist/css/bootstrap.css',
-        'public/lib/bootstrap/dist/css/bootstrap-theme.css'
+        'public/lib/bootstrap/dist/css/bootstrap-theme.css',
+        'public/lib/angular-ui-grid/ui-grid.css'
       ],
       js: [
         'public/lib/angular/angular.js',
@@ -15,7 +16,12 @@ module.exports = {
         'public/lib/angular-ui-router/release/angular-ui-router.js',
         'public/lib/angular-ui-utils/ui-utils.js',
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
-        'public/lib/angular-file-upload/angular-file-upload.js'
+        'public/lib/angular-file-upload/angular-file-upload.js',
+        'public/lib/jquery/dist/jquery.js',
+        'public/lib/angular-ui-grid/ui-grid.js',
+        'public/lib/ui-grid-draggable-rows/js/draggable-rows.js',
+        'public/lib/pdfmake/build/pdfmake.js',
+        'public/lib/pdfmake/build/vfs_fonts.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },

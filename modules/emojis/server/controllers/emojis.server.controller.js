@@ -14,7 +14,8 @@ var path = require('path'),
 exports.create = function (req, res) {
   var emoji = new Emoji(req.body);
   emoji.user = req.user;
-  emoji.group = req.group;
+  emoji.index = req.body.index;
+  emoji.group = req.body.group;
 
   emoji.save(function (err) {
     if (err) {
@@ -41,6 +42,8 @@ exports.update = function (req, res) {
   var emoji = req.emoji;
 
   emoji.title = req.body.title;
+  emoji.index = req.body.index;
+  emoji.group = req.body.group;
 
   emoji.save(function (err) {
     if (err) {
@@ -74,7 +77,7 @@ exports.delete = function (req, res) {
  * List of Emojis
  */
 exports.list = function (req, res) {
-  Emoji.find().sort('-created').populate('user', 'displayName').exec(function (err, emojis) {
+  Emoji.find().sort('index').populate('user', 'displayName').populate('group', 'name').exec(function (err, emojis) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
@@ -96,7 +99,7 @@ exports.emojiByID = function (req, res, next, id) {
     });
   }
 
-  Emoji.findById(id).populate('user', 'displayName').exec(function (err, emoji) {
+  Emoji.findById(id).populate('user', 'displayName').populate('group', 'name').exec(function (err, emoji) {
     if (err) {
       return next(err);
     } else if (!emoji) {
