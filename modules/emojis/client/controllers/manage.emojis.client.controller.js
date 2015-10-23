@@ -1,5 +1,7 @@
 'use strict';
 
+/*jslint eqeq: true*/
+
 // Manage Emoji controller
 angular.module('emojis').controller('ManageEmojisController', ['$scope', '$stateParams', '$location', 'Authentication', 'Emojis', 'EmojiGroups',
   function ($scope, $stateParams, $location, Authentication, Emojis, EmojiGroups) {
@@ -185,7 +187,7 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
       // show
       for(var i=0;i<emojiGroups.length;i++) {
         var emojiGroup = emojiGroups[i];
-        if (emojiGroup === selectEmojiGroup) {
+        if (emojiGroup == selectEmojiGroup) {
           emojiGroups.splice(i, 1);
         }
       }
@@ -223,7 +225,7 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
       // show
       for(var i=0;i<emojis.length;i++) {
         var emoji = emojis[i];
-        if (emoji === selectEmoji) {
+        if (emoji == selectEmoji) {
           emojis.splice(i, 1);
         }
       }
