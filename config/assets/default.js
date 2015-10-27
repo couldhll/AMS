@@ -21,7 +21,8 @@ module.exports = {
         'public/lib/angular-ui-grid/ui-grid.js',
         'public/lib/ui-grid-draggable-rows/js/draggable-rows.js',
         'public/lib/pdfmake/build/pdfmake.js',
-        'public/lib/pdfmake/build/vfs_fonts.js'
+        'public/lib/pdfmake/build/vfs_fonts.js',
+        'public/lib/jszip/dist/jszip.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },

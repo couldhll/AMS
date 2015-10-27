@@ -21,7 +21,8 @@ module.exports = {
         'public/lib/angular-ui-grid/ui-grid.min.js',
         'public/lib/ui-grid-draggable-rows/js/draggable-rows.js',
         'public/lib/pdfmake/build/pdfmake.min.js',
-        'public/lib/pdfmake/build/vfs_fonts.js'
+        'public/lib/pdfmake/build/vfs_fonts.js',
+        'public/lib/jszip/dist/jszip.min.js'
       ]
     },
     css: 'public/dist/application.min.css',
