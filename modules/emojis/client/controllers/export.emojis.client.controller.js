@@ -4,7 +4,7 @@
 
 // Export Emoji controller
 angular.module('emojis').controller('ExportEmojisController', ['$scope', '$stateParams', '$location', 'Authentication', 'Emojis', 'EmojiGroups', '$http', '$q',
-  function ($scope, $stateParams, $location, Authentication, Emojis, EmojiGroups, $http, $q) {
+  function ($scope, $stateParams, $location, Authentication, Emojis, EmojiGroups, $http, $q, JSZip) {
     $scope.authentication = Authentication;
 
     $scope.emojiGroups = EmojiGroups.query();
@@ -69,7 +69,7 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
                 var template = response;
 
                 // template -> plist
-                var data = new Object();
+                var data = {};
                 data.emojis = emojis;
                 var ini = $scope.tmpl(template,data);
 
@@ -111,7 +111,7 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
                   var template = response;
 
                   // template -> plist
-                  var data = new Object();
+                  var data = {};
                   data.emojiGroups = $scope.emojiGroups;
                   var plist = $scope.tmpl(template,data);
 

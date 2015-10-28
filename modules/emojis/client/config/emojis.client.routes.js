@@ -19,10 +19,7 @@ angular.module('emojis').config(['$stateProvider',
         })
         .state('emojis.export', {
           url: '/export',
-          templateUrl: 'modules/emojis/client/views/export-emojis.client.view.html',
-          data: {
-            roles: ['user', 'admin']
-          }
+          templateUrl: 'modules/emojis/client/views/export-emojis.client.view.html'
         });
   }
 ]);

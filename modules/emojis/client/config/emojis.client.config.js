@@ -22,7 +22,7 @@ angular.module('emojis').run(['Menus',
     Menus.addSubMenuItem('topbar', 'emojis', {
       title: 'Export Emoji',
       state: 'emojis.export',
-      roles: ['user']
+      roles: ['*']
     });
   }
 ]);
