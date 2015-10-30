@@ -42,6 +42,10 @@ exports.update = function (req, res) {
   var emojiGroup = req.emojiGroup;
 
   emojiGroup.name = req.body.name;
+  emojiGroup.type = req.body.type;
+  emojiGroup.file = req.body.file;
+  emojiGroup.icon = req.body.icon;
+  emojiGroup.seperate = req.body.seperate;
   emojiGroup.index = req.body.index;
 
   emojiGroup.save(function (err) {

@@ -1,9 +1,9 @@
 'use strict';
 
-// Configuring the Articles module
+// Configuring the Emojis module
 angular.module('emojis').run(['Menus',
   function (Menus) {
-    // Add the articles dropdown item
+    // Add the emojis dropdown item
     Menus.addMenuItem('topbar', {
       title: 'Emojis',
       state: 'emojis',
@@ -11,14 +11,14 @@ angular.module('emojis').run(['Menus',
       roles: ['*']
     });
 
-    // Add the dropdown list item
+    // Add the dropdown manage item
     Menus.addSubMenuItem('topbar', 'emojis', {
       title: 'Manage Emoji',
       state: 'emojis.manage',
       roles: ['user']
     });
 
-    // Add the dropdown create item
+    // Add the dropdown export item
     Menus.addSubMenuItem('topbar', 'emojis', {
       title: 'Export Emoji',
       state: 'emojis.export',

@@ -3,11 +3,25 @@
 /*jslint eqeq: true*/
 
 // Export Emoji controller
-angular.module('emojis').controller('ExportEmojisController', ['$scope', '$stateParams', '$location', 'Authentication', 'Emojis', 'EmojiGroups', '$http', '$q',
-  function ($scope, $stateParams, $location, Authentication, Emojis, EmojiGroups, $http, $q, JSZip) {
+angular.module('emojis').controller('ExportEmojisController', ['$scope', '$stateParams', '$location', 'Authentication', 'Emojis', 'EmojiGroups', '$http', '$q', '$window',
+  function ($scope, $stateParams, $location, Authentication, Emojis, EmojiGroups, $http, $q, $window) {
     $scope.authentication = Authentication;
 
+    // init
+    var templatePath = "modules/emojis/client/template";
+
+    // init emoji group grid
     $scope.emojiGroups = EmojiGroups.query();
+
+    // init export button
+    $http.get(templatePath + "/" + "config.json")
+        .success(function(response) {
+          var templates = response;
+          $scope.templates = templates;
+        })
+        .error(function(error) {
+          alert(error);
+        });
 
     // Config group grid
     $scope.groupGridOptions = {
@@ -40,6 +54,10 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
       columnDefs: [
         { field: '_id', enableCellEdit:false },
         { field: 'name' },
+        { field: 'type' },
+        { field: 'file' },
+        { field: 'icon' },
+        { field: 'seperate' },
         { name: 'Created User', field: 'user.displayName', enableCellEdit:false },
         { name: 'Created Time', field: 'created', enableCellEdit:false }
       ],
@@ -49,13 +67,24 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
       $scope.groupGridApi = gridApi;
     };
 
-    $scope.export = function() {
+    $scope.export = function(template) {
+      // config
+      var packageVersion = '1.0';
+      var plistTemplateFilePath = templatePath + "/" + template.plistInput;
+      var iniFileName = template.iniOutput;
+      var plistFileName = template.plistOutput;
+      var zipFileName = template.start + "~" + template.end + "." + "zip";
+
       // zip
-      var zip = new JSZip();
-      var versionFolder = zip.folder('1.0');
+      var zip = new $window.JSZip();
+      var versionFolder = zip.folder(packageVersion);
 
       // create ini
-      var createIni = function (groupId, groupName) {
+      var createIni = function (group) {
+        var groupId = group._id;
+        var folderName = group.file;
+        var seperate = group.seperate;
+
         var deferred = $q.defer();
 
         // 1. get emojis data
@@ -63,26 +92,20 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
           emojiGroupId: groupId
         }, function (emojis)
         {
-          // 2. get ini template
-          $http.get("modules/emojis/client/template/5.6-~/info.ini")
-              .success(function(response) {
-                var template = response;
+          // template -> ini
+          var emojiTitles = emojis.map(function(emoji) {
+            return emoji.title;
+          });
+          var ini = emojiTitles.join(seperate);
 
-                // template -> plist
-                var data = {};
-                data.emojis = emojis;
-                var ini = $scope.tmpl(template,data);
+          // 2. put ini into zip
+          var groupFolder = versionFolder.folder(folderName);
+          groupFolder.file(iniFileName, ini);
 
-                // 3. put ini into zip
-                var groupFolder = versionFolder.folder(groupName);
-                groupFolder.file('info.ini', ini);
+          // 3. edit group file
+          group.file = packageVersion + '/' + folderName;
 
-                deferred.resolve(ini);
-              })
-              .error(function(error) {
-                alert(error);
-                deferred.reject(error);
-              });
+          deferred.resolve(ini);
         });
 
         return deferred.promise;
@@ -97,30 +120,30 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
         if (row.isSelected===true)
         {
           var group = row.entity;
-          var promise = createIni(group._id, group.name);
+          var promise = createIni(group);
           promises.push(promise);
         }
       }
 
-      // download zip
+      // create plist
       $q.all(promises)
           .then(function(results) {
-            // create plist
-            $http.get("modules/emojis/client/template/5.6-~/com.baidu.inputmethod.emoji.plist")
+            // 1. get plist template
+            $http.get(plistTemplateFilePath)
                 .success(function(response) {
-                  var template = response;
+                  var plistTemplate = response;
 
                   // template -> plist
                   var data = {};
                   data.emojiGroups = $scope.emojiGroups;
-                  var plist = $scope.tmpl(template,data);
+                  var plist = $scope.tmpl(plistTemplate,data);
 
-                  // zip
-                  zip.file('com.baidu.inputmethod.emoji.plist', plist);
+                  // 2. put plist into zip
+                  zip.file(plistFileName, plist);
 
                   // last. download
                   var content = zip.generate({type:"blob"});
-                  $scope.downloadFile('example.zip', content);
+                  $scope.downloadFile(zipFileName, content);
                 })
                 .error(function(error) {
                   alert(error);
@@ -140,11 +163,7 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
 
     $scope.tmpl = function tmpl(str, data){
       /*jslint evil: true */
-      // Figure out if we're getting a template, or if we need to
-      // load the template - and be sure to cache the result.
       var fn =
-        // Generate a reusable function that will serve as a template
-        // generator (and which will be cached).
           new Function("obj",
               "var p=[],print=function(){p.push.apply(p,arguments);};" +
 
@@ -153,7 +172,7 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
 
                 // Convert the template into pure JavaScript
               str
-                  .replace(/[\r\t\n]/g, " ")
+                  .replace(/[\r\t\n]/g, " ")// TODO: str no enter
                   .split("<%").join("\t")
                   .replace(/((^|%>)[^\t]*)'/g, "$1\r")
                   .replace(/\t=(.*?)%>/g, "',$1,'")

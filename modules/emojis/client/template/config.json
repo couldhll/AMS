@@ -1,0 +1,16 @@
+[
+  {
+    "start": "5.6.6",
+    "end": "5.7",
+    "plistInput": "5.6.6/com.baidu.inputmethod.emoji.plist",
+    "plistOutput": "com.baidu.inputmethod.emoji.plist",
+    "iniOutput": "info.ini"
+  },
+  {
+    "start": "5.7",
+    "end": "",
+    "plistInput": "5.7/com.baidu.inputmethod.emoji.plist",
+    "plistOutput": "com.baidu.inputmethod.emoji.plist",
+    "iniOutput": "info.ini"
+  }
+]

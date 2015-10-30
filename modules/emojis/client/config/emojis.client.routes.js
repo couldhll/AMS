@@ -3,7 +3,7 @@
 // Setting up route
 angular.module('emojis').config(['$stateProvider',
   function ($stateProvider) {
-    // Articles state routing
+    // Emojis state routing
     $stateProvider
         .state('emojis', {
           abstract: true,

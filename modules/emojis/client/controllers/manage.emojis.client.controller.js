@@ -44,6 +44,25 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
       columnDefs: [
         { field: '_id', enableCellEdit:false },
         { field: 'name' },
+        { field: 'type',
+          editableCellTemplate: 'ui-grid/dropdownEditor',
+          editDropdownOptionsArray: [
+            { type: 'systemlastest' },
+            { type: 'system' }
+          ],
+          editDropdownIdLabel: 'type',
+          editDropdownValueLabel: 'type' },
+        { field: 'file' },
+        { field: 'icon' },
+        { field: 'seperate',
+          editableCellTemplate: 'ui-grid/dropdownEditor',
+          cellFilter: 'mapSeperate',
+          editDropdownOptionsArray: [
+            { id: ' ', seperate: 'white space' },
+            { id: '\n', seperate: 'enter' }
+          ],
+          editDropdownIdLabel: 'id',
+          editDropdownValueLabel: 'seperate' },
         { name: 'Created User', field: 'user.displayName', enableCellEdit:false },
         { name: 'Created Time', field: 'created', enableCellEdit:false }
       ],
@@ -166,6 +185,10 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
       // add
       var emojiGroup = new EmojiGroups({
         name: "Group " + n,
+        type: "system",
+        file: "系统" + n,
+        icon: "icon.png",
+        seperate: " ",
         index: n
       });
       emojiGroup.$save(function (response) {
@@ -240,6 +263,20 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
           return '';
         } else {
           return emoji.group.name;
+        }
+      };
+    })
+    .filter('mapSeperate', function() {
+      var seperateHash = {
+        ' ' : 'white space',
+        '\n' : 'enter'
+      };
+
+      return function(input) {
+        if (!input){
+          return '';
+        } else {
+          return seperateHash[input];
         }
       };
     });
