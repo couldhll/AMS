@@ -3,12 +3,12 @@
     <h1>Manage Emoji</h1>
   </div>
   <h2>Group</h2>
-  <div ui-grid="groupGridOptions" class="grid" ui-grid-edit ui-grid-selection ui-grid-draggable-rows ui-grid-exporter>
+  <div id="groupGrid" ui-grid="groupGridOptions" class="grid" ui-grid-edit ui-grid-selection ui-grid-draggable-rows ui-grid-exporter>
   </div>
   <button type="button" id="addGroup" class="btn btn-success" ng-click="addGroup()">Add Group @Last</button>
   <button type="button" id="removeGroup" class="btn btn-success" ng-click="removeGroup()">Remove Group {{selectEmojiGroup.name}}</button>
   <h2>Emoji</h2>
-  <div ui-grid="emojiGridOptions" class="grid" ui-grid-edit ui-grid-selection ui-grid-draggable-rows ui-grid-exporter>
+  <div id="emojiGrid" ui-grid="emojiGridOptions" class="grid" ui-grid-edit ui-grid-selection ui-grid-draggable-rows ui-grid-exporter>
   </div>
   <button type="button" id="addEmoji" class="btn btn-success" ng-click="addEmoji()">Add Emoji @Last in {{selectEmojiGroup.name}}</button>
   <button type="button" id="removeEmoji" class="btn btn-success" ng-click="removeEmoji()">Remove Emoji {{selectEmoji.name}}</button>

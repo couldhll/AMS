@@ -32,11 +32,13 @@ var EmojiGroupSchema = new Schema({
     trim: true,
     required: 'File cannot be blank'
   },
-  icon: {
+  icon2xURL: {
     type: String,
-    default: '',
-    trim: true,
-    required: 'Icon cannot be blank'
+    default: 'modules/emojis/client/img/icon/default@2x.png'
+  },
+  icon3xURL: {
+    type: String,
+    default: 'modules/emojis/client/img/icon/default@3x.png'
   },
   seperate: {
     type: String,

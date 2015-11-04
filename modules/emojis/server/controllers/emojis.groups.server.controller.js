@@ -7,7 +7,8 @@ var path = require('path'),
     mongoose = require('mongoose'),
     EmojiGroup = mongoose.model('EmojiGroup'),
     Emoji = mongoose.model('Emoji'),
-    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
+    errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+    fs = require('fs');
 
 /**
  * Create a emoji group
@@ -106,6 +107,74 @@ exports.emojis = function (req, res) {
       res.json(emojis);
     }
   });
+};
+
+/**
+ * Update 2x icon
+ */
+exports.changeIcon2x = function (req, res) {
+  var emojiGroup = req.emojiGroup;
+  var message = null;
+
+  if (emojiGroup) {
+    fs.writeFile('./modules/emojis/client/img/icon/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+      if (uploadError) {
+        return res.status(400).send({
+          message: 'Error occurred while uploading icon'
+        });
+      } else {
+        emojiGroup.icon2xURL = 'modules/emojis/client/img/icon/uploads/' + req.files.file.name;
+
+        emojiGroup.save(function (err) {
+          if (err) {
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(err)
+            });
+          } else {
+            res.json(emojiGroup);
+          }
+        });
+      }
+    });
+  } else {
+    res.status(400).send({
+      message: 'Emoji Group is invalid'
+    });
+  }
+};
+
+/**
+ * Update 3x icon
+ */
+exports.changeIcon3x = function (req, res) {
+  var emojiGroup = req.emojiGroup;
+  var message = null;
+
+  if (emojiGroup) {
+    fs.writeFile('./modules/emojis/client/img/icon/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+      if (uploadError) {
+        return res.status(400).send({
+          message: 'Error occurred while uploading icon'
+        });
+      } else {
+        emojiGroup.icon3xURL = 'modules/emojis/client/img/icon/uploads/' + req.files.file.name;
+
+        emojiGroup.save(function (err) {
+          if (err) {
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(err)
+            });
+          } else {
+            res.json(emojiGroup);
+          }
+        });
+      }
+    });
+  } else {
+    res.status(400).send({
+      message: 'Emoji Group is invalid'
+    });
+  }
 };
 
 /**

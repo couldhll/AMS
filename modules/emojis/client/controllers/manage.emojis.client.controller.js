@@ -3,260 +3,343 @@
 /*jslint eqeq: true*/
 
 // Manage Emoji controller
-angular.module('emojis').controller('ManageEmojisController', ['$scope', '$stateParams', '$location', 'Authentication', 'Emojis', 'EmojiGroups',
-  function ($scope, $stateParams, $location, Authentication, Emojis, EmojiGroups) {
-    $scope.authentication = Authentication;
+angular.module('emojis').controller('ManageEmojisController', ['$scope', '$stateParams', '$location', 'Authentication', 'Emojis', 'EmojiGroups', 'FileUploader', '$window', '$timeout',
+      function ($scope, $stateParams, $location, Authentication, Emojis, EmojiGroups, FileUploader, $window, $timeout) {
+        $scope.authentication = Authentication;
 
-    $scope.emojiGroups = EmojiGroups.query();
-    //$scope.emojis = Emojis.query();
+        $scope.emojiGroups = EmojiGroups.query();
+        //$scope.emojis = Emojis.query();
 
-    // Config group grid
-    $scope.groupGridOptions = {
-      // Sort
-      enableSorting: true,
-      // Select
-      enableRowSelection: true,
-      multiSelect: false,
-      modifierKeysToMultiSelect: false,
-      noUnselect: true,
-      enableFullRowSelection: true,
-      // Export
-      exporterCsvFilename: 'myFile.csv',
-      exporterPdfDefaultStyle: {fontSize: 9},
-      exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
-      exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
-      exporterPdfHeader: { text: "Emoji Group", style: 'headerStyle' },
-      exporterPdfFooter: function ( currentPage, pageCount ) {
-        return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
-      },
-      exporterPdfCustomFormatter: function ( docDefinition ) {
-        docDefinition.styles.headerStyle = { fontSize: 22, bold: true };
-        docDefinition.styles.footerStyle = { fontSize: 10, bold: true };
-        return docDefinition;
-      },
-      exporterPdfOrientation: 'portrait',
-      exporterPdfPageSize: 'LETTER',
-      exporterPdfMaxGridWidth: 500,
-      exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
-      // Data
-      enableGridMenu: true,
-      rowTemplate: '<div grid="grid" class="ui-grid-draggable-row" draggable="true"><div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader, \'custom\': true }" ui-grid-cell></div></div>',
-      columnDefs: [
-        { field: '_id', enableCellEdit:false },
-        { field: 'name' },
-        { field: 'type',
-          editableCellTemplate: 'ui-grid/dropdownEditor',
-          editDropdownOptionsArray: [
-            { type: 'systemlastest' },
-            { type: 'system' }
-          ],
-          editDropdownIdLabel: 'type',
-          editDropdownValueLabel: 'type' },
-        { field: 'file' },
-        { field: 'icon' },
-        { field: 'seperate',
-          editableCellTemplate: 'ui-grid/dropdownEditor',
-          cellFilter: 'mapSeperate',
-          editDropdownOptionsArray: [
-            { id: ' ', seperate: 'white space' },
-            { id: '\n', seperate: 'enter' }
-          ],
-          editDropdownIdLabel: 'id',
-          editDropdownValueLabel: 'seperate' },
-        { name: 'Created User', field: 'user.displayName', enableCellEdit:false },
-        { name: 'Created Time', field: 'created', enableCellEdit:false }
-      ],
-      data: 'emojiGroups' };
-    $scope.groupGridOptions.onRegisterApi = function (gridApi) {
-      gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-        var emojiGroup = rowEntity;
-        emojiGroup.$update();
-
-        $scope.$apply();
-      });
-      gridApi.draggableRows.on.rowDropped($scope, function (info, dropTarget) {
-        var emojiGroups=$scope.emojiGroups;
-        for(var i=0;i<emojiGroups.length;i++)
-        {
-          var emojiGroup=emojiGroups[i];
-          emojiGroup.index=i;
-          emojiGroup.$update();
-        }
-      });
-      gridApi.selection.on.rowSelectionChanged($scope,function(row){
-        $scope.selectEmojiGroup = row.entity;
-
-        $scope.emojis = Emojis.getFromGroup({
-          emojiGroupId: row.entity._id
+        // Create file uploader instance
+        $scope.uploader = new FileUploader();
+        // Set file uploader image filter
+        $scope.uploader.filters.push({
+          name: 'imageFilter',
+          fn: function (item, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+          }
         });
+        // Called after the user selected a new picture file
+        $scope.uploader.onAfterAddingFile = function (fileItem) {
+          if ($window.FileReader) {
+            var fileReader = new FileReader();
+            fileReader.readAsDataURL(fileItem._file);
 
-        //// reset group dropdown data, to fix the bug
-        $scope.emojiGridOptions.columnDefs[2].editDropdownOptionsArray = $scope.emojiGroups;
-      });
-    };
+            fileReader.onload = function (fileReaderEvent) {
+              $timeout(function () {
+                $scope.imageURL = fileReaderEvent.target.result;
+              }, 0);
+            };
+          }
+        };
+        // Called after the user has successfully uploaded a new picture
+        $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
+          // Show success message
+          $scope.success = true;
 
-    // Config emoji grid
-    $scope.emojiGridOptions = {
-      // Sort
-      enableSorting: true,
-      // Select
-      enableRowSelection: true,
-      multiSelect: false,
-      modifierKeysToMultiSelect: false,
-      noUnselect: true,
-      enableFullRowSelection: true,
-      // Export
-      exporterCsvFilename: 'myFile.csv',
-      exporterPdfDefaultStyle: {fontSize: 9},
-      exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
-      exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
-      exporterPdfHeader: { text: "Emoji", style: 'headerStyle' },
-      exporterPdfFooter: function ( currentPage, pageCount ) {
-        return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
-      },
-      exporterPdfCustomFormatter: function ( docDefinition ) {
-        docDefinition.styles.headerStyle = { fontSize: 22, bold: true };
-        docDefinition.styles.footerStyle = { fontSize: 10, bold: true };
-        return docDefinition;
-      },
-      exporterPdfOrientation: 'portrait',
-      exporterPdfPageSize: 'LETTER',
-      exporterPdfMaxGridWidth: 500,
-      exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
-      // Data
-      enableGridMenu: true,
-      rowTemplate: '<div grid="grid" class="ui-grid-draggable-row" draggable="true"><div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader, \'custom\': true }" ui-grid-cell></div></div>',
-      columnDefs: [
-        { field: '_id', enableCellEdit:false },
-        { field: 'title' },
-        { name: 'Group',
-          field: 'group._id',
-          editableCellTemplate: 'ui-grid/dropdownEditor',
-          cellFilter: 'mapGroup:row.entity',
-          editDropdownOptionsArray: $scope.emojiGroups,
-          editDropdownIdLabel: '_id',
-          editDropdownValueLabel: 'name' },
-        { name: 'Created User', field: 'user.displayName', enableCellEdit:false },
-        { name: 'Created Time', field: 'created', enableCellEdit:false }
-      ],
-      data: 'emojis' };
-    $scope.emojiGridOptions.onRegisterApi = function (gridApi) {
-      gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-        var emoji = rowEntity;
-        if (colDef.name=='Group')
-        {
-          var groupId = newValue;
+          // Populate user object
+          $scope.user = Authentication.user = response;
+
+          // Clear upload buttons
+          $scope.cancelUpload();
+        };
+        // Called after the user has failed to uploaded a new picture
+        $scope.uploader.onErrorItem = function (fileItem, response, status, headers) {
+          // Clear upload buttons
+          $scope.cancelUpload();
+
+          // Show error message
+          $scope.error = response.message;
+        };
+        // Change picture
+        $scope.uploadPicture = function () {
+          // Clear messages
+          $scope.success = $scope.error = null;
+
+          // Start upload
+          $scope.uploader.uploadAll();
+
+          //$scope.$emit('uiGridEventEndCellEdit');
+          //$scope.$emit( 'uiGridEventEndCellEdit' );
+          //$scope.groupGrid.bind( 'blur', function () { scope.$emit( 'uiGridEventEndCellEdit' ); } ); //when leaving the input element, emit the 'end cell edit' event
+        };
+        // Cancel the upload process
+        $scope.cancelUpload = function () {
+          $scope.uploader.clearQueue();
+          $scope.imageURL = $scope.user.profileImageURL;
+        };
+
+        // Config group grid
+        $scope.groupGridOptions = {
+          // Sort
+          enableSorting: true,
+          // Select
+          enableRowSelection: true,
+          multiSelect: false,
+          modifierKeysToMultiSelect: false,
+          noUnselect: true,
+          enableFullRowSelection: true,
+          // Export
+          exporterCsvFilename: 'myFile.csv',
+          exporterPdfDefaultStyle: {fontSize: 9},
+          exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
+          exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
+          exporterPdfHeader: { text: "Emoji Group", style: 'headerStyle' },
+          exporterPdfFooter: function ( currentPage, pageCount ) {
+            return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
+          },
+          exporterPdfCustomFormatter: function ( docDefinition ) {
+            docDefinition.styles.headerStyle = { fontSize: 22, bold: true };
+            docDefinition.styles.footerStyle = { fontSize: 10, bold: true };
+            return docDefinition;
+          },
+          exporterPdfOrientation: 'portrait',
+          exporterPdfPageSize: 'LETTER',
+          exporterPdfMaxGridWidth: 500,
+          exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
+          // Data
+          enableGridMenu: true,
+          rowTemplate: '<div grid="grid" class="ui-grid-draggable-row" draggable="true"><div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader, \'custom\': true }" ui-grid-cell></div></div>',
+          columnDefs: [
+            { field: '_id', enableCellEdit:false },
+            { field: 'name' },
+            { field: 'type',
+              editableCellTemplate: 'ui-grid/dropdownEditor',
+              editDropdownOptionsArray: [
+                { type: 'systemlastest' },
+                { type: 'system' }
+              ],
+              editDropdownIdLabel: 'type',
+              editDropdownValueLabel: 'type' },
+            { field: 'file' },
+            { field: 'icon2xURL',
+              cellTemplate: '<div class="ui-grid-cell-contents"><img width="40" height="40" src="{{ COL_FIELD }}" /></div>',
+              editableCellTemplate: '<input type="file" nv-file-select uploader="grid.appScope.uploader"><button class="btn primary" ng-click="grid.appScope.uploadPicture()">Upload</button>' },
+            { field: 'icon3xURL',
+              cellTemplate: '<div class="ui-grid-cell-contents"><img width="60" height="60" src="{{ COL_FIELD }}" set-row-height /></div>',
+              editableCellTemplate: '<div ui-grid-edit-upload><input type="file" nv-file-select uploader="grid.appScope.uploader"><button class="btn primary" ng-click="grid.appScope.uploadPicture();$emit(\'EventUpload\');">Upload</button></div>' },
+            { field: 'seperate',
+              editableCellTemplate: 'ui-grid/dropdownEditor',
+              cellFilter: 'mapSeperate',
+              editDropdownOptionsArray: [
+                { id: ' ', seperate: 'white space' },
+                { id: '\n', seperate: 'enter' }
+              ],
+              editDropdownIdLabel: 'id',
+              editDropdownValueLabel: 'seperate' },
+            { name: 'Created User', field: 'user.displayName', enableCellEdit:false },
+            { name: 'Created Time', field: 'created', enableCellEdit:false }
+          ],
+          data: 'emojiGroups' };
+        $scope.groupGridOptions.onRegisterApi = function (gridApi) {
+          gridApi.edit.on.beginCellEdit($scope,function(rowEntity, colDef, triggerEvent) {
+            var emojiGroup = rowEntity;
+
+            if (colDef.field=='icon2xURL') {
+              $scope.uploader.url = '/api/emojiGroups/' + emojiGroup._id + '/icon2x';
+            }
+            else if(colDef.field=='icon3xURL') {
+              $scope.uploader.url = '/api/emojiGroups/' + emojiGroup._id + '/icon3x';
+            }
+          });
+
+          gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            var emojiGroup = rowEntity;
+            emojiGroup.$update();
+            //function (response) {
+            //  $scope.$apply();
+            //}, function (errorResponse) {
+            //  $scope.error = errorResponse.data.message;
+            //});
+
+            //if (colDef.field!='icon2xURL'||colDef.field!='icon3xURL') {
+            //  $scope.$apply();
+            //}
+          });
+          gridApi.draggableRows.on.rowDropped($scope, function (info, dropTarget) {
+            var emojiGroups=$scope.emojiGroups;
+            for(var i=0;i<emojiGroups.length;i++)
+            {
+              var emojiGroup=emojiGroups[i];
+              emojiGroup.index=i;
+              emojiGroup.$update();
+            }
+          });
+          gridApi.selection.on.rowSelectionChanged($scope,function(row){
+            $scope.selectEmojiGroup = row.entity;
+
+            $scope.emojis = Emojis.getFromGroup({
+              emojiGroupId: row.entity._id
+            });
+
+            //// reset group dropdown data, to fix the bug
+            $scope.emojiGridOptions.columnDefs[2].editDropdownOptionsArray = $scope.emojiGroups;
+          });
+        };
+
+        // Config emoji grid
+        $scope.emojiGridOptions = {
+          // Sort
+          enableSorting: true,
+          // Select
+          enableRowSelection: true,
+          multiSelect: false,
+          modifierKeysToMultiSelect: false,
+          noUnselect: true,
+          enableFullRowSelection: true,
+          // Export
+          exporterCsvFilename: 'myFile.csv',
+          exporterPdfDefaultStyle: {fontSize: 9},
+          exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
+          exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
+          exporterPdfHeader: { text: "Emoji", style: 'headerStyle' },
+          exporterPdfFooter: function ( currentPage, pageCount ) {
+            return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
+          },
+          exporterPdfCustomFormatter: function ( docDefinition ) {
+            docDefinition.styles.headerStyle = { fontSize: 22, bold: true };
+            docDefinition.styles.footerStyle = { fontSize: 10, bold: true };
+            return docDefinition;
+          },
+          exporterPdfOrientation: 'portrait',
+          exporterPdfPageSize: 'LETTER',
+          exporterPdfMaxGridWidth: 500,
+          exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
+          // Data
+          enableGridMenu: true,
+          rowTemplate: '<div grid="grid" class="ui-grid-draggable-row" draggable="true"><div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader, \'custom\': true }" ui-grid-cell></div></div>',
+          columnDefs: [
+            { field: '_id', enableCellEdit:false },
+            { field: 'title' },
+            { name: 'Group',
+              field: 'group._id',
+              editableCellTemplate: 'ui-grid/dropdownEditor',
+              cellFilter: 'mapGroup:row.entity',
+              editDropdownOptionsArray: $scope.emojiGroups,
+              editDropdownIdLabel: '_id',
+              editDropdownValueLabel: 'name' },
+            { name: 'Created User', field: 'user.displayName', enableCellEdit:false },
+            { name: 'Created Time', field: 'created', enableCellEdit:false }
+          ],
+          data: 'emojis' };
+        $scope.emojiGridOptions.onRegisterApi = function (gridApi) {
+          gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            var emoji = rowEntity;
+            if (colDef.name=='Group')
+            {
+              var groupId = newValue;
+              var emojiGroups=$scope.emojiGroups;
+
+              // find group with id
+              var group = null;
+              for(var i=0;i<emojiGroups.length;i++) {
+                var emojiGroup = emojiGroups[i];
+                if (emojiGroup._id == groupId) {
+                  group = emojiGroup;
+                  break;
+                }
+              }
+
+              emoji.group=group;
+            }
+            emoji.$update();
+
+            $scope.$apply();
+          });
+          gridApi.draggableRows.on.rowDropped($scope, function (info, dropTarget) {
+            var emojis=$scope.emojis;
+            for(var i=0;i<emojis.length;i++)
+            {
+              var emoji=$scope.emojis[i];
+              emoji.index=i;
+              emoji.$update();
+            }
+          });
+          gridApi.selection.on.rowSelectionChanged($scope,function(row){
+            $scope.selectEmoji = row.entity;
+          });
+        };
+
+        $scope.addGroup = function() {
+          var emojiGroups=$scope.emojiGroups;
+          var n = emojiGroups.length + 1;
+
+          // add
+          var emojiGroup = new EmojiGroups({
+            name: "Group " + n,
+            type: "system",
+            file: "系统" + n,
+            icon: "icon.png",
+            seperate: " ",
+            index: n
+          });
+          emojiGroup.$save(function (response) {
+            // show
+            var emojiGroup=response;
+            emojiGroups.push(emojiGroup);
+          }, function (errorResponse) {
+            $scope.error = errorResponse.data.message;
+          });
+        };
+
+        $scope.removeGroup = function() {
           var emojiGroups=$scope.emojiGroups;
 
-          // find group with id
-          var group = null;
+          // remove
+          var selectEmojiGroup=$scope.selectEmojiGroup;
+          selectEmojiGroup.$remove();
+
+          // show
           for(var i=0;i<emojiGroups.length;i++) {
             var emojiGroup = emojiGroups[i];
-            if (emojiGroup._id == groupId) {
-              group = emojiGroup;
-              break;
+            if (emojiGroup == selectEmojiGroup) {
+              emojiGroups.splice(i, 1);
             }
           }
 
-          emoji.group=group;
-        }
-        emoji.$update();
+          selectEmojiGroup=null;
+        };
 
-        $scope.$apply();
-      });
-      gridApi.draggableRows.on.rowDropped($scope, function (info, dropTarget) {
-        var emojis=$scope.emojis;
-        for(var i=0;i<emojis.length;i++)
-        {
-          var emoji=$scope.emojis[i];
-          emoji.index=i;
-          emoji.$update();
-        }
-      });
-      gridApi.selection.on.rowSelectionChanged($scope,function(row){
-        $scope.selectEmoji = row.entity;
-      });
-    };
+        $scope.addEmoji = function() {
+          var emojis=$scope.emojis;
+          var selectEmojiGroup=$scope.selectEmojiGroup;
+          var n = emojis.length + 1;
 
-    $scope.addGroup = function() {
-      var emojiGroups=$scope.emojiGroups;
-      var n = emojiGroups.length + 1;
+          // add
+          var emoji = new Emojis({
+            title: "Emoji " + n,
+            index: n,
+            group: selectEmojiGroup
+          });
+          emoji.$save(function (response) {
+            // show
+            var emoji=response;
+            emojis.push(emoji);
+          }, function (errorResponse) {
+            $scope.error = errorResponse.data.message;
+          });
+        };
 
-      // add
-      var emojiGroup = new EmojiGroups({
-        name: "Group " + n,
-        type: "system",
-        file: "系统" + n,
-        icon: "icon.png",
-        seperate: " ",
-        index: n
-      });
-      emojiGroup.$save(function (response) {
-        // show
-        var emojiGroup=response;
-        emojiGroups.push(emojiGroup);
-      }, function (errorResponse) {
-        $scope.error = errorResponse.data.message;
-      });
-    };
+        $scope.removeEmoji = function() {
+          var emojis=$scope.emojis;
 
-    $scope.removeGroup = function() {
-      var emojiGroups=$scope.emojiGroups;
+          // remove
+          var selectEmoji=$scope.selectEmoji;
+          selectEmoji.$remove();
 
-      // remove
-      var selectEmojiGroup=$scope.selectEmojiGroup;
-      selectEmojiGroup.$remove();
+          // show
+          for(var i=0;i<emojis.length;i++) {
+            var emoji = emojis[i];
+            if (emoji == selectEmoji) {
+              emojis.splice(i, 1);
+            }
+          }
 
-      // show
-      for(var i=0;i<emojiGroups.length;i++) {
-        var emojiGroup = emojiGroups[i];
-        if (emojiGroup == selectEmojiGroup) {
-          emojiGroups.splice(i, 1);
-        }
+          selectEmoji=null;
+        };
       }
-
-      selectEmojiGroup=null;
-    };
-
-    $scope.addEmoji = function() {
-      var emojis=$scope.emojis;
-      var selectEmojiGroup=$scope.selectEmojiGroup;
-      var n = emojis.length + 1;
-
-      // add
-      var emoji = new Emojis({
-        title: "Emoji " + n,
-        index: n,
-        group: selectEmojiGroup
-      });
-      emoji.$save(function (response) {
-        // show
-        var emoji=response;
-        emojis.push(emoji);
-      }, function (errorResponse) {
-        $scope.error = errorResponse.data.message;
-      });
-    };
-
-    $scope.removeEmoji = function() {
-      var emojis=$scope.emojis;
-
-      // remove
-      var selectEmoji=$scope.selectEmoji;
-      selectEmoji.$remove();
-
-      // show
-      for(var i=0;i<emojis.length;i++) {
-        var emoji = emojis[i];
-        if (emoji == selectEmoji) {
-          emojis.splice(i, 1);
-        }
-      }
-
-      selectEmoji=null;
-    };
-  }
-])
+    ])
     .filter('mapGroup', function() {
       return function(input, emoji) {
         if (!input){
@@ -279,4 +362,67 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
           return seperateHash[input];
         }
       };
-    });
+    })
+    .directive('setRowHeight',['$timeout', function ($timeout) {
+      return {
+        restrict: 'A',
+        link: function (scope, element) {
+          $timeout(function(){
+            // Get the Parent Divider.
+            var parentContainer = element.parent()[0];
+            //console.log(parentContainer.offsetHeight);
+
+            // Padding of ui-grid-cell-contents is 5px.
+            // TODO: Better way to get padding height?
+            var topBottomPadding = 10;
+            //Get the wrapped contents rowHeight.
+            var rowHeight = topBottomPadding + parentContainer.offsetHeight;
+            var gridRowHeight = scope.grid.options.rowHeight;
+            // Get current rowHeight
+            if (!gridRowHeight ||
+                (gridRowHeight && gridRowHeight < rowHeight)) {
+              // This will OVERRIDE the existing rowHeight.
+              scope.grid.options.rowHeight = rowHeight;
+            }
+          },0);
+        }
+      };
+    }])
+
+    // for close edit
+    .directive('uiGridEditUpload',
+    ['uiGridConstants', 'uiGridEditConstants',
+      function (uiGridConstants, uiGridEditConstants) {
+        return {
+          require: ['?^uiGrid', '?^uiGridRenderContainer'],
+          scope: false,
+          compile: function () {
+            return {
+              pre: function ($scope, $elm, $attrs) {
+
+              },
+              post: function ($scope, $elm, $attrs, controllers) {
+                var uiGridCtrl = controllers[0];
+                var renderContainerCtrl = controllers[1];
+
+                //set focus at start of edit
+                $scope.$on(uiGridEditConstants.events.BEGIN_CELL_EDIT, function () {
+                  $elm[0].focus();
+                  $elm[0].style.width = ($elm[0].parentElement.offsetWidth - 1) + 'px';
+                  $elm.on('blur', function (evt) {
+                    $scope.stopEdit(evt);
+                  });
+                });
+
+                $scope.$on('EventUpload', function (evt) {
+                  $scope.stopEdit(evt);
+                });
+
+                $scope.stopEdit = function (evt) {
+                  $scope.$emit(uiGridEditConstants.events.END_CELL_EDIT);
+                };
+              }
+            };
+          }
+        };
+      }]);

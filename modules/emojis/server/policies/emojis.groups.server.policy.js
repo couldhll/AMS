@@ -23,6 +23,12 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/emojiGroups/:emojiGroupId/emojis',
       permissions: '*'
+    }, {
+      resources: '/api/emojiGroups/:emojiGroupId/icon2x',
+      permissions: '*'
+    }, {
+      resources: '/api/emojiGroups/:emojiGroupId/icon3x',
+      permissions: '*'
     }]
   }, {
     roles: ['user'],
@@ -35,6 +41,12 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/emojiGroups/:emojiGroupId/emojis',
       permissions: '*'
+    }, {
+      resources: '//api/emojiGroups/:emojiGroupId/icon2x',
+      permissions: '*'
+    }, {
+      resources: '//api/emojiGroups/:emojiGroupId/icon3x',
+      permissions: '*'
     }]
   }, {
     roles: ['guest'],
@@ -46,6 +58,12 @@ exports.invokeRolesPolicies = function () {
       permissions: ['get']
     }, {
       resources: '/api/emojiGroups/:emojiGroupId/emojis',
+      permissions: ['get']
+    }, {
+      resources: '/api/emojiGroups/:emojiGroupId/icon2x',
+      permissions: ['get']
+    }, {
+      resources: '/api/emojiGroups/:emojiGroupId/icon3x',
       permissions: ['get']
     }]
   }]);

@@ -11,9 +11,13 @@
   padding: 0 4px 0 0;
 }
 
-.ui-grid-draggable-row {
-  height: 30px;
+.ui-grid-cell-contents {
+  white-space: normal;
 }
+
+/*.ui-grid-draggable-row {*/
+  /*height: 30px;*/
+/*}*/
 
 .ui-grid-draggable-row-over {
   position: relative;
