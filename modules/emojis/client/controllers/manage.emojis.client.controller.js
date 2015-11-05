@@ -28,18 +28,20 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
 
             fileReader.onload = function (fileReaderEvent) {
               $timeout(function () {
-                $scope.imageURL = fileReaderEvent.target.result;
+                //$scope.imageURL = fileReaderEvent.target.result;
               }, 0);
             };
           }
         };
         // Called after the user has successfully uploaded a new picture
         $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
-          // Show success message
-          $scope.success = true;
+          //// Show success message
+          //$scope.success = true
 
-          // Populate user object
-          $scope.user = Authentication.user = response;
+          // Update image url
+          var emojiGroup = response;
+          $scope.uploaderEmojiGroup.icon2xURL = emojiGroup.icon2xURL;
+          $scope.uploaderEmojiGroup.icon3xURL = emojiGroup.icon3xURL;
 
           // Clear upload buttons
           $scope.cancelUpload();
@@ -49,25 +51,20 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
           // Clear upload buttons
           $scope.cancelUpload();
 
-          // Show error message
-          $scope.error = response.message;
+          //// Show error message
+          //$scope.error = response.message;
         };
         // Change picture
         $scope.uploadPicture = function () {
-          // Clear messages
-          $scope.success = $scope.error = null;
+          //// Clear messages
+          //$scope.success = $scope.error = null;
 
           // Start upload
           $scope.uploader.uploadAll();
-
-          //$scope.$emit('uiGridEventEndCellEdit');
-          //$scope.$emit( 'uiGridEventEndCellEdit' );
-          //$scope.groupGrid.bind( 'blur', function () { scope.$emit( 'uiGridEventEndCellEdit' ); } ); //when leaving the input element, emit the 'end cell edit' event
         };
         // Cancel the upload process
         $scope.cancelUpload = function () {
           $scope.uploader.clearQueue();
-          $scope.imageURL = $scope.user.profileImageURL;
         };
 
         // Config group grid
@@ -115,10 +112,10 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
             { field: 'file' },
             { field: 'icon2xURL',
               cellTemplate: '<div class="ui-grid-cell-contents"><img width="40" height="40" src="{{ COL_FIELD }}" /></div>',
-              editableCellTemplate: '<input type="file" nv-file-select uploader="grid.appScope.uploader"><button class="btn primary" ng-click="grid.appScope.uploadPicture()">Upload</button>' },
+              editableCellTemplate: '<div contentEditable ui-grid-edit-upload><input type="file" nv-file-select uploader="grid.appScope.uploader"><button class="btn primary" ng-click="grid.appScope.uploadPicture();$emit(\'EventUpload\');">Upload</button></div>' },
             { field: 'icon3xURL',
               cellTemplate: '<div class="ui-grid-cell-contents"><img width="60" height="60" src="{{ COL_FIELD }}" set-row-height /></div>',
-              editableCellTemplate: '<div ui-grid-edit-upload><input type="file" nv-file-select uploader="grid.appScope.uploader"><button class="btn primary" ng-click="grid.appScope.uploadPicture();$emit(\'EventUpload\');">Upload</button></div>' },
+              editableCellTemplate: '<div contentEditable ui-grid-edit-upload><input type="file" nv-file-select uploader="grid.appScope.uploader"><button class="btn primary" ng-click="grid.appScope.uploadPicture();$emit(\'EventUpload\');">Upload</button></div>' },
             { field: 'seperate',
               editableCellTemplate: 'ui-grid/dropdownEditor',
               cellFilter: 'mapSeperate',
@@ -129,8 +126,7 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
               editDropdownIdLabel: 'id',
               editDropdownValueLabel: 'seperate' },
             { name: 'Created User', field: 'user.displayName', enableCellEdit:false },
-            { name: 'Created Time', field: 'created', enableCellEdit:false }
-          ],
+            { name: 'Created Time', field: 'created', enableCellEdit:false }],
           data: 'emojiGroups' };
         $scope.groupGridOptions.onRegisterApi = function (gridApi) {
           gridApi.edit.on.beginCellEdit($scope,function(rowEntity, colDef, triggerEvent) {
@@ -142,20 +138,17 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
             else if(colDef.field=='icon3xURL') {
               $scope.uploader.url = '/api/emojiGroups/' + emojiGroup._id + '/icon3x';
             }
+
+            $scope.uploaderEmojiGroup = emojiGroup;
           });
 
           gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
             var emojiGroup = rowEntity;
-            emojiGroup.$update();
-            //function (response) {
-            //  $scope.$apply();
-            //}, function (errorResponse) {
-            //  $scope.error = errorResponse.data.message;
-            //});
 
-            //if (colDef.field!='icon2xURL'||colDef.field!='icon3xURL') {
-            //  $scope.$apply();
-            //}
+            if (colDef.field!='icon2xURL'&&colDef.field!='icon3xURL') {
+              emojiGroup.$update();
+              $scope.$apply();
+            }
           });
           gridApi.draggableRows.on.rowDropped($scope, function (info, dropTarget) {
             var emojiGroups=$scope.emojiGroups;
@@ -395,7 +388,7 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
       function (uiGridConstants, uiGridEditConstants) {
         return {
           require: ['?^uiGrid', '?^uiGridRenderContainer'],
-          scope: false,
+          scope: true,
           compile: function () {
             return {
               pre: function ($scope, $elm, $attrs) {
@@ -409,8 +402,22 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
                 $scope.$on(uiGridEditConstants.events.BEGIN_CELL_EDIT, function () {
                   $elm[0].focus();
                   $elm[0].style.width = ($elm[0].parentElement.offsetWidth - 1) + 'px';
-                  $elm.on('blur', function (evt) {
-                    $scope.stopEdit(evt);
+                  $elm.on('focusout', function (evt) {
+                    evt.preventDefault();
+
+                    var container = $(evt.currentTarget);
+
+                    setTimeout($.proxy(function()
+                    {
+                      var target = document.activeElement;
+                      if (target !== null) {
+                        if (container[0] !== target) {
+                          if (container.has(target).length === 0) {
+                            $scope.stopEdit(evt);
+                          }
+                        }
+                      }
+                    }, this), 1);
                   });
                 });
 
