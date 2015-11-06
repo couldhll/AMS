@@ -56,8 +56,6 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
         { field: 'name' },
         { field: 'type' },
         { field: 'file' },
-        { field: 'icon' },
-        { field: 'seperate' },
         { name: 'Created User', field: 'user.displayName', enableCellEdit:false },
         { name: 'Created Time', field: 'created', enableCellEdit:false }
       ],
@@ -79,8 +77,8 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
       var zip = new $window.JSZip();
       var versionFolder = zip.folder(packageVersion);
 
-      // create ini
-      var createIni = function (group) {
+      // create group file
+      var createGroupFile = function (group) {
         var groupId = group._id;
         var folderName = group.file;
         var seperate = group.seperate;
@@ -102,7 +100,24 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
           var groupFolder = versionFolder.folder(folderName);
           groupFolder.file(iniFileName, ini);
 
-          // 3. edit group file
+          // 3. put icon into zip
+          $window.JSZipUtils.getBinaryContent(group.icon2xURL, function (err, data) {
+            if(err) {
+              throw err;
+            }
+            groupFolder.file(template.icon2xOutput, data, {binary:true});
+          });
+          $window.JSZipUtils.getBinaryContent(group.icon3xURL, function (err, data) {
+            if(err) {
+              throw err;
+            }
+            groupFolder.file(template.icon3xOutput, data, {binary:true});
+          });
+
+          // 4. edit group icon
+          group.icon = template.iconOutput;
+
+          // 5. edit group file
           group.file = packageVersion + '/' + folderName;
 
           deferred.resolve(ini);
@@ -120,7 +135,7 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
         if (row.isSelected===true)
         {
           var group = row.entity;
-          var promise = createIni(group);
+          var promise = createGroupFile(group);
           promises.push(promise);
         }
       }

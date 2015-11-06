@@ -17,7 +17,11 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
           name: 'imageFilter',
           fn: function (item, options) {
             var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            var result ='|png|'.indexOf(type) !== -1;
+            if (!result) {
+              alert('Please choose png image');
+            }
+            return result; // Only png
           }
         });
         // Called after the user selected a new picture file
@@ -307,7 +311,7 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
           });
           emoji.$save(function (response) {
             // show
-            var emoji=response;
+            var emoji = response;
             emojis.push(emoji);
           }, function (errorResponse) {
             $scope.error = errorResponse.data.message;
@@ -405,9 +409,9 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
                   $elm.on('focusout', function (evt) {
                     evt.preventDefault();
 
-                    var container = $(evt.currentTarget);
+                    var container = window.$(evt.currentTarget);
 
-                    setTimeout($.proxy(function()
+                    setTimeout(window.$.proxy(function()
                     {
                       var target = document.activeElement;
                       if (target !== null) {

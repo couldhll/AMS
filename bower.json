@@ -16,7 +16,8 @@
     "angular-ui-grid": "~3.0.7",
     "ui-grid-draggable-rows": "~0.2.2",
     "pdfmake": "~0.1.20",
-    "jszip": "~2.5.0"
+    "jszip": "~2.5.0",
+    "jszip-utils": "~0.0.2"
   },
   "resolutions": {
     "angular": "~1.3"

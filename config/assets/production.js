@@ -17,12 +17,13 @@ module.exports = {
         'public/lib/angular-ui-utils/ui-utils.min.js',
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
         'public/lib/angular-file-upload/angular-file-upload.min.js',
-        'public/lib/jquery/dist/jquery.min.js',
         'public/lib/angular-ui-grid/ui-grid.min.js',
         'public/lib/ui-grid-draggable-rows/js/draggable-rows.js',
         'public/lib/pdfmake/build/pdfmake.min.js',
         'public/lib/pdfmake/build/vfs_fonts.js',
-        'public/lib/jszip/dist/jszip.min.js'
+        'public/lib/jszip/dist/jszip.min.js',
+        'public/lib/jszip-utils/dist/jszip-utils.min.js',
+        'public/lib/jquery/dist/jquery.min.js'
       ]
     },
     css: 'public/dist/application.min.css',
