@@ -6,7 +6,8 @@ module.exports = {
       css: [
         'public/lib/bootstrap/dist/css/bootstrap.css',
         'public/lib/bootstrap/dist/css/bootstrap-theme.css',
-        'public/lib/angular-ui-grid/ui-grid.css'
+        'public/lib/angular-ui-grid/ui-grid.css',
+        'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css'
       ],
       js: [
         'public/lib/angular/angular.js',
@@ -23,7 +24,11 @@ module.exports = {
         'public/lib/pdfmake/build/vfs_fonts.js',
         'public/lib/jszip/dist/jszip.js',
         'public/lib/jszip-utils/dist/jszip-utils.js',
-        'public/lib/jquery/dist/jquery.js'
+        'public/lib/jquery/dist/jquery.js',
+        'public/lib/moment/moment.js',
+        'public/lib/bootstrap/dist/js/bootstrap.js',
+        'public/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
+        'public/lib/checklist-model/checklist-model.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },

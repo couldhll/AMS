@@ -6,7 +6,8 @@ module.exports = {
       css: [
         'public/lib/bootstrap/dist/css/bootstrap.min.css',
         'public/lib/bootstrap/dist/css/bootstrap-theme.min.css',
-        'public/lib/angular-ui-grid/ui-grid.min.css'
+        'public/lib/angular-ui-grid/ui-grid.min.css',
+        'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css'
       ],
       js: [
         'public/lib/angular/angular.min.js',
@@ -23,7 +24,10 @@ module.exports = {
         'public/lib/pdfmake/build/vfs_fonts.js',
         'public/lib/jszip/dist/jszip.min.js',
         'public/lib/jszip-utils/dist/jszip-utils.min.js',
-        'public/lib/jquery/dist/jquery.min.js'
+        'public/lib/jquery/dist/jquery.min.js',
+        'public/lib/moment/min/moment.min.js',
+        'public/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
+        'public/lib/checklist-model/checklist-model.js'
       ]
     },
     css: 'public/dist/application.min.css',

@@ -1,0 +1,36 @@
+<section ng-controller="CreateInfoPackagesController">
+  <form>
+    <div class="form-group">
+      <label for="version">Version</label>
+      <input type="version" class="form-control" id="version" data-ng-model="packages.info.version" placeholder="Version">
+    </div>
+    <div class="form-group">
+      <label for="durations">Durations</label>
+      <div ng-repeat="duration in packages.info.durations">
+        <div class="input-group row">
+          <div class="dropdown col-md-4">
+            <a class="dropdown-toggle" id="beginDataDropdown{{$index + 1}}" role="button" data-toggle="dropdown" data-target="#" href="#">
+              <div class="input-group"><input type="text" class="form-control" data-ng-model="duration.begin"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </div>
+            </a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+              <datetimepicker data-ng-model="duration.begin" data-datetimepicker-config="{ dropdownSelector: '#beginDataDropdown' }"/>
+            </ul>
+          </div>
+          <div class="input-group-addon col-md-2">~</div>
+          <div class="dropdown col-md-4">
+            <a class="dropdown-toggle" id="endDataDropdown{{$index + 1}}" role="button" data-toggle="dropdown" data-target="#" href="#">
+              <div class="input-group"><input type="text" class="form-control" data-ng-model="duration.end"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </div>
+            </a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+              <datetimepicker data-ng-model="duration.end" data-datetimepicker-config="{ dropdownSelector: '#endDataDropdown{{$index + 1}}' }"/>
+            </ul>
+          </div>
+          <button type="button" id="addDuration{{$index + 1}}" class="btn btn-warning col-md-1" ng-click="packages.info.addDuration($index)">+</button>
+          <button type="button" id="removeDuration{{$index + 1}}" class="btn btn-danger col-md-1" ng-click="packages.info.removeDuration($index)" ng-show="packages.info.canRemoveDuration">-</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>

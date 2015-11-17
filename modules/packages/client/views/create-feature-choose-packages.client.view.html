@@ -1,0 +1,13 @@
+<section ng-controller="CreateFeaturePackagesController">
+  <form>
+    <div class="checkbox" ng-repeat="page in packages.feature.pages">
+      <label>
+        <input type="checkbox" checklist-model="packages.feature.selectPages" checklist-value="page">
+        {{page.name}}
+      </label>
+    </div>
+    <div class="text-center form-group">
+      <button type="button" id="next" class="btn btn-success" ng-click="packages.feature.next()" ng-show="packages!=null">Next</button>
+    </div>
+  </form>
+</section>

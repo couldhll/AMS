@@ -5,11 +5,11 @@
   <h2>Group</h2>
   <div id="groupGrid" ui-grid="groupGridOptions" class="grid" ui-grid-edit ui-grid-selection ui-grid-draggable-rows ui-grid-exporter>
   </div>
-  <button type="button" id="addGroup" class="btn btn-success" ng-click="addGroup()">Add Group @Last</button>
-  <button type="button" id="removeGroup" class="btn btn-success" ng-click="removeGroup()">Remove Group {{selectEmojiGroup.name}}</button>
+  <button type="button" id="addGroup" class="btn btn-warning" ng-click="addGroup()">Add Group @Last</button>
+  <button type="button" id="removeGroup" class="btn btn-danger" ng-click="removeGroup()">Remove Group {{selectEmojiGroup.name}}</button>
   <h2>Emoji</h2>
   <div id="emojiGrid" ui-grid="emojiGridOptions" class="grid" ui-grid-edit ui-grid-selection ui-grid-draggable-rows ui-grid-exporter>
   </div>
-  <button type="button" id="addEmoji" class="btn btn-success" ng-click="addEmoji()">Add Emoji @Last in {{selectEmojiGroup.name}}</button>
-  <button type="button" id="removeEmoji" class="btn btn-success" ng-click="removeEmoji()">Remove Emoji {{selectEmoji.title}}</button>
+  <button type="button" id="addEmoji" class="btn btn-warning" ng-click="addEmoji()">Add Emoji @Last in {{selectEmojiGroup.name}}</button>
+  <button type="button" id="removeEmoji" class="btn btn-danger" ng-click="removeEmoji()">Remove Emoji {{selectEmoji.title}}</button>
 </section>

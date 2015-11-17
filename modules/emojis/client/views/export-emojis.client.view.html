@@ -5,8 +5,14 @@
   <h2>Group</h2>
   <div ui-grid="groupGridOptions" class="grid" ui-grid-selection ui-grid-exporter>
   </div>
-  Export:
-  <div class="btn-group">
-    <button  ng-repeat="template in templates" type="button" id="export" class="btn btn-success" ng-click="export(template)">{{template.start}}~{{template.end}}</button>
+  <div class="form-group">
+    <label for="export">Export:</label>
+    <div class="btn-group">
+      <button type="button" id="exportAll" class="btn btn-primary" ng-click="exportAll()">All</button>
+      <button ng-repeat="template in templates" type="button" id="export" class="btn btn-success" ng-click="export(template)">{{template.start}}~{{template.end}}</button>
+    </div>
+  </div>
+  <div class="text-center form-group">
+    <button type="button" id="next" class="btn btn-success" ng-click="next()" ng-show="packages!=null">Next</button>
   </div>
 </section>

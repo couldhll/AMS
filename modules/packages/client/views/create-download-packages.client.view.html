@@ -1,0 +1,19 @@
+<section ng-controller="CreateDownloadPackagesController">
+  <form>
+    <div class="form-group" ng-repeat="page in packages.feature.selectPages">
+      <label for="export">{{page.name}}</label>
+      <div class="btn-group">
+        <button ng-repeat="zipFile in page.zipFiles" type="button" id="download" class="btn btn-success" ng-click="download(zipFile)">{{zipFile.name}}</button>
+      </div>
+    </div>
+
+    <hr/>
+
+    <div class="form-group">
+      <label for="export">All</label>
+      <div class="btn-group">
+        <button ng-repeat="zipFile in packages.zipFiles" type="button" id="download" class="btn btn-success" ng-click="download(zipFile)">{{zipFile.name}}</button>
+      </div>
+    </div>
+  </form>
+</section>

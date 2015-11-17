@@ -1,6 +1,6 @@
 'use strict';
 
-//Menu service used for managing  menus
+//Menu service used for managing menus
 angular.module('core').service('Menus', [
   function () {
     // Define a set of default roles

@@ -6,13 +6,36 @@ angular.module('packages').config(['$stateProvider',
     // Packages state routing
     $stateProvider
         .state('packages', {
-          abstract: true,
-          url: '/packages',
-            templateUrl: 'modules/packages/client/views/packages.client.view.html'
+            abstract: true,
+            url: '/packages',
+            template: '<ui-view/>'
         })
         .state('packages.create', {
           url: '/create',
           templateUrl: 'modules/packages/client/views/create-packages.client.view.html'
+        })
+        .state('packages.create.info', {
+            url: '/info',
+            templateUrl: 'modules/packages/client/views/create-info-packages.client.view.html'
+        })
+        .state('packages.create.feature', {
+            url: '/feature',
+            template: '<ui-view/>',
+            controller: function($state){
+                $state.go('.choose');// default go to choose page
+            }
+        })
+        .state('packages.create.feature.choose', {
+            url: '/choose',
+            templateUrl: 'modules/packages/client/views/create-feature-choose-packages.client.view.html'
+        })
+        .state('packages.create.feature.emojis', {
+            url: '/emojis',
+            templateUrl: 'modules/emojis/client/views/export-emojis.client.view.html'
+        })
+        .state('packages.create.download', {
+            url: '/download',
+            templateUrl: 'modules/packages/client/views/create-download-packages.client.view.html'
         });
   }
 ]);

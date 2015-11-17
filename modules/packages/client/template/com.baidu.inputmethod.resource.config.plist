@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Version</key>
+	<string><%=version%></string>
+	<key>Durations</key>
+	<array>
+		<% for ( var i = 0; i < durations.length; i++ ) { %>
+		<dict>
+			<key>Begin</key>
+			<date><%=moment(durations[i].begin).format('YYYY-MM-DDTHH:mm:ss') + 'Z'%></date>
+			<key>End</key>
+			<date><%=moment(durations[i].end).format('YYYY-MM-DDTHH:mm:ss') + 'Z'%></date>
+		</dict>
+		<% } %>
+	</array>
+</dict>
+</plist>

@@ -1,10 +1,8 @@
 'use strict';
 
-/*jslint eqeq: true*/
-
 // Export Emoji controller
-angular.module('emojis').controller('ExportEmojisController', ['$scope', '$stateParams', '$location', 'Authentication', 'Emojis', 'EmojiGroups', '$http', '$q', '$window',
-  function ($scope, $stateParams, $location, Authentication, Emojis, EmojiGroups, $http, $q, $window) {
+angular.module('emojis').controller('ExportEmojisController', ['$scope', '$stateParams', '$location', 'Authentication', 'Emojis', 'EmojiGroups', '$http', '$q', '$window', 'Download', 'Packages',
+  function ($scope, $stateParams, $location, Authentication, Emojis, EmojiGroups, $http, $q, $window, Download, Packages) {
     $scope.authentication = Authentication;
 
     // init
@@ -65,19 +63,82 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
       $scope.groupGridApi = gridApi;
     };
 
+    $scope.next = function() {
+      $scope.exportAllPackage($scope.packages.info.version, $scope.templates)
+          .then(function(zipFiles){
+            // Put zip to packages
+            $scope.packages.feature.nowPage.zipFiles = zipFiles;
+
+            // Goto to next page
+            $scope.packages.feature.GotoNextPage();
+          });
+    };
+
+    $scope.exportAll = function() {
+      $scope.exportAllPackage('Resource', $scope.templates)
+          .then(function(zipFiles){
+            // Create all zip
+            var zip = new $window.JSZip();
+            for(var i=0;i<zipFiles.length;i++) {
+              var zipFile = zipFiles[i];
+
+              var zipFileName = zipFile.name;
+              var zipFileZip = zipFile.file;
+
+              var zipFileContent = zipFileZip.generate({type: "base64"});
+              zip.file(zipFileName, zipFileContent, {base64: true});
+            }
+
+            var content = zip.generate({type: "blob"});
+            Download.downloadFile('all.zip', content);
+          });
+    };
+
     $scope.export = function(template) {
-      // config
-      var packageVersion = '1.0';
+      $scope.exportPackage('Resource',template)
+          .then(function(zipFile){
+            var zipFileName = zipFile.name;
+            var zipFileZip = zipFile.file;
+
+            var content = zipFileZip.generate({type: "blob"});
+            Download.downloadFile(zipFileName, content);
+          });
+    };
+
+    $scope.exportAllPackage = function(resourceDirectory,templates) {
+      // Create zips with templates
+      var promises = [];
+      for(var i=0;i<templates.length;i++)
+      {
+        var template=templates[i];
+        var promise = $scope.exportPackage(resourceDirectory, template);
+        promises.push(promise);
+      }
+
+      var deferred = $q.defer();
+
+      // Return zips
+      $q.all(promises)
+          .then(function(zipFiles) {
+            deferred.resolve(zipFiles);
+          });
+
+      return deferred.promise;
+    };
+
+
+    $scope.exportPackage = function(resourceDirectory,template) {
+      // Config
       var plistTemplateFilePath = templatePath + "/" + template.plistInput;
       var iniFileName = template.iniOutput;
       var plistFileName = template.plistOutput;
       var zipFileName = template.start + "~" + template.end + "." + "zip";
 
-      // zip
+      // Zip
       var zip = new $window.JSZip();
-      var versionFolder = zip.folder(packageVersion);
+      var resourceFolder = zip.folder(resourceDirectory);
 
-      // create group file
+      // Create group file
       var createGroupFile = function (group) {
         var groupId = group._id;
         var folderName = group.file;
@@ -97,7 +158,7 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
           var ini = emojiTitles.join(seperate);
 
           // 2. put ini into zip
-          var groupFolder = versionFolder.folder(folderName);
+          var groupFolder = resourceFolder.folder(folderName);
           groupFolder.file(iniFileName, ini);
 
           // 3. put icon into zip
@@ -118,7 +179,7 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
           group.icon = template.iconOutput;
 
           // 5. edit group file
-          group.file = packageVersion + '/' + folderName;
+          group.file = resourceDirectory + '/' + folderName;
 
           deferred.resolve(ini);
         });
@@ -126,7 +187,7 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
         return deferred.promise;
       };
 
-      // get select emoji group
+      // Get select emoji group
       var promises = [];
       var rows = $scope.groupGridApi.grid.rows;
       for(var i=0;i<rows.length;i++)
@@ -140,7 +201,9 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
         }
       }
 
-      // create plist
+      var deferred = $q.defer();
+
+      // Create plist
       $q.all(promises)
           .then(function(results) {
             // 1. get plist template
@@ -151,53 +214,19 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
                   // template -> plist
                   var data = {};
                   data.emojiGroups = $scope.emojiGroups;
-                  var plist = $scope.tmpl(plistTemplate,data);
+                  var plist = Packages.template(plistTemplate,data);
 
                   // 2. put plist into zip
                   zip.file(plistFileName, plist);
 
-                  // last. download
-                  var content = zip.generate({type:"blob"});
-                  $scope.downloadFile(zipFileName, content);
+                  deferred.resolve({name: zipFileName, file: zip, template: template});
                 })
                 .error(function(error) {
                   alert(error);
                 });
       });
-    };
 
-    $scope.downloadFile = function (fileName, content) {
-      var aLink = document.createElement('a');
-      var blob = new Blob([content]);
-      var evt = document.createEvent("HTMLEvents");
-      evt.initEvent("click", false, false);//initEvent 不加后两个参数在FF下会报错, 感谢 Barret Lee 的反馈
-      aLink.download = fileName;
-      aLink.href = URL.createObjectURL(blob);
-      aLink.dispatchEvent(evt);
-    };
-
-    $scope.tmpl = function tmpl(str, data){
-      /*jslint evil: true */
-      var fn =
-          new Function("obj",
-              "var p=[],print=function(){p.push.apply(p,arguments);};" +
-
-                // Introduce the data as local variables using with(){}
-              "with(obj){p.push('" +
-
-                // Convert the template into pure JavaScript
-              str
-                  .replace(/[\r\t\n]/g, " ")// TODO: str no enter
-                  .split("<%").join("\t")
-                  .replace(/((^|%>)[^\t]*)'/g, "$1\r")
-                  .replace(/\t=(.*?)%>/g, "',$1,'")
-                  .split("\t").join("');")
-                  .split("%>").join("p.push('")
-                  .split("\r").join("\\'") +
-              "');}return p.join('');");
-
-      // Provide some basic currying to the user
-      return data ? fn( data ) : fn;
+      return deferred.promise;
     };
   }
 ]);
