@@ -3,30 +3,13 @@
     <h1>Create Package</h1>
   </div>
   <h2>Step by Step</h2>
-  <!-- form.html -->
-  <div class="row">
-    <div class="col-sm-8 col-sm-offset-2">
-
-      <div id="form-container">
-
-        <div class="page-header text-center">
-          <h2>Export the packet</h2>
-
-          <!-- the links to our nested states using relative paths -->
-          <!-- add the active class if the state matches our ui-sref -->
-          <div id="status-buttons" class="text-center">
-            <a ui-sref-active="active" ui-sref=".info"><span>1</span> Info</a>
-            <a ui-sref-active="active" ui-sref=".feature"><span>2</span> Feature</a>
-            <a ui-sref-active="active" ui-sref=".download"><span>3</span> Download</a>
-          </div>
-
-          <div class="text-center">
-            <button type="button" id="next" class="btn btn-success" ng-click="packages.next()">Next</button>
-          </div>
-        </div>
-
-        <ui-view/>
-      </div>
+  <div class="page-header text-center">
+    <ul class="nav nav-pills nav-justified">
+      <li ui-sref-active="active" ng-repeat="page in packages.pages"><a ui-sref="{{page.url}}"><span>{{$index + 1}}</span> {{page.name}}</a></li>
+    </ul>
+    <div class="text-center">
+      <button type="button" id="next" class="btn btn-success" ng-click="packages.next()">Next Step</button>
     </div>
   </div>
+  <div id="form-views" ui-view></div>
 </section>

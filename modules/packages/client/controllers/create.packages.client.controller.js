@@ -10,7 +10,7 @@ angular.module('packages').controller('CreatePackagesController', ['$scope', '$s
     $scope.packages.pages = [
       {name: 'info', url: 'packages.create.info'},
       {name: 'feature', url: 'packages.create.feature'},
-      {name: 'download', url: 'packages.create.download'},
+      {name: 'download', url: 'packages.create.download'}
     ];
 
     // Goto event

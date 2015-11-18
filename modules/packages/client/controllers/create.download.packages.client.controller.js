@@ -5,20 +5,66 @@ angular.module('packages').controller('CreateDownloadPackagesController', ['$sco
   function ($scope, $stateParams, $location, Authentication, $state, Download, Packages, $http, $window) {
     $scope.authentication = Authentication;
 
-    // Create all zip
-    for(var i=0;i<$scope.packages.feature.selectPages.length;i++) {
-      var page = $scope.packages.feature.selectPages[i];
-      for (var j=0;j<page.zipFiles.length;j++) {
-        var zipFile = page.zipFiles[j];
+    // Merge all the feature
+    var mergePackages = function(pages) {
+      var page, zipFile, zip;
+      var zipFileName, zipFileZip, zipFileTemplate, zipFileContent;
+      var i, j, k;
 
-        var zipFileName = zipFile.name;
-        var zipFileZip = zipFile.file;
-        var zipFileTemplate = zipFile.template;
+      // 1. Get all version in each package & each feature
+      var inputmethodVersions = [];
+      for (i=0;i<pages.length;i++) {
+        page = pages[i];
 
-        // TODO: Merge all the feature
+        for (j=0;j<page.zipFiles.length;j++) {
+          zipFile = page.zipFiles[j];
+
+          inputmethodVersions.push(zipFile.template.start);
+          inputmethodVersions.push(zipFile.template.end);
+        }
       }
-      $scope.packages.zipFiles = page.zipFiles;
-    }
+      inputmethodVersions = window.$.unique(inputmethodVersions);// 2. Unique & Sort
+      // 2. Create version duration
+      var inputmethodVersionDurations = [];
+      for (i=0+1;i<inputmethodVersions.length;i++) {
+        var version = inputmethodVersions[i];
+
+        inputmethodVersionDurations.push({ start:inputmethodVersions[i-1], end:inputmethodVersions[i] });
+      }
+      // 3. For each duration, merge each feature zip
+      var allzips = [];
+      for (i=0;i<inputmethodVersionDurations.length;i++) {
+        var versionDuration = inputmethodVersionDurations[i];
+
+        var allZipFileZip = new $window.JSZip();
+        var allZipFileName = versionDuration.start + "~" + versionDuration.end + "." + "zip";
+        var allZipFileTemplate = versionDuration;
+
+        for (j=0;j<pages.length;j++) {
+          page = pages[j];
+
+          for (k=0;k<page.zipFiles.length;k++) {
+            zipFile = page.zipFiles[k];
+
+            zipFileZip = zipFile.file;
+            zipFileTemplate = zipFile.template;
+
+            // Add the feature zip
+            if ((versionDuration.start >= zipFileTemplate.start)&&(versionDuration.end <= zipFileTemplate.end)) {
+              zipFileContent = zipFileZip.generate({type: "base64"});
+              allZipFileZip.load(zipFileContent, {base64: true});
+            }
+          }
+        }
+
+        allzips.push({name: allZipFileName, file: allZipFileZip, template: allZipFileTemplate});
+      }
+
+      return allzips;
+    };
+
+    // Merge all the feature
+    $scope.packages.zipFiles = mergePackages($scope.packages.feature.selectPages);
 
     // Create config.plist
     var plistTemplateFilePath = "modules/packages/client/template/com.baidu.inputmethod.resource.config.plist";
@@ -26,32 +72,56 @@ angular.module('packages').controller('CreateDownloadPackagesController', ['$sco
     // 1. get plist template
     $http.get(plistTemplateFilePath)
         .success(function(response) {
+          var page, zipFile, zip;
+          var zipFileName, zipFileZip, zipFileTemplate, zipFileContent;
+          var i, j;
           var plistTemplate = response;
 
           // template -> plist
           var data = $scope.packages.info;
           var plist = Packages.template(plistTemplate,data);
 
-          // 2. put plist into zips
-          for (var i=0;i<$scope.packages.zipFiles.length;i++) {
-            var zipFile = page.zipFiles[i];
+          // Feature
+          for (i=0;i<$scope.packages.feature.selectPages.length;i++) {
+            page = $scope.packages.feature.selectPages[i];
 
-            var zipFileName = zipFile.name;
-            var zipFileZip = zipFile.file;
-            var zipFileTemplate = zipFile.template;
+            // Feature:1. put plist into zips
+            for (j=0;j<page.zipFiles.length;j++) {
+              zipFile = page.zipFiles[j];
 
-            zipFileZip.file(plistFileName, plist);
+              zipFile.file.file(plistFileName, plist);
+            }
+
+            // Feature:2. Create all.zip
+            zip = new $window.JSZip();
+            for(j=0;j<page.zipFiles.length;j++) {
+              zipFile = page.zipFiles[j];
+
+              zipFileName = zipFile.name;
+              zipFileZip = zipFile.file;
+
+              zipFileContent = zipFileZip.generate({type: "base64"});
+              zip.file(zipFileName, zipFileContent, {base64: true});
+            }
+            page.zipFiles.push({name: 'all.zip', file: zip, template: null});
           }
 
-          // 3. Add all.zip
-          var zip = new $window.JSZip();
-          for(var i=0;i<$scope.packages.zipFiles.length;i++) {
-            var zipFile = $scope.packages.zipFiles[i];
+          // All:1. put plist into zips
+          for (i=0;i<$scope.packages.zipFiles.length;i++) {
+            zipFile = $scope.packages.zipFiles[i];
 
-            var zipFileName = zipFile.name;
-            var zipFileZip = zipFile.file;
+            zipFile.file.file(plistFileName, plist);
+          }
 
-            var zipFileContent = zipFileZip.generate({type: "base64"});
+          // All:2. Create all.zip
+          zip = new $window.JSZip();
+          for(i=0;i<$scope.packages.zipFiles.length;i++) {
+            zipFile = $scope.packages.zipFiles[i];
+
+            zipFileName = zipFile.name;
+            zipFileZip = zipFile.file;
+
+            zipFileContent = zipFileZip.generate({type: "base64"});
             zip.file(zipFileName, zipFileContent, {base64: true});
           }
           $scope.packages.zipFiles.push({name: 'all.zip', file: zip, template: null});

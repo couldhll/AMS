@@ -10,9 +10,9 @@ angular.module('packages').controller('CreateFeaturePackagesController', ['$scop
       $scope.packages.feature = {};
       $scope.packages.feature.pages = [
         {name: 'emoji', url: '^.emojis'},
-        {name: 'toolbar', url: '^.toolbar'},
-        {name: 'menubar', url: '^.menubar'},
-        {name: 'commingsoon', url: '^.commingsoon'}
+        //{name: 'toolbar', url: '^.toolbar'},
+        //{name: 'menubar', url: '^.menubar'},
+        //{name: 'commingsoon', url: '^.commingsoon'}
       ];
 
       // Goto event
