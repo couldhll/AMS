@@ -8,6 +8,24 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
         $scope.emojiGroups = EmojiGroups.query();
         //$scope.emojis = Emojis.query();
 
+        // Create import File Chooser
+        $scope.fileChooser = document.querySelectorAll('.file-chooser');
+        if ($scope.fileChooser.length !== 1) {
+          console.log('Found > 1 or < 1 file choosers within the menu item, error, cannot continue');
+        } else {
+          var handleFileSelect = function(event) {
+            var target = event.srcElement || event.target;
+
+            if (target && target.files && target.files.length === 1) {
+              var fileObject = target.files[0];
+              $scope.emojiGridApi.importer.importFile( fileObject );
+              target.form.reset();
+            }
+          };
+
+          $scope.fileChooser[0].addEventListener('change', handleFileSelect, false);  // TODO: why the false on the end?  Google
+        }
+
         // Create file uploader instance
         $scope.uploader = new FileUploader();
         // Set file uploader image filter
@@ -131,6 +149,7 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
             { name: 'Created Time', field: 'created', enableCellEdit:false }],
           data: 'emojiGroups' };
         $scope.groupGridOptions.onRegisterApi = function (gridApi) {
+          $scope.groupGridApi = gridApi;
           gridApi.edit.on.beginCellEdit($scope,function(rowEntity, colDef, triggerEvent) {
             var emojiGroup = rowEntity;
 
@@ -218,7 +237,32 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
             { name: 'Created Time', field: 'created', enableCellEdit:false }
           ],
           data: 'emojis' };
+        $scope.emojiGridOptions.importerDataAddCallback = function(grid, newObjects) {
+          var emojis=$scope.emojis;
+          var selectEmojiGroup=$scope.selectEmojiGroup;
+          var newEmojis=newObjects;
+
+          // add
+          for(var i=0;i<newEmojis.length;i++) {
+            var newEmoji = newEmojis[i];
+            var n = emojis.length + 1 + i;
+
+            var emoji = new Emojis({
+              title: newEmoji.title,
+              index: n,
+              group: selectEmojiGroup
+            });
+            emoji.$save(function (response) {
+              // show
+              var emoji = response;
+              emojis.push(emoji);
+            }, function (errorResponse) {
+              $scope.error = errorResponse.data.message;
+            });
+          }
+        };
         $scope.emojiGridOptions.onRegisterApi = function (gridApi) {
+          $scope.emojiGridApi = gridApi;
           gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
             var emoji = rowEntity;
             if (colDef.name=='Group')

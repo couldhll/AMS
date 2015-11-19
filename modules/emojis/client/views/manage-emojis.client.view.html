@@ -8,8 +8,14 @@
   <button type="button" id="addGroup" class="btn btn-warning" ng-click="addGroup()">Add Group @Last</button>
   <button type="button" id="removeGroup" class="btn btn-danger" ng-click="removeGroup()">Remove Group {{selectEmojiGroup.name}}</button>
   <h2>Emoji</h2>
-  <div id="emojiGrid" ui-grid="emojiGridOptions" class="grid" ui-grid-edit ui-grid-selection ui-grid-draggable-rows ui-grid-exporter>
+  <div id="emojiGrid" ui-grid="emojiGridOptions" class="grid" ui-grid-edit ui-grid-selection ui-grid-draggable-rows ui-grid-exporter ui-grid-importer>
   </div>
   <button type="button" id="addEmoji" class="btn btn-warning" ng-click="addEmoji()">Add Emoji @Last in {{selectEmojiGroup.name}}</button>
   <button type="button" id="removeEmoji" class="btn btn-danger" ng-click="removeEmoji()">Remove Emoji {{selectEmoji.title}}</button>
+  <form>
+    <span class="btn btn-danger btn-file">
+      Remove @All Emojis in {{selectEmojiGroup.name}} & Import Emojis from csv
+      <input type="file" class="file-chooser" id="files" name="files[]" accept="text/csv, application/json" />
+    </span>
+  </form>
 </section>

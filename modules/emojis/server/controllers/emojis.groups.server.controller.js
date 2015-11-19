@@ -16,7 +16,6 @@ var path = require('path'),
 exports.create = function (req, res) {
   var emojiGroup = new EmojiGroup(req.body);
   emojiGroup.user = req.user;
-  emojiGroup.emojis = req.emojis;
 
   emojiGroup.save(function (err) {
     if (err) {
@@ -81,7 +80,7 @@ exports.delete = function (req, res) {
  * List of Emoji Groups
  */
 exports.list = function (req, res) {
-  EmojiGroup.find().sort('index').populate('user', 'displayName').populate('emojis', 'title').exec(function (err, emojiGroups) {
+  EmojiGroup.find().sort('index').populate('user', 'displayName').exec(function (err, emojiGroups) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
@@ -98,7 +97,7 @@ exports.list = function (req, res) {
 exports.emojis = function (req, res) {
   var id = req.emojiGroup._id;
 
-  Emoji.find({ group: id }).sort('index').populate('user', 'displayName').populate('group', 'name').exec(function (err, emojis) {
+  Emoji.find({ group: id }).sort('index').populate('user', 'displayName').exec(function (err, emojis) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
@@ -188,7 +187,7 @@ exports.emojiGroupByID = function (req, res, next, id) {
     });
   }
 
-  EmojiGroup.findById(id).populate('user', 'displayName').populate('emojis', 'title').exec(function (err, emojiGroup) {
+  EmojiGroup.findById(id).populate('user', 'displayName').exec(function (err, emojiGroup) {
     if (err) {
       return next(err);
     } else if (!emojiGroup) {

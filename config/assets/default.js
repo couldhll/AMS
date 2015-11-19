@@ -22,6 +22,7 @@ module.exports = {
         'public/lib/ui-grid-draggable-rows/js/draggable-rows.js',
         'public/lib/pdfmake/build/pdfmake.js',
         'public/lib/pdfmake/build/vfs_fonts.js',
+        'public/lib/CSV-JS/csv.js',
         'public/lib/jszip/dist/jszip.js',
         'public/lib/jszip-utils/dist/jszip-utils.js',
         'public/lib/jquery/dist/jquery.js',
