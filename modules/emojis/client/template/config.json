@@ -1,8 +1,8 @@
 [
   {
-    "start": "5.6.6",
-    "end": "5.7",
-    "plistInput": "5.6.6/com.baidu.inputmethod.emoji.plist",
+    "start": "5.7",
+    "end": "6.0",
+    "plistInput": "5.7/com.baidu.inputmethod.emoji.plist",
     "plistOutput": "com.baidu.inputmethod.emoji.plist",
     "iniOutput": "info.ini",
     "iconOutput": "icon.png",
@@ -10,9 +10,9 @@
     "icon3xOutput": "icon@3x.png"
   },
   {
-    "start": "5.7",
+    "start": "6.0",
     "end": "",
-    "plistInput": "5.7/com.baidu.inputmethod.emoji.plist",
+    "plistInput": "6.0/com.baidu.inputmethod.emoji.plist",
     "plistOutput": "com.baidu.inputmethod.emoji.plist",
     "iniOutput": "info.ini",
     "iconOutput": "icon.png",

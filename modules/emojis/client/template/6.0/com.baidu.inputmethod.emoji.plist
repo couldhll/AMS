@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>emoji</string>
+		<key>packages</key>
+		<array>
+			<% for ( var i = 0; i < emojiGroups.length; i++ ) { %>
+			<dict>
+				<key>Name</key>
+				<string><%=emojiGroups[i].name%></string>
+				<key>Type</key>
+				<string><%=emojiGroups[i].type%></string>
+				<key>File</key>
+				<string><%=emojiGroups[i].file%></string>
+				<key>Icon</key>
+				<string><%=emojiGroups[i].icon%></string>
+				<key>SeperateKey</key>
+				<string><%=emojiGroups[i].seperate%></string>
+			</dict>
+			<% } %>
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>颜文字</string>
+		<key>packages</key>
+		<array>
+			<% for ( var i = 0; i < emoticonGroups.length; i++ ) { %>
+			<dict>
+				<key>Name</key>
+				<string><%=emoticonGroups[i].name%></string>
+				<key>Type</key>
+				<string><%=emoticonGroups[i].type%></string>
+				<key>File</key>
+				<string><%=emoticonGroups[i].file%></string>
+				<key>SeperateKey</key>
+				<string><%=emoticonGroups[i].seperate%></string>
+			</dict>
+			<% } %>
+		</array>
+	</dict>
+</array>
+</plist>

@@ -11,11 +11,23 @@ angular.module('emojis').config(['$stateProvider',
           template: '<ui-view/>'
         })
         .state('emojis.manage', {
-          url: '',
-          templateUrl: 'modules/emojis/client/views/manage-emojis.client.view.html',
+            abstract: true,
+            url: '/manage',
+            template: '<ui-view/>'
+        })
+        .state('emojis.manage.emojis', {
+          url: '/emojis',
+          templateUrl: 'modules/emojis/client/views/emojis-manage-emojis.client.view.html',
           data: {
             roles: ['user', 'admin']
           }
+        })
+        .state('emojis.manage.emoticons', {
+            url: '/emoticons',
+            templateUrl: 'modules/emojis/client/views/emoticons-manage-emojis.client.view.html',
+            data: {
+                roles: ['user', 'admin']
+            }
         })
         .state('emojis.export', {
           url: '/export',

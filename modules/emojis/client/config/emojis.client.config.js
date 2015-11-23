@@ -14,7 +14,14 @@ angular.module('emojis').run(['Menus',
     // Add the dropdown manage item
     Menus.addSubMenuItem('topbar', 'emojis', {
       title: 'Manage Emoji',
-      state: 'emojis.manage',
+      state: 'emojis.manage.emojis',
+      roles: ['user']
+    });
+
+    // Add the dropdown manage item
+    Menus.addSubMenuItem('topbar', 'emojis', {
+      title: 'Manage Emoticon',
+      state: 'emojis.manage.emoticons',
       roles: ['user']
     });
 

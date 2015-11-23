@@ -242,6 +242,15 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
           var selectEmojiGroup=$scope.selectEmojiGroup;
           var newEmojis=newObjects;
 
+          var importSuccessCallback = function (response) {
+            // show
+            var emoji = response;
+            emojis.push(emoji);
+          };
+          var importErrorCallback = function (errorResponse) {
+            $scope.error = errorResponse.data.message;
+          };
+
           // add
           for(var i=0;i<newEmojis.length;i++) {
             var newEmoji = newEmojis[i];
@@ -252,13 +261,7 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
               index: n,
               group: selectEmojiGroup
             });
-            emoji.$save(function (response) {
-              // show
-              var emoji = response;
-              emojis.push(emoji);
-            }, function (errorResponse) {
-              $scope.error = errorResponse.data.message;
-            });
+            emoji.$save(importSuccessCallback, importErrorCallback);
           }
         };
         $scope.emojiGridOptions.onRegisterApi = function (gridApi) {
