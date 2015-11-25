@@ -15,8 +15,7 @@
 		<key>subType</key>
 		<string><%=emoticonGroups[i].type%></string>
 		<key>symbols</key>
-		<string><% for ( var j = 0; j < emoticonGroups[i].emoticons.length; j++ ) { %><%=emoticonGroups[i].emoticons[j].title%>
-		<% } %></string>
+		<string><%=emoticonGroups[i].emoticons.map(function(emoticon) {return emoticon.title;}).join('\n')%></string>
 	</dict>
 	<% } %>
 </array>

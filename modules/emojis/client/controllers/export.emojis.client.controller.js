@@ -263,7 +263,7 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
 
         var deferred = $q.defer();
 
-        // 1. get emoticons data
+        // get emoticons data
         Emoticons.getFromGroup({
           emoticonGroupId: groupId
         }, function (emoticons)
