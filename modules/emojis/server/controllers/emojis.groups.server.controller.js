@@ -44,7 +44,6 @@ exports.update = function (req, res) {
   emojiGroup.name = req.body.name;
   emojiGroup.type = req.body.type;
   emojiGroup.file = req.body.file;
-  emojiGroup.icon = req.body.icon;
   emojiGroup.seperate = req.body.seperate;
   emojiGroup.index = req.body.index;
 

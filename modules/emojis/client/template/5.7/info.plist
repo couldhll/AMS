@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>filterKey</key>
+		<string>最近</string>
+		<key>subType</key>
+		<string>last</string>
+	</dict>
+	<% for ( var i = 0; i < emoticonGroups.length; i++ ) { %>
+	<dict>
+		<key>filterKey</key>
+		<string><%=emoticonGroups[i].name%></string>
+		<key>subType</key>
+		<string><%=emoticonGroups[i].type%></string>
+		<key>symbols</key>
+		<string><% for ( var j = 0; j < emoticonGroups[i].emoticons.length; j++ ) { %><%=emoticonGroups[i].emoticons[j].title%>
+		<% } %></string>
+	</dict>
+	<% } %>
+</array>
+</plist>

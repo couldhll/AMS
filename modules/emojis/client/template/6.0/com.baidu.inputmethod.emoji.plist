@@ -14,9 +14,9 @@
 				<key>Type</key>
 				<string><%=emojiGroups[i].type%></string>
 				<key>File</key>
-				<string><%=emojiGroups[i].file%></string>
+				<string><%=emojiGroups[i].exportFile%></string>
 				<key>Icon</key>
-				<string><%=emojiGroups[i].icon%></string>
+				<string><%=emojiGroups[i].exportIcon%></string>
 				<key>SeperateKey</key>
 				<string><%=emojiGroups[i].seperate%></string>
 			</dict>
@@ -35,7 +35,7 @@
 				<key>Type</key>
 				<string><%=emoticonGroups[i].type%></string>
 				<key>File</key>
-				<string><%=emoticonGroups[i].file%></string>
+				<string><%=emoticonGroups[i].exportFile%></string>
 				<key>SeperateKey</key>
 				<string><%=emoticonGroups[i].seperate%></string>
 			</dict>

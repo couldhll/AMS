@@ -215,10 +215,10 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
           });
 
           // 4. edit group icon
-          group.icon = template.iconOutput;
+          group.exportIcon = template.iconOutput;
 
           // 5. edit group file
-          group.file = resourceDirectory + '/' + folderName;
+          group.exportFile = resourceDirectory + '/' + folderName;
 
           deferred.resolve(ini);
         });
@@ -250,10 +250,82 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
           groupFolder.file(iniFileName, ini);
 
           // 3. edit group file
-          group.file = resourceDirectory + '/' + folderName;
+          group.exportFile = resourceDirectory + '/' + folderName;
 
           deferred.resolve(ini);
         });
+
+        return deferred.promise;
+      };
+
+      var getEmoticonsWithGroup = function (group) {
+        var groupId = group._id;
+
+        var deferred = $q.defer();
+
+        // 1. get emoticons data
+        Emoticons.getFromGroup({
+          emoticonGroupId: groupId
+        }, function (emoticons)
+        {
+          group.emoticons=emoticons;
+          deferred.resolve(group);
+        });
+
+        return deferred.promise;
+      };
+
+      // Create all emoticon group file
+      var createAllEmoticonGroupFile = function () {
+        var group;
+
+        var deferred = $q.defer();
+
+        // 1. get groups [type=='face'], get out '最近'&'收藏'
+        var groups = [];
+        var rows = $scope.emoticonGroupGridApi.grid.rows;
+        for (i = 0; i < rows.length; i++) {
+          var row = rows[i];
+          group = row.entity;
+          if (group.type == 'face') {
+            groups.push(group);
+          }
+        }
+
+        // 2. get emoticons of each group
+        var promises = [];
+        for (i = 0; i < groups.length; i++) {
+          group = groups[i];
+          promise = getEmoticonsWithGroup(group);
+          promises.push(promise);
+        }
+
+        // 3. Create plist
+        $q.all(promises)
+            .then(function(results) {
+              // 1. get plist template
+              $http.get(emoticonPlistTemplateFilePath)
+                  .success(function (response) {
+                    var plistTemplate = response;
+
+                    // template -> plist
+                    var data = {};
+                    data.emoticonGroups = groups;
+
+                    var plist = Packages.template(plistTemplate, data);
+
+                    // 2. put plist into zip
+                    var groupFolder = resourceFolder.folder(emoticonFolderName);
+                    groupFolder.file(emoticonPlistFileName, plist);
+
+                    deferred.resolve(plist);
+                  })
+                  .error(function (error) {
+                    alert(error);
+                  });
+            });
+
+
 
         return deferred.promise;
       };
@@ -273,15 +345,23 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
         }
       }
       // Get select emoticon group
-      rows = $scope.emoticonGroupGridApi.grid.rows;
-      for(i=0;i<rows.length;i++)
-      {
-        row=rows[i];
-        if (row.isSelected===true)
-        {
-          group = row.entity;
-          promise = createEmoticonGroupFile(group);
-          promises.push(promise);
+      if (template.start=='5.7') {// 5.7
+        var emoticonPlistTemplateFilePath = templatePath + "/" + '5.7/info.plist';
+        var emoticonPlistFileName = 'info.plist';
+        var emoticonFolderName = 'face';
+
+        promise = createAllEmoticonGroupFile();
+        promises.push(promise);
+      }
+      else {// 6.0
+        rows = $scope.emoticonGroupGridApi.grid.rows;
+        for (i = 0; i < rows.length; i++) {
+          row = rows[i];
+          if (row.isSelected === true) {
+            group = row.entity;
+            promise = createEmoticonGroupFile(group);
+            promises.push(promise);
+          }
         }
       }
 
@@ -299,6 +379,10 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
                   var data = {};
                   data.emojiGroups = $scope.emojiGroups;
                   data.emoticonGroups = $scope.emoticonGroups;
+                  if (template.start=='5.7') {
+                    data.emoticonFile = resourceDirectory + '/' + emoticonFolderName;
+                  }
+
                   var plist = Packages.template(plistTemplate,data);
 
                   // 2. put plist into zip
