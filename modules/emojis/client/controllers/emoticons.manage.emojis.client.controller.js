@@ -6,7 +6,6 @@ angular.module('emojis').controller('ManageEmoticonsController', ['$scope', '$st
         $scope.authentication = Authentication;
 
         $scope.emoticonGroups = EmoticonGroups.query();
-        //$scope.emoticons = Emoticons.query();
 
         // Config group grid
         $scope.groupGridOptions = {
@@ -68,8 +67,6 @@ angular.module('emojis').controller('ManageEmoticonsController', ['$scope', '$st
           $scope.groupGridApi = gridApi;
           gridApi.edit.on.beginCellEdit($scope,function(rowEntity, colDef, triggerEvent) {
             var emoticonGroup = rowEntity;
-
-            $scope.uploaderEmoticonGroup = emoticonGroup;
           });
 
           gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){

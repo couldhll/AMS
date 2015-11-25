@@ -1,8 +1,8 @@
 'use strict';
 
 // Export Emoji controller
-angular.module('emojis').controller('ExportEmojisController', ['$scope', '$stateParams', '$location', 'Authentication', 'Emojis', 'EmojiGroups', 'Emoticons', 'EmoticonGroups', '$http', '$q', '$window', 'Download', 'Packages',
-  function ($scope, $stateParams, $location, Authentication, Emojis, EmojiGroups, Emoticons, EmoticonGroups, $http, $q, $window, Download, Packages) {
+angular.module('emojis').controller('ExportEmojisController', ['$scope', '$stateParams', '$location', 'Authentication', 'Emojis', 'EmojiGroups', 'Emoticons', 'EmoticonGroups', '$http', '$q', '$window', 'Download',
+  function ($scope, $stateParams, $location, Authentication, Emojis, EmojiGroups, Emoticons, EmoticonGroups, $http, $q, $window, Download) {
     $scope.authentication = Authentication;
 
     // init
@@ -312,7 +312,7 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
                     var data = {};
                     data.emoticonGroups = groups;
 
-                    var plist = Packages.template(plistTemplate, data);
+                    var plist = $window.microtemplate(plistTemplate, data);
 
                     // 2. put plist into zip
                     var groupFolder = resourceFolder.folder(emoticonFolderName);
@@ -383,7 +383,7 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
                     data.emoticonFile = resourceDirectory + '/' + emoticonFolderName;
                   }
 
-                  var plist = Packages.template(plistTemplate,data);
+                  var plist = $window.microtemplate(plistTemplate,data);
 
                   // 2. put plist into zip
                   zip.file(plistFileName, plist);

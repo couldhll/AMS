@@ -1,8 +1,8 @@
 'use strict';
 
 // Create Download Packages controller
-angular.module('packages').controller('CreateDownloadPackagesController', ['$scope', '$stateParams', '$location', 'Authentication', '$state', 'Download', 'Packages', '$http', '$window',
-  function ($scope, $stateParams, $location, Authentication, $state, Download, Packages, $http, $window) {
+angular.module('packages').controller('CreateDownloadPackagesController', ['$scope', '$stateParams', '$location', 'Authentication', '$state', 'Download', '$http', '$window',
+  function ($scope, $stateParams, $location, Authentication, $state, Download, $http, $window) {
     $scope.authentication = Authentication;
 
     // Merge all the feature
@@ -79,7 +79,7 @@ angular.module('packages').controller('CreateDownloadPackagesController', ['$sco
 
           // template -> plist
           var data = $scope.packages.info;
-          var plist = Packages.template(plistTemplate,data);
+          var plist = $window.microtemplate(plistTemplate,data);
 
           // Feature
           for (i=0;i<$scope.packages.feature.selectPages.length;i++) {

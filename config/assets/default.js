@@ -29,7 +29,8 @@ module.exports = {
         'public/lib/moment/moment.js',
         'public/lib/bootstrap/dist/js/bootstrap.js',
         'public/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
-        'public/lib/checklist-model/checklist-model.js'
+        'public/lib/checklist-model/checklist-model.js',
+        'public/lib/microtemplates/index.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },

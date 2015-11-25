@@ -28,7 +28,8 @@ module.exports = {
         'public/lib/jquery/dist/jquery.min.js',
         'public/lib/moment/min/moment.min.js',
         'public/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
-        'public/lib/checklist-model/checklist-model.js'
+        'public/lib/checklist-model/checklist-model.js',
+        'public/lib/microtemplates/index.js'
       ]
     },
     css: 'public/dist/application.min.css',

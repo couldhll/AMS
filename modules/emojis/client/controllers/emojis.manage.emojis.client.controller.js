@@ -6,25 +6,6 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
         $scope.authentication = Authentication;
 
         $scope.emojiGroups = EmojiGroups.query();
-        //$scope.emojis = Emojis.query();
-
-        // Create import File Chooser
-        $scope.fileChooser = document.querySelectorAll('.file-chooser');
-        if ($scope.fileChooser.length !== 1) {
-          console.log('Found > 1 or < 1 file choosers within the menu item, error, cannot continue');
-        } else {
-          var handleFileSelect = function(event) {
-            var target = event.srcElement || event.target;
-
-            if (target && target.files && target.files.length === 1) {
-              var fileObject = target.files[0];
-              $scope.emojiGridApi.importer.importFile( fileObject );
-              target.form.reset();
-            }
-          };
-
-          $scope.fileChooser[0].addEventListener('change', handleFileSelect, false);  // TODO: why the false on the end?  Google
-        }
 
         // Create file uploader instance
         $scope.uploader = new FileUploader();
