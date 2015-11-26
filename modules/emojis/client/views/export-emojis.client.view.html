@@ -9,10 +9,17 @@
   <div ui-grid="emoticonGroupGridOptions" class="grid" ui-grid-selection ui-grid-exporter>
   </div>
   <div class="form-group">
-    <label for="export">Export:</label>
+    <label for="export">Local:</label>
     <div class="btn-group">
-      <button type="button" id="exportAll" class="btn btn-primary" ng-click="exportAll()">All</button>
-      <button ng-repeat="template in templates" type="button" id="export" class="btn btn-success" ng-click="export(template)">{{template.start}}~{{template.end}}</button>
+      <button type="button" id="exportAll" class="btn btn-primary" ng-click="exportAll(null)">All</button>
+      <button ng-repeat="template in templates" type="button" id="export" class="btn btn-success" ng-click="export(null,template)">{{template.start}}~{{template.end}}</button>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="export">Package:</label>
+    <div class="btn-group">
+      <button type="button" id="exportAll" class="btn btn-primary" ng-click="exportAll('Resource')">All</button>
+      <button ng-repeat="template in templates" type="button" id="export" class="btn btn-success" ng-click="export('Resource',template)">{{template.start}}~{{template.end}}</button>
     </div>
   </div>
   <div class="text-center form-group">

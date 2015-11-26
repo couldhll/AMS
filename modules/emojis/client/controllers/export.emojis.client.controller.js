@@ -113,8 +113,8 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
           });
     };
 
-    $scope.exportAll = function() {
-      $scope.exportAllPackage('Resource', $scope.templates)
+    $scope.exportAll = function(resourceDirectory) {
+      $scope.exportAllPackage(resourceDirectory, $scope.templates)
           .then(function(zipFiles){
             // Create all zip
             var zip = new $window.JSZip();
@@ -133,8 +133,8 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
           });
     };
 
-    $scope.export = function(template) {
-      $scope.exportPackage('Resource',template)
+    $scope.export = function(resourceDirectory, template) {
+      $scope.exportPackage(resourceDirectory,template)
           .then(function(zipFile){
             var zipFileName = zipFile.name;
             var zipFileZip = zipFile.file;
@@ -175,7 +175,13 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
 
       // Zip
       var zip = new $window.JSZip();
-      var resourceFolder = zip.folder(resourceDirectory);
+      var resourceFolder;
+      if (resourceDirectory==null) {
+        resourceFolder = zip;
+      }
+      else {
+        resourceFolder = zip.folder(resourceDirectory);
+      }
 
       // Create emoji group file
       var createEmojiGroupFile = function (group) {
@@ -218,7 +224,12 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
           group.exportIcon = template.iconOutput;
 
           // 5. edit group file
-          group.exportFile = resourceDirectory + '/' + folderName;
+          if (resourceDirectory==null) {
+            group.exportFile = folderName;
+          }
+          else {
+            group.exportFile = resourceDirectory + '/' + folderName;
+          }
 
           deferred.resolve(ini);
         });
@@ -380,7 +391,12 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
                   data.emojiGroups = $scope.emojiGroups;
                   data.emoticonGroups = $scope.emoticonGroups;
                   if (template.start=='5.7') {
-                    data.emoticonFile = resourceDirectory + '/' + emoticonFolderName;
+                    if (resourceDirectory==null) {
+                      data.emoticonFile = emoticonFolderName;
+                    }
+                    else {
+                      data.emoticonFile = resourceDirectory + '/' + emoticonFolderName;
+                    }
                   }
 
                   var plist = $window.microtemplate(plistTemplate,data);
