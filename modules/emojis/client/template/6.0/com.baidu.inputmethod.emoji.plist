@@ -35,7 +35,7 @@
 				<key>Type</key>
 				<string><%=emoticonGroups[i].type%></string>
 				<key>File</key>
-				<string><%=emoticonGroups[i].exportFile==null?emojiGroups[i].file:emojiGroups[i].exportFile%></string>
+				<string><%=emoticonGroups[i].exportFile==null?emoticonGroups[i].file:emoticonGroups[i].exportFile%></string>
 				<key>SeperateKey</key>
 				<string><%=emoticonGroups[i].seperate%></string>
 			</dict>

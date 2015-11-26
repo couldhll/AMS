@@ -336,8 +336,6 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
                   });
             });
 
-
-
         return deferred.promise;
       };
 
