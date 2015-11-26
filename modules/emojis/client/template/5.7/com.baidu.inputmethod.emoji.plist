@@ -9,9 +9,9 @@
 		<key>Type</key>
 		<string><%=emojiGroups[i].type%></string>
 		<key>File</key>
-		<string><%=emojiGroups[i].exportFile%></string>
+		<string><%=emojiGroups[i].exportFile==null?emojiGroups[i].file:emojiGroups[i].exportFile%></string>
 		<key>Icon</key>
-		<string><%=emojiGroups[i].exportIcon%></string>
+		<string><%=emojiGroups[i].exportIcon==null?emojiGroups[i].icon:emojiGroups[i].exportIcon%></string>
 	</dict>
 	<% } %>
 	<dict>
