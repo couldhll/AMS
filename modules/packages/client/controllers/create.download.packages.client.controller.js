@@ -1,8 +1,8 @@
 'use strict';
 
 // Create Download Packages controller
-angular.module('packages').controller('CreateDownloadPackagesController', ['$scope', '$stateParams', '$location', 'Authentication', '$state', 'Download', '$http', '$window',
-  function ($scope, $stateParams, $location, Authentication, $state, Download, $http, $window) {
+angular.module('packages').controller('CreateDownloadPackagesController', ['$scope', '$stateParams', '$location', 'Authentication', '$state', 'Download', '$http', '$window', 'Packages',
+  function ($scope, $stateParams, $location, Authentication, $state, Download, $http, $window, Packages) {
     $scope.authentication = Authentication;
 
     // Merge all the feature
@@ -23,15 +23,19 @@ angular.module('packages').controller('CreateDownloadPackagesController', ['$sco
           inputmethodVersions.push(zipFile.template.end);
         }
       }
-      inputmethodVersions = window.$.unique(inputmethodVersions);// 2. Unique & Sort
-      // 2. Create version duration
+      // 2. Unique & Sort
+      var uniqueInputmethodVersions = [];
+      window.$.each(inputmethodVersions, function(i, el){
+        if(window.$.inArray(el, uniqueInputmethodVersions) === -1) uniqueInputmethodVersions.push(el);
+      });
+      // 3. Create version duration
       var inputmethodVersionDurations = [];
-      for (i=0+1;i<inputmethodVersions.length;i++) {
-        var version = inputmethodVersions[i];
+      for (i=0+1;i<uniqueInputmethodVersions.length;i++) {
+        var version = uniqueInputmethodVersions[i];
 
-        inputmethodVersionDurations.push({ start:inputmethodVersions[i-1], end:inputmethodVersions[i] });
+        inputmethodVersionDurations.push({ start:uniqueInputmethodVersions[i-1], end:uniqueInputmethodVersions[i] });
       }
-      // 3. For each duration, merge each feature zip
+      // 4. For each duration, merge each feature zip
       var allzips = [];
       for (i=0;i<inputmethodVersionDurations.length;i++) {
         var versionDuration = inputmethodVersionDurations[i];
@@ -50,7 +54,7 @@ angular.module('packages').controller('CreateDownloadPackagesController', ['$sco
             zipFileTemplate = zipFile.template;
 
             // Add the feature zip
-            if ((versionDuration.start >= zipFileTemplate.start)&&(versionDuration.end <= zipFileTemplate.end)) {
+            if (Packages.versionContain(zipFileTemplate,versionDuration)==Packages.VersionContainResult.Contain) {
               zipFileContent = zipFileZip.generate({type: "base64"});
               allZipFileZip.load(zipFileContent, {base64: true});
             }

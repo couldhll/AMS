@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>category</key>
+	<array>
+		<% for ( var i = 0; i < superwordGroups.length; i++ ) { %>
+		<dict>
+			<key>list</key>
+			<array>
+				<% for ( var j = 0; j < superwordGroups[i].superwords.length; j++ ) { %>
+				<dict>
+					<% if (superwordGroups[i].superwords[j].head) { %>
+					<key>head</key>
+					<string><%=superwordGroups[i].superwords[j].head%></string>
+					<% } %>
+					<% if (superwordGroups[i].superwords[j].tail) { %>
+					<key>tail</key>
+					<string><%=superwordGroups[i].superwords[j].tail%></string>
+					<% } %>
+					<key>pattern</key>
+					<string><%=superwordGroups[i].superwords[j].pattern%></string>
+					<key>title</key>
+					<string><%=superwordGroups[i].superwords[j].title%></string>
+				</dict>
+				<% } %>
+			</array>
+			<key>title</key>
+			<string><%=superwordGroups[i].title%></string>
+		</dict>
+		<% } %>
+	</array>
+	<key>info</key>
+	<dict>
+		<key>version</key>
+		<string>1.0</string>
+	</dict>
+	<key>options</key>
+	<dict>
+		<key>integrity</key>
+		<true/>
+		<key>leading_mark</key>
+		<string>[</string>
+		<key>loop</key>
+		<true/>
+		<key>split_english_word</key>
+		<false/>
+		<key>string_collections</key>
+		<dict>
+			<key>down_random</key>
+			<string>྄༵༙ુૂૃૄុូੂ઼ೃ</string>
+			<key>global_random</key>
+			<string>ོཽྉ⚇=҈ ҉  ̐ృ༗៎֒۞۩៎̄̆ൢ ༘༇ ꙲⃠྆༯࿓༣࿆࿐ཀཻ༲⃛༶⃡༾༽̀ྊ⌇⃓⃕ྂ⃟᷂⁻⚘છ</string>
+			<key>left_random</key>
+			<string>༆༁༒༢༲੯དྷི࿂༓༣༳གྷནལ࿃༄༤࿄༅༥ཅཥ྅༦༶ཆ༇༧བྷཧ࿇༉༩ཉཙ࿉༚༪༺ཚ༛༫ྋ࿋༜༬ཌཛྷ࿌༝༭ཌྷ༞༮༾྾༟༯ཟ྿࿏⚇ృ༗྿࿏࿈੬</string>
+			<key>right_random</key>
+			<string>༂༠༁༡ད༢༲ར࿂༣༳ན࿃༄༤༅ཥ྅༦༶ཆ༇༗༧༨༸མཨ༉༩ཉཙ༊༚༪ཚཛྋ༬༼ཛཬ࿌༝༭ཌཎཞ❀⚘੩</string>
+			<key>up_random</key>
+			<string>ྀིེྂ̐྆྇་ཻ༌ོ⃖⃗͡ີૅ៝ីឹឹ៉៍៌៊៏័ັັິ̈̆̈ੌੋં</string>
+		</dict>
+		<key>tailing_mark</key>
+		<string>]</string>
+	</dict>
+</dict>
+</plist>

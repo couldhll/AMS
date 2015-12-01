@@ -1,0 +1,8 @@
+[
+  {
+    "start": "5.7",
+    "end": "",
+    "plistInput": "5.7/com.baidu.inputmethod.superwords.plist",
+    "plistOutput": "com.baidu.inputmethod.superwords.plist"
+  }
+]

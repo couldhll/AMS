@@ -96,7 +96,7 @@ exports.list = function (req, res) {
 exports.emoticons = function (req, res) {
   var id = req.emoticonGroup._id;
 
-  Emoticon.find({ group: id }).sort('index').populate('user', 'displayName').exec(function (err, emoticons) {
+  Emoticon.find({ group: id }).sort('index').populate('user', 'displayName').populate('group', 'name').exec(function (err, emoticons) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
@@ -105,74 +105,6 @@ exports.emoticons = function (req, res) {
       res.json(emoticons);
     }
   });
-};
-
-/**
- * Update 2x icon
- */
-exports.changeIcon2x = function (req, res) {
-  var emoticonGroup = req.emoticonGroup;
-  var message = null;
-
-  if (emoticonGroup) {
-    fs.writeFile('./modules/emoticons/client/img/icon/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
-      if (uploadError) {
-        return res.status(400).send({
-          message: 'Error occurred while uploading icon'
-        });
-      } else {
-        emoticonGroup.icon2xURL = 'modules/emoticons/client/img/icon/uploads/' + req.files.file.name;
-
-        emoticonGroup.save(function (err) {
-          if (err) {
-            return res.status(400).send({
-              message: errorHandler.getErrorMessage(err)
-            });
-          } else {
-            res.json(emoticonGroup);
-          }
-        });
-      }
-    });
-  } else {
-    res.status(400).send({
-      message: 'Emoticon Group is invalid'
-    });
-  }
-};
-
-/**
- * Update 3x icon
- */
-exports.changeIcon3x = function (req, res) {
-  var emoticonGroup = req.emoticonGroup;
-  var message = null;
-
-  if (emoticonGroup) {
-    fs.writeFile('./modules/emoticons/client/img/icon/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
-      if (uploadError) {
-        return res.status(400).send({
-          message: 'Error occurred while uploading icon'
-        });
-      } else {
-        emoticonGroup.icon3xURL = 'modules/emoticons/client/img/icon/uploads/' + req.files.file.name;
-
-        emoticonGroup.save(function (err) {
-          if (err) {
-            return res.status(400).send({
-              message: errorHandler.getErrorMessage(err)
-            });
-          } else {
-            res.json(emoticonGroup);
-          }
-        });
-      }
-    });
-  } else {
-    res.status(400).send({
-      message: 'Emoticon Group is invalid'
-    });
-  }
 };
 
 /**

@@ -8,7 +8,8 @@ angular.module('packages').run(['Menus',
       title: 'Packages',
       state: 'packages',
       type: 'dropdown',
-      roles: ['*']
+      roles: ['*'],
+      position: 100
     });
 
     // Add the dropdown create item

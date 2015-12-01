@@ -25,12 +25,6 @@ module.exports = function (app) {
         .put(emoticons.update)
         .delete(emoticons.delete);
 
-    // Edit icon routes
-    app.route('/api/emoticonGroups/:emoticonGroupId/icon2x').all(emoticonGroupsPolicy.isAllowed)
-        .post(emoticonGroups.changeIcon2x);
-    app.route('/api/emoticonGroups/:emoticonGroupId/icon3x').all(emoticonGroupsPolicy.isAllowed)
-        .post(emoticonGroups.changeIcon3x);
-
     // Finish by binding the emoticon group middleware
     app.param('emoticonGroupId', emoticonGroups.emoticonGroupByID);
 };

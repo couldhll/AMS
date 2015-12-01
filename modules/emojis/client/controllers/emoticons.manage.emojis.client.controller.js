@@ -133,7 +133,7 @@ angular.module('emojis').controller('ManageEmoticonsController', ['$scope', '$st
             { name: 'Group',
               field: 'group._id',
               editableCellTemplate: 'ui-grid/dropdownEditor',
-              cellFilter: 'mapGroup:row.entity',
+              cellFilter: 'mapGroup:row.entity.group.name',
               editDropdownOptionsArray: $scope.emoticonGroups,
               editDropdownIdLabel: '_id',
               editDropdownValueLabel: 'name' },
@@ -287,11 +287,11 @@ angular.module('emojis').controller('ManageEmoticonsController', ['$scope', '$st
       }
     ])
     .filter('mapGroup', function() {
-      return function(input, emoticon) {
+      return function(input, show) {
         if (!input){
           return '';
         } else {
-          return emoticon.group.name;
+          return show;
         }
       };
     })

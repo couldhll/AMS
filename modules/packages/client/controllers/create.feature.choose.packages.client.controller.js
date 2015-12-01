@@ -10,7 +10,7 @@ angular.module('packages').controller('CreateFeaturePackagesController', ['$scop
       $scope.packages.feature = {};
       $scope.packages.feature.pages = [
         {name: 'emoji', url: '^.emojis'},
-        {name: 'toolbar', url: '^.toolbar'},
+        {name: 'superword', url: '^.superwords'},
         {name: 'menubar', url: '^.menubar'},
         {name: 'commingsoon', url: '^.commingsoon'}
       ];
