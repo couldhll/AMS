@@ -7,7 +7,7 @@ angular.module('packages').service('Packages', function () {
             var versionNumber;
 
             if (versionString=='') {
-                versionNumber = Number.MAX_VALUE
+                versionNumber = Number.MAX_VALUE;
             }
             else {
                 versionNumber = parseFloat(versionString);
@@ -22,7 +22,7 @@ angular.module('packages').service('Packages', function () {
                 SAME: 1,
                 BIG: 2,
                 SMALL: 3
-            }
+            };
         }
         this.versionCompare = function (versionString1, versionString2) {
             var versionNumber1 = this.versionStringToNumber(versionString1);
@@ -46,7 +46,7 @@ angular.module('packages').service('Packages', function () {
             this.VersionContainResult = {
                 Contain: 1,
                 Over: 2
-            }
+            };
         }
         this.versionContain = function (versionDuration1, versionDuration2) {
             var result;
