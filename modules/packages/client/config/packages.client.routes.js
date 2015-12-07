@@ -33,6 +33,10 @@ angular.module('packages').config(['$stateProvider',
             url: '/emojis',
             templateUrl: 'modules/emojis/client/views/export-emojis.client.view.html'
         })
+        .state('packages.create.feature.emojicolors', {
+            url: '/superwords',
+            templateUrl: 'modules/emojicolors/client/views/export-emojicolors.client.view.html'
+        })
         .state('packages.create.feature.superwords', {
             url: '/superwords',
             templateUrl: 'modules/superwords/client/views/export-superwords.client.view.html'

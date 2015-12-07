@@ -1,0 +1,8 @@
+[
+  {
+    "start": "6.5",
+    "end": "",
+    "plistInput": "6.5/com.baidu.inputmethod.emoji.longpress.plist",
+    "plistOutput": "com.baidu.inputmethod.emoji.longpress.plist"
+  }
+]

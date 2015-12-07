@@ -2,10 +2,7 @@
   <div class="page-header">
     <h1>Manage Emoji</h1>
   </div>
-  <h2>Group</h2>
-  <div id="groupGrid" ui-grid="groupGridOptions" class="grid" ui-grid-edit ui-grid-selection ui-grid-draggable-rows ui-grid-exporter>
-  </div>
-  <button type="button" id="addGroup" class="btn btn-warning" ng-click="addGroup()">Add Group @Last</button>
-  <button type="button" id="removeGroup" class="btn btn-danger" ng-click="removeGroup()">Remove Group {{selectEmojiGroup.name}}</button>
-  <ui-grid-one title="Emoji" name="selectEmojiGroup.name" data="emojis" grid-options="emojiGridOptions" add-click="addEmoji()" remove-click="removeEmoji(removeEntity)" edit-click="editEmoji(rowEntity, colDef, newValue, oldValue)" import-click="importEmoji(grid, newObjects)"></ui-grid-one>
+  <ui-grid-one title="Group" data="emojiGroups" grid-options="groupGridOptions" add-click="addGroup()" remove-click="removeGroup(removeEntity)" begin-cell-edit="beginEditGroup(rowEntity, colDef, triggerEvent)" after-cell-edit="afterEditGroup(rowEntity, colDef, newValue, oldValue)" row-selection-changed="rowSelectionChangedGroup(row)" uploader="uploader"></ui-grid-one>
+  <br />
+  <ui-grid-one title="Emoji" name="selectEmojiGroup.name" data="emojis" grid-options="emojiGridOptions" add-click="addEmoji()" remove-click="removeEmoji(removeEntity)" after-cell-edit="afterEditEmoji(rowEntity, colDef, newValue, oldValue)" import-click="importEmoji(grid, newObjects)"></ui-grid-one>
 </section>

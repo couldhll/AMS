@@ -286,15 +286,6 @@ angular.module('emojis').controller('ManageEmoticonsController', ['$scope', '$st
         };
       }
     ])
-    .filter('mapGroup', function() {
-      return function(input, show) {
-        if (!input){
-          return '';
-        } else {
-          return show;
-        }
-      };
-    })
     .filter('mapSeperate', function() {
       var seperateHash = {
         ' ' : 'white space',

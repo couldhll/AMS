@@ -1,0 +1,6 @@
+<section ng-controller="ManageEmojicolorsController">
+  <div class="page-header">
+    <h1>Manage Emojicolor</h1>
+  </div>
+  <ui-grid-one title="Emojicolor" data="emojicolors" grid-options="emojicolorGridOptions" add-click="addEmojicolor()" remove-click="removeEmojicolor(removeEntity)" after-cell-edit="afterEditEmojicolor(rowEntity, colDef, newValue, oldValue)" import-click="importEmojicolor(grid, newObjects)"></ui-grid-one>
+</section>
