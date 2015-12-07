@@ -169,11 +169,52 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
             });
 
             //// reset group dropdown data, to fix the bug
-            $scope.emojiGridOptions.columnDefs[2].editDropdownOptionsArray = $scope.emojiGroups;
+            //$scope.emojiGridOptions.columnDefs[2].editDropdownOptionsArray = $scope.emojiGroups;
           });
         };
 
-        // Config emoji grid
+
+        $scope.addGroup = function() {
+          var emojiGroups=$scope.emojiGroups;
+          var n = emojiGroups.length + 1;
+
+          // add
+          var emojiGroup = new EmojiGroups({
+            name: "Group " + n,
+            type: "system",
+            file: "系统" + n,
+            icon: "icon.png",
+            seperate: " ",
+            index: n
+          });
+          emojiGroup.$save(function (response) {
+            // show
+            var emojiGroup=response;
+            emojiGroups.push(emojiGroup);
+          }, function (errorResponse) {
+            $scope.error = errorResponse.data.message;
+          });
+        };
+
+        $scope.removeGroup = function() {
+          var emojiGroups=$scope.emojiGroups;
+
+          // remove
+          var selectEmojiGroup=$scope.selectEmojiGroup;
+          selectEmojiGroup.$remove();
+
+          // show
+          for(var i=0;i<emojiGroups.length;i++) {
+            var emojiGroup = emojiGroups[i];
+            if (emojiGroup == selectEmojiGroup) {
+              emojiGroups.splice(i, 1);
+            }
+          }
+
+          selectEmojiGroup=null;
+        };
+
+
         $scope.emojiGridOptions = {
           // Sort
           enableSorting: true,
@@ -217,8 +258,50 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
             { name: 'Created User', field: 'user.displayName', enableCellEdit:false },
             { name: 'Created Time', field: 'created', enableCellEdit:false }
           ],
-          data: 'emojis' };
-        $scope.emojiGridOptions.importerDataAddCallback = function(grid, newObjects) {
+          data: 'data' };
+        $scope.addEmoji = function() {
+          var emojis=$scope.emojis;
+          var selectEmojiGroup=$scope.selectEmojiGroup;
+          var n = emojis.length + 1;
+
+          // add
+          var emoji = new Emojis({
+            title: "Emoji " + n,
+            index: n,
+            group: selectEmojiGroup
+          });
+          emoji.$save(function (response) {
+            // show
+            var emoji = response;
+            emojis.push(emoji);
+          }, function (errorResponse) {
+            $scope.error = errorResponse.data.message;
+          });
+        };
+        $scope.removeEmoji = function(removeEntity) {
+          var emoji = removeEntity;
+        };
+        $scope.editEmoji = function(rowEntity, colDef, newValue, oldValue) {
+          var emoji = rowEntity;
+          if (colDef.name=='Group')
+          {
+            var groupId = newValue;
+            var emojiGroups=$scope.emojiGroups;
+
+            // find group with id
+            var group = null;
+            for(var i=0;i<emojiGroups.length;i++) {
+              var emojiGroup = emojiGroups[i];
+              if (emojiGroup._id == groupId) {
+                group = emojiGroup;
+                break;
+              }
+            }
+
+            emoji.group=group;
+          }
+        };
+        $scope.importEmoji = function(grid, newObjects) {
           var emojis=$scope.emojis;
           var selectEmojiGroup=$scope.selectEmojiGroup;
           var newEmojis=newObjects;
@@ -244,122 +327,6 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
             });
             emoji.$save(importSuccessCallback, importErrorCallback);
           }
-        };
-        $scope.emojiGridOptions.onRegisterApi = function (gridApi) {
-          $scope.emojiGridApi = gridApi;
-          gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-            var emoji = rowEntity;
-            if (colDef.name=='Group')
-            {
-              var groupId = newValue;
-              var emojiGroups=$scope.emojiGroups;
-
-              // find group with id
-              var group = null;
-              for(var i=0;i<emojiGroups.length;i++) {
-                var emojiGroup = emojiGroups[i];
-                if (emojiGroup._id == groupId) {
-                  group = emojiGroup;
-                  break;
-                }
-              }
-
-              emoji.group=group;
-            }
-            emoji.$update();
-
-            $scope.$apply();
-          });
-          gridApi.draggableRows.on.rowDropped($scope, function (info, dropTarget) {
-            var emojis=$scope.emojis;
-            for(var i=0;i<emojis.length;i++)
-            {
-              var emoji=$scope.emojis[i];
-              emoji.index=i;
-              emoji.$update();
-            }
-          });
-          gridApi.selection.on.rowSelectionChanged($scope,function(row){
-            $scope.selectEmoji = row.entity;
-          });
-        };
-
-        $scope.addGroup = function() {
-          var emojiGroups=$scope.emojiGroups;
-          var n = emojiGroups.length + 1;
-
-          // add
-          var emojiGroup = new EmojiGroups({
-            name: "Group " + n,
-            type: "system",
-            file: "系统" + n,
-            icon: "icon.png",
-            seperate: " ",
-            index: n
-          });
-          emojiGroup.$save(function (response) {
-            // show
-            var emojiGroup=response;
-            emojiGroups.push(emojiGroup);
-          }, function (errorResponse) {
-            $scope.error = errorResponse.data.message;
-          });
-        };
-
-        $scope.removeGroup = function() {
-          var emojiGroups=$scope.emojiGroups;
-
-          // remove
-          var selectEmojiGroup=$scope.selectEmojiGroup;
-          selectEmojiGroup.$remove();
-
-          // show
-          for(var i=0;i<emojiGroups.length;i++) {
-            var emojiGroup = emojiGroups[i];
-            if (emojiGroup == selectEmojiGroup) {
-              emojiGroups.splice(i, 1);
-            }
-          }
-
-          selectEmojiGroup=null;
-        };
-
-        $scope.addEmoji = function() {
-          var emojis=$scope.emojis;
-          var selectEmojiGroup=$scope.selectEmojiGroup;
-          var n = emojis.length + 1;
-
-          // add
-          var emoji = new Emojis({
-            title: "Emoji " + n,
-            index: n,
-            group: selectEmojiGroup
-          });
-          emoji.$save(function (response) {
-            // show
-            var emoji = response;
-            emojis.push(emoji);
-          }, function (errorResponse) {
-            $scope.error = errorResponse.data.message;
-          });
-        };
-
-        $scope.removeEmoji = function() {
-          var emojis=$scope.emojis;
-
-          // remove
-          var selectEmoji=$scope.selectEmoji;
-          selectEmoji.$remove();
-
-          // show
-          for(var i=0;i<emojis.length;i++) {
-            var emoji = emojis[i];
-            if (emoji == selectEmoji) {
-              emojis.splice(i, 1);
-            }
-          }
-
-          selectEmoji=null;
         };
       }
     ])

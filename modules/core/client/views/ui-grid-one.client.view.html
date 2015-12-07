@@ -1,0 +1,4 @@
+<h2>{{title}}</h2>
+<div id="grid" ui-grid="gridOptions" class="grid" ui-grid-edit ui-grid-selection ui-grid-draggable-rows ui-grid-exporter ui-grid-importer />
+<button type="button" id="addOne" class="btn btn-warning" ng-click="addOne()">Add {{title}} @Last{{name==null?'':' in '+name}}</button>
+<button type="button" id="removeOne" class="btn btn-danger" ng-click="removeOne()">Remove {{title}} {{selectOne.title}}</button>

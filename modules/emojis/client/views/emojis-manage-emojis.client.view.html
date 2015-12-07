@@ -7,9 +7,5 @@
   </div>
   <button type="button" id="addGroup" class="btn btn-warning" ng-click="addGroup()">Add Group @Last</button>
   <button type="button" id="removeGroup" class="btn btn-danger" ng-click="removeGroup()">Remove Group {{selectEmojiGroup.name}}</button>
-  <h2>Emoji</h2>
-  <div id="emojiGrid" ui-grid="emojiGridOptions" class="grid" ui-grid-edit ui-grid-selection ui-grid-draggable-rows ui-grid-exporter ui-grid-importer>
-  </div>
-  <button type="button" id="addEmoji" class="btn btn-warning" ng-click="addEmoji()">Add Emoji @Last in {{selectEmojiGroup.name}}</button>
-  <button type="button" id="removeEmoji" class="btn btn-danger" ng-click="removeEmoji()">Remove Emoji {{selectEmoji.title}}</button>
+  <ui-grid-one title="Emoji" name="selectEmojiGroup.name" data="emojis" grid-options="emojiGridOptions" add-click="addEmoji()" remove-click="removeEmoji(removeEntity)" edit-click="editEmoji(rowEntity, colDef, newValue, oldValue)" import-click="importEmoji(grid, newObjects)"></ui-grid-one>
 </section>
