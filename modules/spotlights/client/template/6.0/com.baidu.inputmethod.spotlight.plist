@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<% for ( var i = 0; i < spotlights.length; i++ ) { %>
+	<dict>
+		<key>Content</key>
+		<string><%=spotlights[i].content%></string>
+		<key>OpenUrl</key>
+		<string><%=spotlights[i].url%></string>
+		<key>Title</key>
+		<string><%=spotlights[i].title%></string>
+	</dict>
+	<% } %>
+</array>
+</plist>

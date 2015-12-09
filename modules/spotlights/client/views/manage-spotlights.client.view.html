@@ -1,0 +1,6 @@
+<section ng-controller="ManageSpotlightsController">
+  <div class="page-header">
+    <h1>Manage Spotlight</h1>
+  </div>
+  <ui-grid-one title="Spotlight" data="spotlights" grid-options="spotlightGridOptions" add-click="addSpotlight()" remove-click="removeSpotlight(removeEntity)" after-cell-edit="afterEditSpotlight(rowEntity, colDef, newValue, oldValue)" import-click="importSpotlight(grid, newObjects)"></ui-grid-one>
+</section>
