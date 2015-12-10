@@ -14,7 +14,7 @@ angular.module('core').service('Menus', [
       if (!!~this.roles.indexOf('*')) {
         return true;
       } else {
-        if(!user) {
+        if (!user) {
           return false;
         }
         for (var userRoleIndex in user.roles) {
@@ -166,7 +166,7 @@ angular.module('core').service('Menus', [
       return this.menus[menuId];
     };
 
-    //Adding the topbar menu
+    // Adding the topbar menu
     this.addMenu('topbar', {
       roles: ['*']
     });

@@ -1,11 +1,11 @@
 <section ng-controller="CreateInfoPackagesController">
   <form>
     <div class="form-group">
-      <label for="version">Version</label>
+      <label for="version">{{ 'PACKAGE_CREATE_STEP_INFO_VERSION' | translate }}</label>
       <input type="version" class="form-control" id="version" data-ng-model="packages.info.version" placeholder="Version">
     </div>
     <div class="form-group">
-      <label for="durations">Durations</label>
+      <label for="durations">{{ 'PACKAGE_CREATE_STEP_INFO_DURATION' | translate }}</label>
       <div ng-repeat="duration in packages.info.durations">
         <div class="input-group row">
           <div class="dropdown col-md-4">

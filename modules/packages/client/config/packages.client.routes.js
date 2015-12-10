@@ -41,6 +41,10 @@ angular.module('packages').config(['$stateProvider',
             url: '/superwords',
             templateUrl: 'modules/superwords/client/views/export-superwords.client.view.html'
         })
+        .state('packages.create.feature.spotlights', {
+            url: '/superwords',
+            templateUrl: 'modules/spotlights/client/views/export-spotlights.client.view.html'
+        })
         .state('packages.create.download', {
             url: '/download',
             templateUrl: 'modules/packages/client/views/create-download-packages.client.view.html'

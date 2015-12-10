@@ -1,0 +1,10 @@
+<div class="container" ng-controller="FooterController">
+  <br />
+  <br />
+  <br />
+  {{ 'FOOTER_TITLE' | translate }} <a href="mailto:huangliangliang@baidu.com">@huangliangliang</a> or<a href="mailto:could_hll@hotmail.com">@CouldHll</a>
+  <div ng-controller="TranslateController">
+    <button ng-click="changeLanguage('cn')" translate="SYSTEM_CN"></button>
+    <button ng-click="changeLanguage('en')" translate="SYSTEM_EN"></button>
+  </div>
+</div>

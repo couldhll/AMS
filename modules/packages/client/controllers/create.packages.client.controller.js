@@ -1,17 +1,34 @@
 'use strict';
 
 // Create Packages controller
-angular.module('packages').controller('CreatePackagesController', ['$scope', '$stateParams', '$location', 'Authentication', '$state',
-  function ($scope, $stateParams, $location, Authentication, $state) {
+angular.module('packages').controller('CreatePackagesController', ['$scope', '$stateParams', '$location', 'Authentication', '$state', '$translate', '$rootScope',
+  function ($scope, $stateParams, $location, Authentication, $state, $translate, $rootScope) {
     $scope.authentication = Authentication;
 
     // Init packages
     $scope.packages = {};
-    $scope.packages.pages = [
-      {name: 'info', url: 'packages.create.info'},
-      {name: 'feature', url: 'packages.create.feature'},
-      {name: 'download', url: 'packages.create.download'}
-    ];
+    $translate(['PACKAGE_CREATE_STEP_INFO_TITLE', 'PACKAGE_CREATE_STEP_FEATURE_TITLE', 'PACKAGE_CREATE_STEP_DOWNLOAD_TITLE']).then(function (translations) {
+      $scope.packages.pages = [
+        {name: translations.PACKAGE_CREATE_STEP_INFO_TITLE, url: 'packages.create.info'},
+        {name: translations.PACKAGE_CREATE_STEP_FEATURE_TITLE, url: 'packages.create.feature'},
+        {name: translations.PACKAGE_CREATE_STEP_DOWNLOAD_TITLE, url: 'packages.create.download'}
+      ];
+
+      // Goto
+      $scope.packages.nowPage = null;
+      $scope.packages.GotoNextPage();
+    });
+
+    // Translate
+    $rootScope.$on('$translateChangeSuccess', function () {
+      $translate(['PACKAGE_CREATE_STEP_INFO_TITLE', 'PACKAGE_CREATE_STEP_FEATURE_TITLE', 'PACKAGE_CREATE_STEP_DOWNLOAD_TITLE']).then(function (translations) {
+        $scope.packages.pages = [
+          {name: translations.PACKAGE_CREATE_STEP_INFO_TITLE, url: 'packages.create.info'},
+          {name: translations.PACKAGE_CREATE_STEP_FEATURE_TITLE, url: 'packages.create.feature'},
+          {name: translations.PACKAGE_CREATE_STEP_DOWNLOAD_TITLE, url: 'packages.create.download'}
+        ];
+      });
+    });
 
     // Goto event
     $scope.packages.GotoNextPage = function() {
@@ -46,10 +63,6 @@ angular.module('packages').controller('CreatePackagesController', ['$scope', '$s
     $scope.packages.next = function() {
       $scope.packages.GotoNextPage();
     };
-
-    // Goto
-    $scope.packages.nowPage = null;
-    $scope.packages.GotoNextPage();
   }
 ]);
 

@@ -7,7 +7,7 @@ angular.module('superwords').controller('ManageSuperwordsController', ['$scope',
 
     $scope.superwordGroups = SuperwordGroups.query();
 
-    // Config group grid
+    // Init Group
     $scope.groupGridOptions = {
       // Sort
       enableSorting: true,
@@ -43,41 +43,45 @@ angular.module('superwords').controller('ManageSuperwordsController', ['$scope',
         { field: 'title' },
         { name: 'Created User', field: 'user.displayName', enableCellEdit:false },
         { name: 'Created Time', field: 'created', enableCellEdit:false }],
-      data: 'superwordGroups' };
-    $scope.groupGridOptions.onRegisterApi = function (gridApi) {
-      $scope.groupGridApi = gridApi;
-      gridApi.edit.on.beginCellEdit($scope,function(rowEntity, colDef, triggerEvent) {
-        var superwordGroup = rowEntity;
+      data: 'data' };
+    $scope.addGroup = function() {
+      var superwordGroups=$scope.superwordGroups;
+      var n = superwordGroups.length + 1;
+
+      // add
+      var superwordGroup = new SuperwordGroups({
+        title: "Group " + n,
+        index: n
       });
-
-      gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-        var superwordGroup = rowEntity;
-
-        superwordGroup.$update();
-        $scope.$apply();
-      });
-      gridApi.draggableRows.on.rowDropped($scope, function (info, dropTarget) {
-        var superwordGroups=$scope.superwordGroups;
-        for(var i=0;i<superwordGroups.length;i++)
-        {
-          var superwordGroup=superwordGroups[i];
-          superwordGroup.index=i;
-          superwordGroup.$update();
-        }
-      });
-      gridApi.selection.on.rowSelectionChanged($scope,function(row){
-        $scope.selectSuperwordGroup = row.entity;
-
-        $scope.superwords = Superwords.getFromGroup({
-          superwordGroupId: row.entity._id
-        });
-
-        //// reset group dropdown data, to fix the bug
-        $scope.superwordGridOptions.columnDefs[2].editDropdownOptionsArray = $scope.superwordGroups;
+      superwordGroup.$save(function (response) {
+        // show
+        var superwordGroup=response;
+        superwordGroups.push(superwordGroup);
+      }, function (errorResponse) {
+        $scope.error = errorResponse.data.message;
       });
     };
+    $scope.removeGroup = function(removeEntity) {
+      var group = removeEntity;
+    };
+    $scope.beginEditGroup = function(rowEntity, colDef, triggerEvent) {
+      var superwordGroup = rowEntity;
+    };
+    $scope.afterEditGroup = function(rowEntity, colDef, newValue, oldValue) {
+      var superwordGroup = rowEntity;
+    };
+    $scope.rowSelectionChangedGroup = function(row) {
+      $scope.selectSuperwordGroup = row.entity;
 
-    // Config superword grid
+      $scope.superwords = Superwords.getFromGroup({
+        superwordGroupId: row.entity._id
+      });
+
+      // reset group dropdown data, to fix the bug
+      $scope.superwordGridOptions.columnDefs[2].editDropdownOptionsArray = $scope.superwordGroups;
+    };
+
+    // Init superword
     $scope.superwordGridOptions = {
       // Sort
       enableSorting: true,
@@ -124,8 +128,51 @@ angular.module('superwords').controller('ManageSuperwordsController', ['$scope',
         { name: 'Created User', field: 'user.displayName', enableCellEdit:false },
         { name: 'Created Time', field: 'created', enableCellEdit:false }
       ],
-      data: 'superwords' };
-    $scope.superwordGridOptions.importerDataAddCallback = function(grid, newObjects) {
+      data: 'data' };
+    $scope.addSuperword = function() {
+      var superwords=$scope.superwords;
+      var selectSuperwordGroup=$scope.selectSuperwordGroup;
+      var n = superwords.length + 1;
+
+      // add
+      var superword = new Superwords({
+        pattern: "Pattern " + n,
+        title: "Title " + n,
+        index: n,
+        group: selectSuperwordGroup
+      });
+      superword.$save(function (response) {
+        // show
+        var superword = response;
+        superwords.push(superword);
+      }, function (errorResponse) {
+        $scope.error = errorResponse.data.message;
+      });
+    };
+    $scope.removeSuperword = function(removeEntity) {
+      var superword = removeEntity;
+    };
+    $scope.afterEditSuperword = function(rowEntity, colDef, newValue, oldValue) {
+      var superword = rowEntity;
+      if (colDef.name=='Group')
+      {
+        var groupId = newValue;
+        var superwordGroups=$scope.superwordGroups;
+
+        // find group with id
+        var group = null;
+        for(var i=0;i<superwordGroups.length;i++) {
+          var superwordGroup = superwordGroups[i];
+          if (superwordGroup._id == groupId) {
+            group = superwordGroup;
+            break;
+          }
+        }
+
+        superword.group=group;
+      }
+    };
+    $scope.importSuperword = function(grid, newObjects) {
       var superwords=$scope.superwords;
       var selectSuperwordGroup=$scope.selectSuperwordGroup;
       var newSuperwords=newObjects;
@@ -151,119 +198,6 @@ angular.module('superwords').controller('ManageSuperwordsController', ['$scope',
         });
         superword.$save(importSuccessCallback, importErrorCallback);
       }
-    };
-    $scope.superwordGridOptions.onRegisterApi = function (gridApi) {
-      $scope.superwordGridApi = gridApi;
-      gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-        var superword = rowEntity;
-        if (colDef.name=='Group')
-        {
-          var groupId = newValue;
-          var superwordGroups=$scope.superwordGroups;
-
-          // find group with id
-          var group = null;
-          for(var i=0;i<superwordGroups.length;i++) {
-            var superwordGroup = superwordGroups[i];
-            if (superwordGroup._id == groupId) {
-              group = superwordGroup;
-              break;
-            }
-          }
-
-          superword.group=group;
-        }
-        superword.$update();
-
-        $scope.$apply();
-      });
-      gridApi.draggableRows.on.rowDropped($scope, function (info, dropTarget) {
-        var superwords=$scope.superwords;
-        for(var i=0;i<superwords.length;i++)
-        {
-          var superword=$scope.superwords[i];
-          superword.index=i;
-          superword.$update();
-        }
-      });
-      gridApi.selection.on.rowSelectionChanged($scope,function(row){
-        $scope.selectSuperword = row.entity;
-      });
-    };
-
-    $scope.addGroup = function() {
-      var superwordGroups=$scope.superwordGroups;
-      var n = superwordGroups.length + 1;
-
-      // add
-      var superwordGroup = new SuperwordGroups({
-        title: "Group " + n,
-        index: n
-      });
-      superwordGroup.$save(function (response) {
-        // show
-        var superwordGroup=response;
-        superwordGroups.push(superwordGroup);
-      }, function (errorResponse) {
-        $scope.error = errorResponse.data.message;
-      });
-    };
-
-    $scope.removeGroup = function() {
-      var superwordGroups=$scope.superwordGroups;
-
-      // remove
-      var selectSuperwordGroup=$scope.selectSuperwordGroup;
-      selectSuperwordGroup.$remove();
-
-      // show
-      for(var i=0;i<superwordGroups.length;i++) {
-        var superwordGroup = superwordGroups[i];
-        if (superwordGroup == selectSuperwordGroup) {
-          superwordGroups.splice(i, 1);
-        }
-      }
-
-      selectSuperwordGroup=null;
-    };
-
-    $scope.addSuperword = function() {
-      var superwords=$scope.superwords;
-      var selectSuperwordGroup=$scope.selectSuperwordGroup;
-      var n = superwords.length + 1;
-
-      // add
-      var superword = new Superwords({
-        pattern: "Pattern " + n,
-        title: "Title " + n,
-        index: n,
-        group: selectSuperwordGroup
-      });
-      superword.$save(function (response) {
-        // show
-        var superword = response;
-        superwords.push(superword);
-      }, function (errorResponse) {
-        $scope.error = errorResponse.data.message;
-      });
-    };
-
-    $scope.removeSuperword = function() {
-      var superwords=$scope.superwords;
-
-      // remove
-      var selectSuperword=$scope.selectSuperword;
-      selectSuperword.$remove();
-
-      // show
-      for(var i=0;i<superwords.length;i++) {
-        var superword = superwords[i];
-        if (superword == selectSuperword) {
-          superwords.splice(i, 1);
-        }
-      }
-
-      selectSuperword=null;
     };
   }
 ]);

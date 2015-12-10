@@ -30,7 +30,12 @@ module.exports = {
         'public/lib/bootstrap/dist/js/bootstrap.js',
         'public/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
         'public/lib/checklist-model/checklist-model.js',
-        'public/lib/microtemplates/index.js'
+        'public/lib/microtemplates/index.js',
+        'public/lib/angular-translate/angular-translate.js',
+        'public/lib/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+        'public/lib/angular-cookies/angular-cookies.js',
+        'public/lib/angular-translate-storage-cookie/angular-translate-storage-cookie.js',
+        'public/lib/angular-translate-storage-local/angular-translate-storage-local.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },

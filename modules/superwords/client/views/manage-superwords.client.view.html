@@ -1,15 +1,8 @@
 <section ng-controller="ManageSuperwordsController">
   <div class="page-header">
-    <h1>Manage Superword</h1>
+    <h1>{{ 'SUPERWORD_MANAGE_TITLE' | translate }}</h1>
   </div>
-  <h2>Group</h2>
-  <div id="groupGrid" ui-grid="groupGridOptions" class="grid" ui-grid-edit ui-grid-selection ui-grid-draggable-rows ui-grid-exporter>
-  </div>
-  <button type="button" id="addGroup" class="btn btn-warning" ng-click="addGroup()">Add Group @Last</button>
-  <button type="button" id="removeGroup" class="btn btn-danger" ng-click="removeGroup()">Remove Group {{selectSuperwordGroup.title}}</button>
-  <h2>Superword</h2>
-  <div id="superwordGrid" ui-grid="superwordGridOptions" class="grid" ui-grid-edit ui-grid-selection ui-grid-draggable-rows ui-grid-exporter ui-grid-importer>
-  </div>
-  <button type="button" id="addSuperword" class="btn btn-warning" ng-click="addSuperword()">Add Superword @Last in {{selectSuperwordGroup.title}}</button>
-  <button type="button" id="removeSuperword" class="btn btn-danger" ng-click="removeSuperword()">Remove Superword {{selectSuperword.title}}</button>
+  <ui-grid-one title="{{ 'SUPERWORD_MANAGE_GROUP_TITLE' | translate }}" data="superwordGroups" grid-options="groupGridOptions" add-click="addGroup()" remove-click="removeGroup(removeEntity)" begin-cell-edit="beginEditGroup(rowEntity, colDef, triggerEvent)" after-cell-edit="afterEditGroup(rowEntity, colDef, newValue, oldValue)" row-selection-changed="rowSelectionChangedGroup(row)" uploader="uploader"></ui-grid-one>
+  <br />
+  <ui-grid-one title="{{ 'SUPERWORD_MANAGE_ONE_TITLE' | translate }}" name="selectSuperwordGroup.name" data="superwords" grid-options="superwordGridOptions" add-click="addSuperword()" remove-click="removeSuperword(removeEntity)" after-cell-edit="afterEditSuperword(rowEntity, colDef, newValue, oldValue)" import-click="importSuperword(grid, newObjects)"></ui-grid-one>
 </section>

@@ -29,7 +29,12 @@ module.exports = {
         'public/lib/moment/min/moment.min.js',
         'public/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
         'public/lib/checklist-model/checklist-model.js',
-        'public/lib/microtemplates/index.js'
+        'public/lib/microtemplates/index.js',
+        'public/lib/angular-translate/angular-translate.min.js',
+        'public/lib/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
+        'public/lib/angular-cookies/angular-cookies.min.js',
+        'public/lib/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js',
+        'public/lib/angular-translate-storage-local/angular-translate-storage-local.min.js'
       ]
     },
     css: 'public/dist/application.min.css',

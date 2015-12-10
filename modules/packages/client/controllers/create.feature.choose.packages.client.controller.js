@@ -1,19 +1,33 @@
 'use strict';
 
 // Create Feature Packages controller
-angular.module('packages').controller('CreateFeaturePackagesController', ['$scope', '$stateParams', '$location', 'Authentication', '$state',
-  function ($scope, $stateParams, $location, Authentication, $state) {
+angular.module('packages').controller('CreateFeaturePackagesController', ['$scope', '$stateParams', '$location', 'Authentication', '$state', '$translate', '$rootScope',
+  function ($scope, $stateParams, $location, Authentication, $state, $translate, $rootScope) {
     $scope.authentication = Authentication;
 
     // Init feature
     if ($scope.packages.feature == null) {
       $scope.packages.feature = {};
-      $scope.packages.feature.pages = [
-        {name: 'emoji', url: '^.emojis'},
-        {name: 'emojicolor', url: '^.emojicolors'},
-        {name: 'superword', url: '^.superwords'},
-        {name: 'commingsoon', url: '^.commingsoon'}
-      ];
+      $translate(['PACKAGE_CREATE_STEP_FEATURE_EMOJI', 'PACKAGE_CREATE_STEP_FEATURE_EMOJICOLOR', 'PACKAGE_CREATE_STEP_FEATURE_SUPERWORD', 'PACKAGE_CREATE_STEP_FEATURE_SPOTLIGHT']).then(function (translations) {
+        $scope.packages.feature.pages = [
+          {name: translations.PACKAGE_CREATE_STEP_FEATURE_EMOJI, url: '^.emojis'},
+          {name: translations.PACKAGE_CREATE_STEP_FEATURE_EMOJICOLOR, url: '^.emojicolors'},
+          {name: translations.PACKAGE_CREATE_STEP_FEATURE_SUPERWORD, url: '^.superwords'},
+          {name: translations.PACKAGE_CREATE_STEP_FEATURE_SPOTLIGHT, url: '^.spotlights'}
+        ];
+      });
+
+      // Translate
+      $rootScope.$on('$translateChangeSuccess', function () {
+        $translate(['PACKAGE_CREATE_STEP_FEATURE_EMOJI', 'PACKAGE_CREATE_STEP_FEATURE_EMOJICOLOR', 'PACKAGE_CREATE_STEP_FEATURE_SUPERWORD', 'PACKAGE_CREATE_STEP_FEATURE_SPOTLIGHT']).then(function (translations) {
+          $scope.packages.feature.pages = [
+            {name: translations.PACKAGE_CREATE_STEP_FEATURE_EMOJI, url: '^.emojis'},
+            {name: translations.PACKAGE_CREATE_STEP_FEATURE_EMOJICOLOR, url: '^.emojicolors'},
+            {name: translations.PACKAGE_CREATE_STEP_FEATURE_SUPERWORD, url: '^.superwords'},
+            {name: translations.PACKAGE_CREATE_STEP_FEATURE_SPOTLIGHT, url: '^.spotlights'}
+          ];
+        });
+      });
 
       // Goto event
       $scope.packages.feature.GotoNextPage = function() {

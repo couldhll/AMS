@@ -7,7 +7,7 @@ angular.module('emojis').controller('ManageEmoticonsController', ['$scope', '$st
 
         $scope.emoticonGroups = EmoticonGroups.query();
 
-        // Config group grid
+        // Init Group
         $scope.groupGridOptions = {
           // Sort
           enableSorting: true,
@@ -62,41 +62,49 @@ angular.module('emojis').controller('ManageEmoticonsController', ['$scope', '$st
               editDropdownValueLabel: 'seperate' },
             { name: 'Created User', field: 'user.displayName', enableCellEdit:false },
             { name: 'Created Time', field: 'created', enableCellEdit:false }],
-          data: 'emoticonGroups' };
-        $scope.groupGridOptions.onRegisterApi = function (gridApi) {
-          $scope.groupGridApi = gridApi;
-          gridApi.edit.on.beginCellEdit($scope,function(rowEntity, colDef, triggerEvent) {
-            var emoticonGroup = rowEntity;
+          data: 'data' };
+        $scope.addGroup = function() {
+          var emoticonGroups=$scope.emoticonGroups;
+          var n = emoticonGroups.length + 1;
+
+          // add
+          var emoticonGroup = new EmoticonGroups({
+            name: "Group " + n,
+            type: "face",
+            file: "系统" + n,
+            icon: "icon.png",
+            seperate: "\n",
+            index: n
           });
-
-          gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-            var emoticonGroup = rowEntity;
-
-            emoticonGroup.$update();
-            $scope.$apply();
-          });
-          gridApi.draggableRows.on.rowDropped($scope, function (info, dropTarget) {
-            var emoticonGroups=$scope.emoticonGroups;
-            for(var i=0;i<emoticonGroups.length;i++)
-            {
-              var emoticonGroup=emoticonGroups[i];
-              emoticonGroup.index=i;
-              emoticonGroup.$update();
-            }
-          });
-          gridApi.selection.on.rowSelectionChanged($scope,function(row){
-            $scope.selectEmoticonGroup = row.entity;
-
-            $scope.emoticons = Emoticons.getFromGroup({
-              emoticonGroupId: row.entity._id
-            });
-
-            //// reset group dropdown data, to fix the bug
-            $scope.emoticonGridOptions.columnDefs[2].editDropdownOptionsArray = $scope.emoticonGroups;
+          emoticonGroup.$save(function (response) {
+            // show
+            var emoticonGroup=response;
+            emoticonGroups.push(emoticonGroup);
+          }, function (errorResponse) {
+            $scope.error = errorResponse.data.message;
           });
         };
+        $scope.removeGroup = function(removeEntity) {
+          var group = removeEntity;
+        };
+        $scope.beginEditGroup = function(rowEntity, colDef, triggerEvent) {
+          var emoticonGroup = rowEntity;
+        };
+        $scope.afterEditGroup = function(rowEntity, colDef, newValue, oldValue) {
+          var emoticonGroup = rowEntity;
+        };
+        $scope.rowSelectionChangedGroup = function(row) {
+          $scope.selectEmoticonGroup = row.entity;
 
-        // Config emoticon grid
+          $scope.emoticons = Emoticons.getFromGroup({
+            emoticonGroupId: row.entity._id
+          });
+
+          // reset group dropdown data, to fix the bug
+          $scope.emoticonGridOptions.columnDefs[2].editDropdownOptionsArray = $scope.emoticonGroups;
+        };
+
+        // Init emoticon
         $scope.emoticonGridOptions = {
           // Sort
           enableSorting: true,
@@ -140,8 +148,50 @@ angular.module('emojis').controller('ManageEmoticonsController', ['$scope', '$st
             { name: 'Created User', field: 'user.displayName', enableCellEdit:false },
             { name: 'Created Time', field: 'created', enableCellEdit:false }
           ],
-          data: 'emoticons' };
-        $scope.emoticonGridOptions.importerDataAddCallback = function(grid, newObjects) {
+          data: 'data' };
+        $scope.addEmoticon = function() {
+          var emoticons=$scope.emoticons;
+          var selectEmoticonGroup=$scope.selectEmoticonGroup;
+          var n = emoticons.length + 1;
+
+          // add
+          var emoticon = new Emoticons({
+            title: "Emoticon " + n,
+            index: n,
+            group: selectEmoticonGroup
+          });
+          emoticon.$save(function (response) {
+            // show
+            var emoticon = response;
+            emoticons.push(emoticon);
+          }, function (errorResponse) {
+            $scope.error = errorResponse.data.message;
+          });
+        };
+        $scope.removeEmoticon = function(removeEntity) {
+          var emoticon = removeEntity;
+        };
+        $scope.afterEditEmoticon = function(rowEntity, colDef, newValue, oldValue) {
+          var emoticon = rowEntity;
+          if (colDef.name=='Group')
+          {
+            var groupId = newValue;
+            var emoticonGroups=$scope.emoticonGroups;
+
+            // find group with id
+            var group = null;
+            for(var i=0;i<emoticonGroups.length;i++) {
+              var emoticonGroup = emoticonGroups[i];
+              if (emoticonGroup._id == groupId) {
+                group = emoticonGroup;
+                break;
+              }
+            }
+
+            emoticon.group=group;
+          }
+        };
+        $scope.importEmoticon = function(grid, newObjects) {
           var emoticons=$scope.emoticons;
           var selectEmoticonGroup=$scope.selectEmoticonGroup;
           var newEmoticons=newObjects;
@@ -167,122 +217,6 @@ angular.module('emojis').controller('ManageEmoticonsController', ['$scope', '$st
             });
             emoticon.$save(importSuccessCallback, importErrorCallback);
           }
-        };
-        $scope.emoticonGridOptions.onRegisterApi = function (gridApi) {
-          $scope.emoticonGridApi = gridApi;
-          gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-            var emoticon = rowEntity;
-            if (colDef.name=='Group')
-            {
-              var groupId = newValue;
-              var emoticonGroups=$scope.emoticonGroups;
-
-              // find group with id
-              var group = null;
-              for(var i=0;i<emoticonGroups.length;i++) {
-                var emoticonGroup = emoticonGroups[i];
-                if (emoticonGroup._id == groupId) {
-                  group = emoticonGroup;
-                  break;
-                }
-              }
-
-              emoticon.group=group;
-            }
-            emoticon.$update();
-
-            $scope.$apply();
-          });
-          gridApi.draggableRows.on.rowDropped($scope, function (info, dropTarget) {
-            var emoticons=$scope.emoticons;
-            for(var i=0;i<emoticons.length;i++)
-            {
-              var emoticon=$scope.emoticons[i];
-              emoticon.index=i;
-              emoticon.$update();
-            }
-          });
-          gridApi.selection.on.rowSelectionChanged($scope,function(row){
-            $scope.selectEmoticon = row.entity;
-          });
-        };
-
-        $scope.addGroup = function() {
-          var emoticonGroups=$scope.emoticonGroups;
-          var n = emoticonGroups.length + 1;
-
-          // add
-          var emoticonGroup = new EmoticonGroups({
-            name: "Group " + n,
-            type: "face",
-            file: "系统" + n,
-            icon: "icon.png",
-            seperate: "\n",
-            index: n
-          });
-          emoticonGroup.$save(function (response) {
-            // show
-            var emoticonGroup=response;
-            emoticonGroups.push(emoticonGroup);
-          }, function (errorResponse) {
-            $scope.error = errorResponse.data.message;
-          });
-        };
-
-        $scope.removeGroup = function() {
-          var emoticonGroups=$scope.emoticonGroups;
-
-          // remove
-          var selectEmoticonGroup=$scope.selectEmoticonGroup;
-          selectEmoticonGroup.$remove();
-
-          // show
-          for(var i=0;i<emoticonGroups.length;i++) {
-            var emoticonGroup = emoticonGroups[i];
-            if (emoticonGroup == selectEmoticonGroup) {
-              emoticonGroups.splice(i, 1);
-            }
-          }
-
-          selectEmoticonGroup=null;
-        };
-
-        $scope.addEmoticon = function() {
-          var emoticons=$scope.emoticons;
-          var selectEmoticonGroup=$scope.selectEmoticonGroup;
-          var n = emoticons.length + 1;
-
-          // add
-          var emoticon = new Emoticons({
-            title: "Emoticon " + n,
-            index: n,
-            group: selectEmoticonGroup
-          });
-          emoticon.$save(function (response) {
-            // show
-            var emoticon = response;
-            emoticons.push(emoticon);
-          }, function (errorResponse) {
-            $scope.error = errorResponse.data.message;
-          });
-        };
-
-        $scope.removeEmoticon = function() {
-          var emoticons=$scope.emoticons;
-
-          // remove
-          var selectEmoticon=$scope.selectEmoticon;
-          selectEmoticon.$remove();
-
-          // show
-          for(var i=0;i<emoticons.length;i++) {
-            var emoticon = emoticons[i];
-            if (emoticon == selectEmoticon) {
-              emoticons.splice(i, 1);
-            }
-          }
-
-          selectEmoticon=null;
         };
       }
     ])

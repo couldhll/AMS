@@ -180,10 +180,9 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
             emojiGroupId: row.entity._id
           });
 
-          //// reset group dropdown data, to fix the bug
+          // reset group dropdown data, to fix the bug
           $scope.emojiGridOptions.columnDefs[2].editDropdownOptionsArray = $scope.emojiGroups;
         };
-
 
         // Init emoji
         $scope.emojiGridOptions = {

@@ -10,7 +10,7 @@
     <hr/>
 
     <div class="form-group">
-      <label for="export">All</label>
+      <label for="export">{{ 'SYSTEM_ALL' | translate }}</label>
       <div class="btn-group">
         <button ng-repeat="zipFile in packages.zipFiles" type="button" id="download" class="btn btn-success" ng-click="download(zipFile)">{{zipFile.name}}</button>
       </div>
