@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<% for ( var i = 0; i < customkeys.length; i++ ) { %>
+	<dict>
+		<key>Name</key>
+		<string><%=customkeys[i].name%></string>
+		<key>Images</key>
+		<dict>
+			<key>Settings</key>
+			<dict>
+				<key>Normal</key>
+				<string><%=customkeys[i].settingImage2xURL%></string>
+			</dict>
+			<key>Keyboard</key>
+			<dict>
+				<key>Normal</key>
+				<string><%=customkeys[i].keyboardImage2xURL%></string>
+			</dict>
+		</dict>
+	</dict>
+	<% } %>
+</array>
+</plist>

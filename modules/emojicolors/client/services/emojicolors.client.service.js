@@ -8,14 +8,6 @@ angular.module('emojicolors').factory('Emojicolors', ['$resource',
     }, {
       update: {
         method: 'PUT'
-      },
-      'getFromGroup': {
-        method:'GET',
-        params: {
-          emojicolorGroupId: '@_id'
-        },
-        url: '/api/emojicolorGroups/:emojicolorGroupId/emojicolors',
-        isArray: true
       }
     });
   }

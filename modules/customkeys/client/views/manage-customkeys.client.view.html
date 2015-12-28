@@ -1,0 +1,6 @@
+<section ng-controller="ManageCustomkeysController">
+  <div class="page-header">
+    <h1>{{ 'CUSTOMKEY_MANAGE_TITLE' | translate }}</h1>
+  </div>
+  <ui-grid-one title="{{ 'CUSTOMKEY_MANAGE_ONE_TITLE' | translate }}" data="customkeys" grid-options="customkeyGridOptions" add-click="addCustomkey()" remove-click="removeCustomkey(removeEntity)" begin-cell-edit="beginEditCustomkey(rowEntity, colDef, triggerEvent)" after-cell-edit="afterEditCustomkey(rowEntity, colDef, newValue, oldValue)" import-click="importCustomkey(grid, newObjects)" uploader="uploader" upload-click="uploadPicture()"></ui-grid-one>
+</section>

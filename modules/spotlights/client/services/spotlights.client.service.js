@@ -8,14 +8,6 @@ angular.module('spotlights').factory('Spotlights', ['$resource',
     }, {
       update: {
         method: 'PUT'
-      },
-      'getFromGroup': {
-        method:'GET',
-        params: {
-          spotlightGroupId: '@_id'
-        },
-        url: '/api/spotlightGroups/:spotlightGroupId/spotlights',
-        isArray: true
       }
     });
   }

@@ -1,0 +1,8 @@
+[
+  {
+    "start": "6.1",
+    "end": "",
+    "plistInput": "6.1/com.baidu.inputmethod.keyboard.custom.plist",
+    "plistOutput": "com.baidu.inputmethod.keyboard.custom.plist"
+  }
+]

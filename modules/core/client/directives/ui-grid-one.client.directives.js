@@ -15,7 +15,8 @@ angular.module('core')
           beginCellEdit: '&',
           afterCellEdit: '&',
           rowSelectionChanged: '&',
-          importClick: '&'
+          importClick: '&',
+          uploadClick: '&'
         },
         templateUrl: 'modules/core/client/views/ui-grid-one.client.view.html',
         link: function (scope, element) {
