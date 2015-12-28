@@ -17,7 +17,6 @@ angular.module('customkeys').controller('ManageCustomkeysController', ['$scope',
       var customkey = response;
       $scope.uploaderCustomkey.settingImage2xURL = customkey.settingImage2xURL;
       $scope.uploaderCustomkey.keyboardImage2xURL = customkey.keyboardImage2xURL;
-      $scope.$emit('EventUpload');
     };
 
     // Init customkey
@@ -56,10 +55,10 @@ angular.module('customkeys').controller('ManageCustomkeysController', ['$scope',
         { field: 'name' },
         { field: 'settingImage2xURL',
           cellTemplate: '<div class="ui-grid-cell-contents"><img width="40" height="40" src="{{ COL_FIELD }}" /></div>',
-          editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadClick();">Upload</button></div>' },
+          editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadClick();$emit(\'EventUpload\');">Upload</button></div>' },
         { field: 'keyboardImage2xURL',
           cellTemplate: '<div class="ui-grid-cell-contents"><img width="40" height="40" src="{{ COL_FIELD }}" /></div>',
-          editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadClick();">Upload</button></div>' },
+          editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadClick();$emit(\'EventUpload\');">Upload</button></div>' },
         { name: 'Created User', field: 'user.displayName', enableCellEdit:false },
         { name: 'Created Time', field: 'created', enableCellEdit:false }
       ],

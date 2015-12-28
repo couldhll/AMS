@@ -17,7 +17,6 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
           var emojiGroup = response;
           $scope.uploaderEmojiGroup.icon2xURL = emojiGroup.icon2xURL;
           $scope.uploaderEmojiGroup.icon3xURL = emojiGroup.icon3xURL;
-          $scope.$emit('EventUpload');
         };
 
         // Init Group
