@@ -2,70 +2,22 @@
 
 // Manage Emoji controller
 angular.module('emojis').controller('ManageEmojisController', ['$scope', '$stateParams', '$location', 'Authentication', 'Emojis', 'EmojiGroups', 'FileUploader', '$window', '$timeout',
-      function ($scope, $stateParams, $location, Authentication, Emojis, EmojiGroups, FileUploader, $window, $timeout) {
+      function ($scope, $stateParams, $location, Authentication, Emojis, EmojiGroups, ImageUploader, $window, $timeout) {
         $scope.authentication = Authentication;
 
         $scope.emojiGroups = EmojiGroups.query();
 
-        // Create file uploader instance
-        $scope.uploader = new FileUploader();
-        // Set file uploader image filter
-        $scope.uploader.filters.push({
-          name: 'imageFilter',
-          fn: function (item, options) {
-            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-            var result ='|png|'.indexOf(type) !== -1;
-            if (!result) {
-              alert('Please choose png image');
-            }
-            return result; // Only png
-          }
-        });
-        // Called after the user selected a new picture file
-        $scope.uploader.onAfterAddingFile = function (fileItem) {
-          if ($window.FileReader) {
-            var fileReader = new FileReader();
-            fileReader.readAsDataURL(fileItem._file);
-
-            fileReader.onload = function (fileReaderEvent) {
-              $timeout(function () {
-                //$scope.imageURL = fileReaderEvent.target.result;
-              }, 0);
-            };
-          }
+        // Uploader
+        $scope.uploader = ImageUploader.uploader;
+        $scope.uploadPicture = function () {
+          ImageUploader.uploadPicture();
         };
-        // Called after the user has successfully uploaded a new picture
         $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
-          //// Show success message
-          //$scope.success = true
-
           // Update image url
           var emojiGroup = response;
           $scope.uploaderEmojiGroup.icon2xURL = emojiGroup.icon2xURL;
           $scope.uploaderEmojiGroup.icon3xURL = emojiGroup.icon3xURL;
-
-          // Clear upload buttons
-          $scope.cancelUpload();
-        };
-        // Called after the user has failed to uploaded a new picture
-        $scope.uploader.onErrorItem = function (fileItem, response, status, headers) {
-          // Clear upload buttons
-          $scope.cancelUpload();
-
-          //// Show error message
-          //$scope.error = response.message;
-        };
-        // Change picture
-        $scope.uploadPicture = function () {
-          //// Clear messages
-          //$scope.success = $scope.error = null;
-
-          // Start upload
-          $scope.uploader.uploadAll();
-        };
-        // Cancel the upload process
-        $scope.cancelUpload = function () {
-          $scope.uploader.clearQueue();
+          $scope.$emit('EventUpload');
         };
 
         // Init Group
@@ -113,10 +65,10 @@ angular.module('emojis').controller('ManageEmojisController', ['$scope', '$state
             { field: 'file' },
             { field: 'icon2xURL',
               cellTemplate: '<div class="ui-grid-cell-contents"><img width="40" height="40" src="{{ COL_FIELD }}" /></div>',
-              editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadPicture();$emit(\'EventUpload\');">Upload</button></div>' },
+              editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadClick();">Upload</button></div>' },
             { field: 'icon3xURL',
               cellTemplate: '<div class="ui-grid-cell-contents"><img width="60" height="60" src="{{ COL_FIELD }}" set-row-height /></div>',
-              editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadPicture();$emit(\'EventUpload\');">Upload</button></div>' },
+              editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadClick();">Upload</button></div>' },
             { field: 'seperate',
               editableCellTemplate: 'ui-grid/dropdownEditor',
               cellFilter: 'mapSeperate',

@@ -2,7 +2,7 @@
   <div class="page-header">
     <h1>{{ 'EMOJI_MANAGE_TITLE' | translate }}</h1>
   </div>
-  <ui-grid-one title="{{ 'EMOJI_MANAGE_GROUP_TITLE' | translate }}" data="emojiGroups" grid-options="groupGridOptions" add-click="addGroup()" remove-click="removeGroup(removeEntity)" begin-cell-edit="beginEditGroup(rowEntity, colDef, triggerEvent)" after-cell-edit="afterEditGroup(rowEntity, colDef, newValue, oldValue)" row-selection-changed="rowSelectionChangedGroup(row)" uploader="uploader"></ui-grid-one>
+  <ui-grid-one title="{{ 'EMOJI_MANAGE_GROUP_TITLE' | translate }}" data="emojiGroups" grid-options="groupGridOptions" add-click="addGroup()" remove-click="removeGroup(removeEntity)" begin-cell-edit="beginEditGroup(rowEntity, colDef, triggerEvent)" after-cell-edit="afterEditGroup(rowEntity, colDef, newValue, oldValue)" row-selection-changed="rowSelectionChangedGroup(row)" uploader="uploader" upload-click="uploadPicture()"></ui-grid-one>
   <br />
   <ui-grid-one title="{{ 'EMOJI_MANAGE_ONE_TITLE' | translate }}" name="selectEmojiGroup.name" data="emojis" grid-options="emojiGridOptions" add-click="addEmoji()" remove-click="removeEmoji(removeEntity)" after-cell-edit="afterEditEmoji(rowEntity, colDef, newValue, oldValue)" import-click="importEmoji(grid, newObjects)"></ui-grid-one>
 </section>
