@@ -34,15 +34,19 @@ angular.module('packages').config(['$stateProvider',
             templateUrl: 'modules/emojis/client/views/export-emojis.client.view.html'
         })
         .state('packages.create.feature.emojicolors', {
-            url: '/superwords',
+            url: '/emojicolors',
             templateUrl: 'modules/emojicolors/client/views/export-emojicolors.client.view.html'
+        })
+        .state('packages.create.feature.customkeys', {
+            url: '/customkeys',
+            templateUrl: 'modules/customkeys/client/views/export-customkeys.client.view.html'
         })
         .state('packages.create.feature.superwords', {
             url: '/superwords',
             templateUrl: 'modules/superwords/client/views/export-superwords.client.view.html'
         })
         .state('packages.create.feature.spotlights', {
-            url: '/superwords',
+            url: '/spotlights',
             templateUrl: 'modules/spotlights/client/views/export-spotlights.client.view.html'
         })
         .state('packages.create.download', {

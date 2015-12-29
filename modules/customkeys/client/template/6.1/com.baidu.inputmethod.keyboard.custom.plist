@@ -11,12 +11,12 @@
 			<key>Settings</key>
 			<dict>
 				<key>Normal</key>
-				<string><%=customkeys[i].settingImage2xURL%></string>
+				<string><%=customkeys[i].exportSettingImageFile==null?customkeys[i].settingImageFile:customkeys[i].exportSettingImageFile%></string>
 			</dict>
 			<key>Keyboard</key>
 			<dict>
 				<key>Normal</key>
-				<string><%=customkeys[i].keyboardImage2xURL%></string>
+				<string><%=customkeys[i].exportKeyboardImageFile==null?customkeys[i].keyboardImageFile:customkeys[i].exportKeyboardImageFile%></string>
 			</dict>
 		</dict>
 	</dict>

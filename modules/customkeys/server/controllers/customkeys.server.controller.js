@@ -42,6 +42,8 @@ exports.update = function (req, res) {
   var customkey = req.customkey;
 
   customkey.name = req.body.name;
+  customkey.settingImageFile = req.body.settingImageFile;
+  customkey.keyboardImageFile = req.body.keyboardImageFile;
   customkey.index = req.body.index;
 
   customkey.save(function (err) {

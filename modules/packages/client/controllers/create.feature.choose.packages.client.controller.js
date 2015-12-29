@@ -12,6 +12,7 @@ angular.module('packages').controller('CreateFeaturePackagesController', ['$scop
         $scope.packages.feature.pages = [
           {name: translations.PACKAGE_CREATE_STEP_FEATURE_EMOJI, url: '^.emojis'},
           {name: translations.PACKAGE_CREATE_STEP_FEATURE_EMOJICOLOR, url: '^.emojicolors'},
+          {name: translations.PACKAGE_CREATE_STEP_FEATURE_CUSTOMKEY, url: '^.customkeys'},
           {name: translations.PACKAGE_CREATE_STEP_FEATURE_SUPERWORD, url: '^.superwords'},
           {name: translations.PACKAGE_CREATE_STEP_FEATURE_SPOTLIGHT, url: '^.spotlights'}
         ];
@@ -23,6 +24,7 @@ angular.module('packages').controller('CreateFeaturePackagesController', ['$scop
           $scope.packages.feature.pages = [
             {name: translations.PACKAGE_CREATE_STEP_FEATURE_EMOJI, url: '^.emojis'},
             {name: translations.PACKAGE_CREATE_STEP_FEATURE_EMOJICOLOR, url: '^.emojicolors'},
+            {name: translations.PACKAGE_CREATE_STEP_FEATURE_CUSTOMKEY, url: '^.customkeys'},
             {name: translations.PACKAGE_CREATE_STEP_FEATURE_SUPERWORD, url: '^.superwords'},
             {name: translations.PACKAGE_CREATE_STEP_FEATURE_SPOTLIGHT, url: '^.spotlights'}
           ];

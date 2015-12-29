@@ -261,7 +261,12 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
           groupFolder.file(iniFileName, ini);
 
           // 3. edit group file
-          group.exportFile = resourceDirectory + '/' + folderName;
+          if (resourceDirectory==null) {
+            group.exportFile = folderName;
+          }
+          else {
+            group.exportFile = resourceDirectory + '/' + folderName;
+          }
 
           deferred.resolve(ini);
         });

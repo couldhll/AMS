@@ -49,11 +49,14 @@ angular.module('customkeys').controller('ExportCustomkeysController', ['$scope',
       enableGridMenu: true,
       columnDefs: [
         { field: '_id', enableCellEdit:false },
+        { field: 'name' },
+        { field: 'settingImageFile' },
         { field: 'settingImage2xURL',
           cellTemplate: '<div class="ui-grid-cell-contents"><img width="40" height="40" src="{{ COL_FIELD }}" /></div>',
           editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadPicture();">Upload</button></div>' },
+        { field: 'keyboardImageFile' },
         { field: 'keyboardImage2xURL',
-          cellTemplate: '<div class="ui-grid-cell-contents"><img width="40" height="40" src="{{ COL_FIELD }}" /></div>',
+          cellTemplate: '<div class="ui-grid-cell-contents"><img width="40" height="40" src="{{ COL_FIELD }}" set-row-height /></div>',
           editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadPicture();">Upload</button></div>' },
         { name: 'Created User', field: 'user.displayName', enableCellEdit:false },
         { name: 'Created Time', field: 'created', enableCellEdit:false }
@@ -143,26 +146,94 @@ angular.module('customkeys').controller('ExportCustomkeysController', ['$scope',
         resourceFolder = zip.folder(resourceDirectory);
       }
 
+      // Create entity file
+      var createEntityFile = function (entity) {
+        var imagePromises = [];
+
+        // 1. put image into zip
+        var settingImageDeferred = $q.defer();
+        $window.JSZipUtils.getBinaryContent(entity.settingImage2xURL, function (err, data) {
+          settingImageDeferred.resolve(data);
+          if (err) {
+            throw err;
+          }
+          resourceFolder.file(entity.settingImageFile, data, {binary: true});
+        });
+        imagePromises.push(settingImageDeferred.promise);
+        var keyboardImageDeferred = $q.defer();
+        $window.JSZipUtils.getBinaryContent(entity.keyboardImage2xURL, function (err, data) {
+          keyboardImageDeferred.resolve(data);
+          if (err) {
+            throw err;
+          }
+          resourceFolder.file(entity.keyboardImageFile, data, {binary: true});
+        });
+        imagePromises.push(keyboardImageDeferred.promise);
+
+        // 2. edit entity settingImageFile
+        if (resourceDirectory == null) {
+          entity.exportSettingImageFile = entity.settingImageFile;
+        }
+        else {
+          entity.exportSettingImageFile = resourceDirectory + '/' + entity.settingImageFile;
+        }
+
+        // 3. edit entity keyboardImageFile
+        if (resourceDirectory == null) {
+          entity.exportKeyboardImageFile = entity.keyboardImageFile;
+        }
+        else {
+          entity.exportKeyboardImageFile = resourceDirectory + '/' + entity.keyboardImageFile;
+        }
+
+        var deferred = $q.defer();
+
+        $q.all(imagePromises)
+            .then(function(results) {
+              deferred.resolve(results);
+            });
+
+        return deferred.promise;
+      };
+
+      var promises = [];
+      var rows, i, row, entity, promise;
+      // Get select customkey
+      rows = $scope.customkeyGridApi.grid.rows;
+      for(i=0;i<rows.length;i++)
+      {
+        row=rows[i];
+        if (row.isSelected===true) {
+          entity = row.entity;
+          promise = createEntityFile(entity);
+          promises.push(promise);
+        }
+      }
+
       var deferred = $q.defer();
 
-      // 1. get plist template
-      $http.get(plistTemplateFilePath)
-          .success(function (response) {
-            var plistTemplate = response;
+      // Create plist
+      $q.all(promises)
+          .then(function(results) {
+            // 1. get plist template
+            $http.get(plistTemplateFilePath)
+                .success(function (response) {
+                  var plistTemplate = response;
 
-            // template -> plist
-            var data = {};
-            data.customkeys = $scope.customkeys;
+                  // template -> plist
+                  var data = {};
+                  data.customkeys = $scope.customkeys;
 
-            var plist = $window.microtemplate(plistTemplate, data);
+                  var plist = $window.microtemplate(plistTemplate, data);
 
-            // 2. put plist into zip
-            zip.file(plistFileName, plist);
+                  // 2. put plist into zip
+                  zip.file(plistFileName, plist);
 
-            deferred.resolve({name: zipFileName, file: zip, template: template});
-          })
-          .error(function (error) {
-            alert(error);
+                  deferred.resolve({name: zipFileName, file: zip, template: template});
+                })
+                .error(function (error) {
+                  alert(error);
+                });
           });
 
       return deferred.promise;
