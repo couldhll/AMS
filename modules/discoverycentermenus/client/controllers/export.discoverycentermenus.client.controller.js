@@ -1,12 +1,12 @@
 'use strict';
 
-// Export Customkey controller
-angular.module('customkeys').controller('ExportCustomkeysController', ['$scope', '$stateParams', '$location', 'Authentication', 'Customkeys', '$http', '$q', '$window', 'Download', 'Resource',
-  function ($scope, $stateParams, $location, Authentication, Customkeys, $http, $q, $window, Download, Resource) {
+// Export Discoverycentermenu controller
+angular.module('discoverycentermenus').controller('ExportDiscoverycentermenusController', ['$scope', '$stateParams', '$location', 'Authentication', 'Discoverycentermenus', '$http', '$q', '$window', 'Download', 'Resource',
+  function ($scope, $stateParams, $location, Authentication, Discoverycentermenus, $http, $q, $window, Download, Resource) {
     $scope.authentication = Authentication;
 
     // init
-    var templatePath = "modules/customkeys/client/template";
+    var templatePath = "modules/discoverycentermenus/client/template";
 
     // init export button
     $http.get(templatePath + "/" + "config.json")
@@ -18,9 +18,9 @@ angular.module('customkeys').controller('ExportCustomkeysController', ['$scope',
           alert(error);
         });
 
-    // init customkey grid
-    $scope.customkeys = Customkeys.query();
-    $scope.customkeyGridOptions = {
+    // init discoverycentermenu grid
+    $scope.discoverycentermenus = Discoverycentermenus.query();
+    $scope.discoverycentermenuGridOptions = {
       // Sort
       enableSorting: false,
       // Select
@@ -32,7 +32,7 @@ angular.module('customkeys').controller('ExportCustomkeysController', ['$scope',
       exporterPdfDefaultStyle: {fontSize: 9},
       exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
       exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
-      exporterPdfHeader: { text: "Customkey", style: 'headerStyle' },
+      exporterPdfHeader: { text: "Discoverycentermenu", style: 'headerStyle' },
       exporterPdfFooter: function ( currentPage, pageCount ) {
         return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
       },
@@ -50,20 +50,24 @@ angular.module('customkeys').controller('ExportCustomkeysController', ['$scope',
       columnDefs: [
         { field: '_id', enableCellEdit:false },
         { field: 'name' },
-        { field: 'settingImageFile' },
-        { field: 'settingImage2xURL',
-          cellTemplate: '<div class="ui-grid-cell-contents"><img width="40" height="40" src="{{ COL_FIELD }}" /></div>',
-          editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadPicture();">Upload</button></div>' },
-        { field: 'keyboardImageFile' },
-        { field: 'keyboardImage2xURL',
-          cellTemplate: '<div class="ui-grid-cell-contents"><img width="40" height="40" src="{{ COL_FIELD }}" set-row-height /></div>',
-          editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadPicture();">Upload</button></div>' },
+        { field: 'title' },
+        { field: 'detail' },
+        { field: 'iconFile' },
+        { field: 'icon1xURL',
+          cellTemplate: '<div class="ui-grid-cell-contents"><img width="35" height="35" src="{{ COL_FIELD }}" /></div>',
+          editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadClick();$emit(\'EventUpload\');">Upload</button></div>' },
+        { field: 'icon2xURL',
+          cellTemplate: '<div class="ui-grid-cell-contents"><img width="70" height="70" src="{{ COL_FIELD }}" /></div>',
+          editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadClick();$emit(\'EventUpload\');">Upload</button></div>' },
+        { field: 'icon3xURL',
+          cellTemplate: '<div class="ui-grid-cell-contents"><img width="105" height="105" src="{{ COL_FIELD }}" set-row-height /></div>',
+          editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadClick();$emit(\'EventUpload\');">Upload</button></div>' },
         { name: 'Created User', field: 'user.displayName', enableCellEdit:false },
         { name: 'Created Time', field: 'created', enableCellEdit:false }
       ],
-      data: 'customkeys' };
-    $scope.customkeyGridOptions.onRegisterApi = function (gridApi) {
-      $scope.customkeyGridApi = gridApi;
+      data: 'discoverycentermenus' };
+    $scope.discoverycentermenuGridOptions.onRegisterApi = function (gridApi) {
+      $scope.discoverycentermenuGridApi = gridApi;
     };
 
     $scope.next = function() {
@@ -151,39 +155,43 @@ angular.module('customkeys').controller('ExportCustomkeysController', ['$scope',
         var imagePromises = [];
 
         // 1. put image into zip
-        var settingImageDeferred = $q.defer();
-        $window.JSZipUtils.getBinaryContent(entity.settingImage2xURL, function (err, data) {
-          settingImageDeferred.resolve(data);
+        var icon1xDeferred = $q.defer();
+        $window.JSZipUtils.getBinaryContent(entity.icon1xURL, function (err, data) {
+          icon1xDeferred.resolve(data);
           if (err) {
             throw err;
           }
-          resourceFolder.file(entity.settingImageFile, data, {binary: true});
+          var fileName = Resource.get1xFileName(entity.iconFile);
+          resourceFolder.file(fileName, data, {binary: true});
         });
-        imagePromises.push(settingImageDeferred.promise);
-        var keyboardImageDeferred = $q.defer();
-        $window.JSZipUtils.getBinaryContent(entity.keyboardImage2xURL, function (err, data) {
-          keyboardImageDeferred.resolve(data);
+        imagePromises.push(icon1xDeferred.promise);
+        var icon2xDeferred = $q.defer();
+        $window.JSZipUtils.getBinaryContent(entity.icon2xURL, function (err, data) {
+          icon2xDeferred.resolve(data);
           if (err) {
             throw err;
           }
-          resourceFolder.file(entity.keyboardImageFile, data, {binary: true});
+          var fileName = Resource.get2xFileName(entity.iconFile);
+          resourceFolder.file(fileName, data, {binary: true});
         });
-        imagePromises.push(keyboardImageDeferred.promise);
+        imagePromises.push(icon2xDeferred.promise);
+        var icon3xDeferred = $q.defer();
+        $window.JSZipUtils.getBinaryContent(entity.icon3xURL, function (err, data) {
+          icon3xDeferred.resolve(data);
+          if (err) {
+            throw err;
+          }
+          var fileName = Resource.get3xFileName(entity.iconFile);
+          resourceFolder.file(fileName, data, {binary: true});
+        });
+        imagePromises.push(icon3xDeferred.promise);
 
         // 2. edit entity settingImageFile
         if (resourceDirectory == null) {
-          entity.exportSettingImageFile = entity.settingImageFile;
+          entity.exportIconFile = entity.iconFile;
         }
         else {
-          entity.exportSettingImageFile = resourceDirectory + '/' + entity.settingImageFile;
-        }
-
-        // 3. edit entity keyboardImageFile
-        if (resourceDirectory == null) {
-          entity.exportKeyboardImageFile = entity.keyboardImageFile;
-        }
-        else {
-          entity.exportKeyboardImageFile = resourceDirectory + '/' + entity.keyboardImageFile;
+          entity.exportIconFile = resourceDirectory + '/' + entity.iconFile;
         }
 
         var deferred = $q.defer();
@@ -198,8 +206,8 @@ angular.module('customkeys').controller('ExportCustomkeysController', ['$scope',
 
       var promises = [];
       var rows, i, row, entity, promise;
-      // Get select customkey
-      rows = $scope.customkeyGridApi.grid.rows;
+      // Get select discoverycentermenu
+      rows = $scope.discoverycentermenuGridApi.grid.rows;
       for(i=0;i<rows.length;i++)
       {
         row=rows[i];
@@ -222,7 +230,7 @@ angular.module('customkeys').controller('ExportCustomkeysController', ['$scope',
 
                   // template -> plist
                   var data = {};
-                  data.customkeys = $scope.customkeys;
+                  data.discoverycentermenus = $scope.discoverycentermenus;
 
                   var plist = $window.microtemplate(plistTemplate, data);
 

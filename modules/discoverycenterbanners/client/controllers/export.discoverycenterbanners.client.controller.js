@@ -1,12 +1,12 @@
 'use strict';
 
-// Export Customkey controller
-angular.module('customkeys').controller('ExportCustomkeysController', ['$scope', '$stateParams', '$location', 'Authentication', 'Customkeys', '$http', '$q', '$window', 'Download', 'Resource',
-  function ($scope, $stateParams, $location, Authentication, Customkeys, $http, $q, $window, Download, Resource) {
+// Export Discoverycenterbanner controller
+angular.module('discoverycenterbanners').controller('ExportDiscoverycenterbannersController', ['$scope', '$stateParams', '$location', 'Authentication', 'Discoverycenterbanners', '$http', '$q', '$window', 'Download', 'Resource',
+  function ($scope, $stateParams, $location, Authentication, Discoverycenterbanners, $http, $q, $window, Download, Resource) {
     $scope.authentication = Authentication;
 
     // init
-    var templatePath = "modules/customkeys/client/template";
+    var templatePath = "modules/discoverycenterbanners/client/template";
 
     // init export button
     $http.get(templatePath + "/" + "config.json")
@@ -18,9 +18,9 @@ angular.module('customkeys').controller('ExportCustomkeysController', ['$scope',
           alert(error);
         });
 
-    // init customkey grid
-    $scope.customkeys = Customkeys.query();
-    $scope.customkeyGridOptions = {
+    // init discoverycenterbanner grid
+    $scope.discoverycenterbanners = Discoverycenterbanners.query();
+    $scope.discoverycenterbannerGridOptions = {
       // Sort
       enableSorting: false,
       // Select
@@ -32,7 +32,7 @@ angular.module('customkeys').controller('ExportCustomkeysController', ['$scope',
       exporterPdfDefaultStyle: {fontSize: 9},
       exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
       exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
-      exporterPdfHeader: { text: "Customkey", style: 'headerStyle' },
+      exporterPdfHeader: { text: "Discoverycenterbanner", style: 'headerStyle' },
       exporterPdfFooter: function ( currentPage, pageCount ) {
         return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
       },
@@ -49,21 +49,17 @@ angular.module('customkeys').controller('ExportCustomkeysController', ['$scope',
       enableGridMenu: true,
       columnDefs: [
         { field: '_id', enableCellEdit:false },
-        { field: 'name' },
-        { field: 'settingImageFile' },
-        { field: 'settingImage2xURL',
-          cellTemplate: '<div class="ui-grid-cell-contents"><img width="40" height="40" src="{{ COL_FIELD }}" /></div>',
-          editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadPicture();">Upload</button></div>' },
-        { field: 'keyboardImageFile' },
-        { field: 'keyboardImage2xURL',
-          cellTemplate: '<div class="ui-grid-cell-contents"><img width="40" height="40" src="{{ COL_FIELD }}" set-row-height /></div>',
-          editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadPicture();">Upload</button></div>' },
+        { field: 'openUrl' },
+        { field: 'bannerImageFile' },
+        { field: 'bannerImage1xURL',
+          cellTemplate: '<div class="ui-grid-cell-contents"><img width="96" height="39" src="{{ COL_FIELD }}" set-row-height /></div>',
+          editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadClick();$emit(\'EventUpload\');">Upload</button></div>' },
         { name: 'Created User', field: 'user.displayName', enableCellEdit:false },
         { name: 'Created Time', field: 'created', enableCellEdit:false }
       ],
-      data: 'customkeys' };
-    $scope.customkeyGridOptions.onRegisterApi = function (gridApi) {
-      $scope.customkeyGridApi = gridApi;
+      data: 'discoverycenterbanners' };
+    $scope.discoverycenterbannerGridOptions.onRegisterApi = function (gridApi) {
+      $scope.discoverycenterbannerGridApi = gridApi;
     };
 
     $scope.next = function() {
@@ -151,39 +147,22 @@ angular.module('customkeys').controller('ExportCustomkeysController', ['$scope',
         var imagePromises = [];
 
         // 1. put image into zip
-        var settingImageDeferred = $q.defer();
-        $window.JSZipUtils.getBinaryContent(entity.settingImage2xURL, function (err, data) {
-          settingImageDeferred.resolve(data);
+        var bannerImageDeferred = $q.defer();
+        $window.JSZipUtils.getBinaryContent(entity.bannerImage1xURL, function (err, data) {
+          bannerImageDeferred.resolve(data);
           if (err) {
             throw err;
           }
-          resourceFolder.file(entity.settingImageFile, data, {binary: true});
+          resourceFolder.file(entity.bannerImageFile, data, {binary: true});
         });
-        imagePromises.push(settingImageDeferred.promise);
-        var keyboardImageDeferred = $q.defer();
-        $window.JSZipUtils.getBinaryContent(entity.keyboardImage2xURL, function (err, data) {
-          keyboardImageDeferred.resolve(data);
-          if (err) {
-            throw err;
-          }
-          resourceFolder.file(entity.keyboardImageFile, data, {binary: true});
-        });
-        imagePromises.push(keyboardImageDeferred.promise);
+        imagePromises.push(bannerImageDeferred.promise);
 
-        // 2. edit entity settingImageFile
+        // 2. edit entity bannerImageFile
         if (resourceDirectory == null) {
-          entity.exportSettingImageFile = entity.settingImageFile;
+          entity.exportBannerImageFile = entity.bannerImageFile;
         }
         else {
-          entity.exportSettingImageFile = resourceDirectory + '/' + entity.settingImageFile;
-        }
-
-        // 3. edit entity keyboardImageFile
-        if (resourceDirectory == null) {
-          entity.exportKeyboardImageFile = entity.keyboardImageFile;
-        }
-        else {
-          entity.exportKeyboardImageFile = resourceDirectory + '/' + entity.keyboardImageFile;
+          entity.exportBannerImageFile = resourceDirectory + '/' + entity.bannerImageFile;
         }
 
         var deferred = $q.defer();
@@ -198,8 +177,8 @@ angular.module('customkeys').controller('ExportCustomkeysController', ['$scope',
 
       var promises = [];
       var rows, i, row, entity, promise;
-      // Get select customkey
-      rows = $scope.customkeyGridApi.grid.rows;
+      // Get select discoverycenterbanner
+      rows = $scope.discoverycenterbannerGridApi.grid.rows;
       for(i=0;i<rows.length;i++)
       {
         row=rows[i];
@@ -222,7 +201,7 @@ angular.module('customkeys').controller('ExportCustomkeysController', ['$scope',
 
                   // template -> plist
                   var data = {};
-                  data.customkeys = $scope.customkeys;
+                  data.discoverycenterbanners = $scope.discoverycenterbanners;
 
                   var plist = $window.microtemplate(plistTemplate, data);
 

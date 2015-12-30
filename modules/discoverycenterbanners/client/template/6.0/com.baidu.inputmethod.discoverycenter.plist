@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<% for ( var i = 0; i < discoverycenterbanners.length; i++ ) { %>
+	<dict>
+		<key>Actions</key>
+		<dict>
+			<key>OnClick</key>
+			<dict>
+				<key>OpenUrl</key>
+				<string><%=discoverycenterbanners[i].openUrl%></string>
+			</dict>
+		</dict>
+		<key>Images</key>
+		<dict>
+			<key>Normal</key>
+			<dict>
+				<key>Normal</key>
+				<string><%=discoverycenterbanners[i].exportBannerImageFile==null?discoverycenterbanners[i].bannerImageFile:discoverycenterbanners[i].exportBannerImageFile%></string>
+			</dict>
+		</dict>
+		<key>Name</key>
+		<string>CategoryDictionary</string>
+	</dict>
+	<% } %>
+</array>
+</plist>

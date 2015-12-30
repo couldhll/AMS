@@ -1,0 +1,8 @@
+[
+  {
+    "start": "6.0",
+    "end": "",
+    "plistInput": "6.0/com.baidu.inputmethod.discoverycenter.menu.plist",
+    "plistOutput": "com.baidu.inputmethod.discoverycenter.menu.plist"
+  }
+]

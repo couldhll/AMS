@@ -1,8 +1,8 @@
 'use strict';
 
 // Export Emoji controller
-angular.module('emojis').controller('ExportEmojisController', ['$scope', '$stateParams', '$location', 'Authentication', 'Emojis', 'EmojiGroups', 'Emoticons', 'EmoticonGroups', '$http', '$q', '$window', 'Download',
-  function ($scope, $stateParams, $location, Authentication, Emojis, EmojiGroups, Emoticons, EmoticonGroups, $http, $q, $window, Download) {
+angular.module('emojis').controller('ExportEmojisController', ['$scope', '$stateParams', '$location', 'Authentication', 'Emojis', 'EmojiGroups', 'Emoticons', 'EmoticonGroups', '$http', '$q', '$window', 'Download', 'Resource',
+  function ($scope, $stateParams, $location, Authentication, Emojis, EmojiGroups, Emoticons, EmoticonGroups, $http, $q, $window, Download, Resource) {
     $scope.authentication = Authentication;
 
     // init
@@ -52,6 +52,12 @@ angular.module('emojis').controller('ExportEmojisController', ['$scope', '$state
         { field: 'name' },
         { field: 'type' },
         { field: 'file' },
+        { field: 'icon2xURL',
+          cellTemplate: '<div class="ui-grid-cell-contents"><img width="40" height="40" src="{{ COL_FIELD }}" /></div>',
+          editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadClick();$emit(\'EventUpload\');">Upload</button></div>' },
+        { field: 'icon3xURL',
+          cellTemplate: '<div class="ui-grid-cell-contents"><img width="60" height="60" src="{{ COL_FIELD }}" set-row-height /></div>',
+          editableCellTemplate: '<div contentEditable ui-grid-edit-upload><span class="btn btn-default btn-file">Browse <input type="file" nv-file-select uploader="grid.appScope.uploader"></span><button type="button" class="btn btn-success" ng-click="grid.appScope.uploadClick();$emit(\'EventUpload\');">Upload</button></div>' },
         { name: 'Created User', field: 'user.displayName', enableCellEdit:false },
         { name: 'Created Time', field: 'created', enableCellEdit:false }
       ],

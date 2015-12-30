@@ -18,7 +18,7 @@ module.exports = function (app) {
     .put(customkeys.update)
     .delete(customkeys.delete);
 
-  // Edit icon routes
+  // Edit image routes
   app.route('/api/customkeys/:customkeyId/settingImage2x').all(customkeysPolicy.isAllowed)
       .post(customkeys.changeSettingImage2x);
   app.route('/api/customkeys/:customkeyId/keyboardImage2x').all(customkeysPolicy.isAllowed)

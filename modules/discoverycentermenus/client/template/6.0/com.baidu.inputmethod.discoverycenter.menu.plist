@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<% for ( var i = 0; i < discoverycentermenus.length; i++ ) { %>
+	<dict>
+		<key>Name</key>
+		<string><%=discoverycentermenus[i].name%></string>
+		<key>Titles</key>
+		<dict>
+			<key>Normal</key>
+			<dict>
+				<key>Normal</key>
+				<string><%=discoverycentermenus[i].title%></string>
+			</dict>
+			<% if ( discoverycentermenus[i].detail!=null ) { %>
+			<key>Detail</key>
+            <dict>
+            	<key>Normal</key>
+            	<string><%=discoverycentermenus[i].detail%></string>
+            </dict>
+            <% } %>
+		</dict>
+		<key>Images</key>
+		<dict>
+			<key>Normal</key>
+			<dict>
+				<key>Normal</key>
+				<string><%=discoverycentermenus[i].exportIconFile==null?discoverycentermenus[i].iconFile:discoverycentermenus[i].exportIconFile%></string>
+			</dict>
+		</dict>
+	</dict>
+	<% } %>
+</array>
+</plist>

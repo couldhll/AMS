@@ -22,19 +22,19 @@ var CustomkeySchema = new Schema({
   },
   settingImageFile: {
     type: String,
-    default: 'settingImage2xURL'
+    default: 'settingImage.png'
   },
   settingImage2xURL: {
     type: String,
-    default: 'modules/customkeys/client/img/image/settingImage2xURL@2x.png'
+    default: 'modules/customkeys/client/img/image/settingImage@2x.png'
   },
   keyboardImageFile: {
     type: String,
-    default: 'keyboardImage2xURL'
+    default: 'keyboardImage.png'
   },
   keyboardImage2xURL: {
     type: String,
-    default: 'modules/customkeys/client/img/image/keyboardImage2xURL@2x.png'
+    default: 'modules/customkeys/client/img/image/keyboardImage@2x.png'
   },
   user: {
     type: Schema.ObjectId,
