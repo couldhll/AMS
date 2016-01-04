@@ -10,7 +10,7 @@ angular.module('packages').controller('CreateDownloadPackagesController', ['$sco
       var page, zipFile, zip;
       var zipFileName, zipFileZip, zipFileTemplate, zipFileContent;
       var i, j, k;
-1
+
       // 1. Get all version in each package & each feature
       var inputmethodVersions = [];
       for (i=0;i<pages.length;i++) {
@@ -23,11 +23,13 @@ angular.module('packages').controller('CreateDownloadPackagesController', ['$sco
           inputmethodVersions.push(zipFile.template.end);
         }
       }
+
       // 2. Unique
       var uniqueInputmethodVersions = [];
       window.$.each(inputmethodVersions, function(i, el){
         if(window.$.inArray(el, uniqueInputmethodVersions) === -1) uniqueInputmethodVersions.push(el);
       });
+
       // 3. Sort
       uniqueInputmethodVersions.sort();
       var emptyVersions = uniqueInputmethodVersions.splice(0,1);
