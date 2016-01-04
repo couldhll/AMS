@@ -119,7 +119,7 @@ exports.changeIcon1x = function (req, res) {
     });
   } else {
     res.status(400).send({
-      message: 'DiscoveryCenter Menu is invalid'
+      message: 'Discoverycentermenu is invalid'
     });
   }
 };
@@ -153,7 +153,7 @@ exports.changeIcon2x = function (req, res) {
     });
   } else {
     res.status(400).send({
-      message: 'DiscoveryCenter Menu is invalid'
+      message: 'Discoverycentermenu is invalid'
     });
   }
 };
@@ -187,7 +187,7 @@ exports.changeIcon3x = function (req, res) {
     });
   } else {
     res.status(400).send({
-      message: 'DiscoveryCenter Menu is invalid'
+      message: 'Discoverycentermenu is invalid'
     });
   }
 };

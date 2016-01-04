@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<% for ( var i = 0; i < settingmenus.length; i++ ) { %>
+	<dict>
+		<key>Name</key>
+		<string><%=settingmenus[i].name%></string>
+		<key>Titles</key>
+		<dict>
+			<key>Normal</key>
+			<dict>
+				<key>Normal</key>
+				<string><%=settingmenus[i].name%></string>
+				<key>Selected</key>
+				<string><%=settingmenus[i].selectName%></string>
+			</dict>
+		</dict>
+		<key>Images</key>
+		<dict>
+			<key>Normal</key>
+			<dict>
+				<key>Normal</key>
+				<string><%=settingmenus[i].exportIconFile==null?settingmenus[i].iconFile:settingmenus[i].exportIconFile%></string>
+				<key>Selected</key>
+				<string><%=settingmenus[i].exportSelectIconFile==null?settingmenus[i].selectIconFile:settingmenus[i].exportSelectIconFile%></string>
+			</dict>
+		</dict>
+	</dict>
+	<% } %>
+</array>
+</plist>

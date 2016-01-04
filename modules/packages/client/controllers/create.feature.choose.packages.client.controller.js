@@ -8,28 +8,28 @@ angular.module('packages').controller('CreateFeaturePackagesController', ['$scop
     // Init feature
     if ($scope.packages.feature == null) {
       $scope.packages.feature = {};
-      $translate(['PACKAGE_CREATE_STEP_FEATURE_EMOJI', 'PACKAGE_CREATE_STEP_FEATURE_EMOJICOLOR', 'PACKAGE_CREATE_STEP_FEATURE_SUPERWORD', 'PACKAGE_CREATE_STEP_FEATURE_SPOTLIGHT']).then(function (translations) {
-        $scope.packages.feature.pages = [
-          {name: translations.PACKAGE_CREATE_STEP_FEATURE_EMOJI, url: '^.emojis'},
-          {name: translations.PACKAGE_CREATE_STEP_FEATURE_EMOJICOLOR, url: '^.emojicolors'},
-          {name: translations.PACKAGE_CREATE_STEP_FEATURE_CUSTOMKEY, url: '^.customkeys'},
-          {name: translations.PACKAGE_CREATE_STEP_FEATURE_SUPERWORD, url: '^.superwords'},
-          {name: translations.PACKAGE_CREATE_STEP_FEATURE_SPOTLIGHT, url: '^.spotlights'}
-        ];
-      });
 
       // Translate
       $rootScope.$on('$translateChangeSuccess', function () {
-        $translate(['PACKAGE_CREATE_STEP_FEATURE_EMOJI', 'PACKAGE_CREATE_STEP_FEATURE_EMOJICOLOR', 'PACKAGE_CREATE_STEP_FEATURE_SUPERWORD', 'PACKAGE_CREATE_STEP_FEATURE_SPOTLIGHT']).then(function (translations) {
+        $scope.packages.feature.loadPage();
+      });
+
+      // Load page
+      $scope.packages.feature.loadPage = function () {
+        $translate(['PACKAGE_CREATE_STEP_FEATURE_EMOJI', 'PACKAGE_CREATE_STEP_FEATURE_EMOJICOLOR', 'PACKAGE_CREATE_STEP_FEATURE_CUSTOMKEY', 'PACKAGE_CREATE_STEP_FEATURE_SUPERWORD', 'PACKAGE_CREATE_STEP_FEATURE_SPOTLIGHT', 'PACKAGE_CREATE_STEP_FEATURE_DISCOVERYCENTERMENU', 'PACKAGE_CREATE_STEP_FEATURE_DISCOVERYCENTERBANNER', 'PACKAGE_CREATE_STEP_FEATURE_SETTINGMENU', 'PACKAGE_CREATE_STEP_FEATURE_KEYBOARDMENU']).then(function (translations) {
           $scope.packages.feature.pages = [
             {name: translations.PACKAGE_CREATE_STEP_FEATURE_EMOJI, url: '^.emojis'},
             {name: translations.PACKAGE_CREATE_STEP_FEATURE_EMOJICOLOR, url: '^.emojicolors'},
             {name: translations.PACKAGE_CREATE_STEP_FEATURE_CUSTOMKEY, url: '^.customkeys'},
             {name: translations.PACKAGE_CREATE_STEP_FEATURE_SUPERWORD, url: '^.superwords'},
-            {name: translations.PACKAGE_CREATE_STEP_FEATURE_SPOTLIGHT, url: '^.spotlights'}
+            {name: translations.PACKAGE_CREATE_STEP_FEATURE_SPOTLIGHT, url: '^.spotlights'},
+            {name: translations.PACKAGE_CREATE_STEP_FEATURE_DISCOVERYCENTERMENU, url: '^.discoverycentermenus'},
+            {name: translations.PACKAGE_CREATE_STEP_FEATURE_DISCOVERYCENTERBANNER, url: '^.discoverycenterbanners'},
+            {name: translations.PACKAGE_CREATE_STEP_FEATURE_SETTINGMENU, url: '^.settingmenus'},
+            {name: translations.PACKAGE_CREATE_STEP_FEATURE_KEYBOARDMENU, url: '^.keyboardmenus'}
           ];
         });
-      });
+      };
 
       // Goto event
       $scope.packages.feature.GotoNextPage = function() {
@@ -64,6 +64,8 @@ angular.module('packages').controller('CreateFeaturePackagesController', ['$scop
         $scope.packages.feature.nowPage = null;
         $scope.packages.feature.GotoNextPage();
       };
+
+      $scope.packages.feature.loadPage();
     }
   }
 ]);

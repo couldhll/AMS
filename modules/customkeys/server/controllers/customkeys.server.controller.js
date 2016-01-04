@@ -118,7 +118,7 @@ exports.changeSettingImage2x = function (req, res) {
     });
   } else {
     res.status(400).send({
-      message: 'Custom Key is invalid'
+      message: 'Customkey is invalid'
     });
   }
 };
@@ -152,7 +152,7 @@ exports.changeKeyboardImage2x = function (req, res) {
     });
   } else {
     res.status(400).send({
-      message: 'Custom Key is invalid'
+      message: 'Customkey is invalid'
     });
   }
 };

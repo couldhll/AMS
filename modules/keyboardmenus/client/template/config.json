@@ -1,0 +1,18 @@
+[
+  {
+    "start": "5.5",
+    "end": "7.0",
+    "menuPlistInput": "5.5/com.baidu.inputmethod.menu.plist",
+    "menuPlistOutput": "com.baidu.inputmethod.menu.plist",
+    "toolbarPlistInput": "5.5/com.baidu.inputmethod.toolbar.plist",
+    "toolbarPlistOutput": "com.baidu.inputmethod.toolbar.plist"
+  },
+  {
+    "start": "7.0",
+    "end": "",
+    "classicPlistInput": "7.0/com.baidu.inputmethod.toolbarMenuItems.plist",
+    "classicPlistOutput": "com.baidu.inputmethod.toolbarMenuItems.plist",
+    "nijigenPlistInput": "7.0/com.baidu.inputmethod.toolbarMenuItems.nijigen.plist",
+    "nijigenPlistOutput": "com.baidu.inputmethod.toolbarMenuItems.nijigen.plist"
+  }
+]

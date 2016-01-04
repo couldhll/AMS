@@ -118,7 +118,7 @@ exports.changeBannerImage1x = function (req, res) {
     });
   } else {
     res.status(400).send({
-      message: 'DiscoveryCenter Banner is invalid'
+      message: 'Discoverycenterbanner is invalid'
     });
   }
 };

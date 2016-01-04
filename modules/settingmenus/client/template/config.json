@@ -1,0 +1,8 @@
+[
+  {
+    "start": "5.5",
+    "end": "",
+    "plistInput": "5.5/com.baidu.inputmethod.tabbar.plist",
+    "plistOutput": "com.baidu.inputmethod.tabbar.plist"
+  }
+]

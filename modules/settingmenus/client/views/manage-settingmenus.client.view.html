@@ -1,0 +1,6 @@
+<section ng-controller="ManageSettingmenusController">
+  <div class="page-header">
+    <h1>{{ 'SETTINGMENU_MANAGE_TITLE' | translate }}</h1>
+  </div>
+  <ui-grid-one title="{{ 'SETTINGMENU_MANAGE_ONE_TITLE' | translate }}" data="settingmenus" grid-options="settingmenuGridOptions" add-click="addSettingmenu()" remove-click="removeSettingmenu(removeEntity)" begin-cell-edit="beginEditSettingmenu(rowEntity, colDef, triggerEvent)" after-cell-edit="afterEditSettingmenu(rowEntity, colDef, newValue, oldValue)" import-click="importSettingmenu(grid, newObjects)" uploader="uploader" upload-click="uploadPicture()"></ui-grid-one>
+</section>

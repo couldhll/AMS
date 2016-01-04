@@ -22,7 +22,7 @@ angular.module('packages').config(['$stateProvider',
             url: '/feature',
             template: '<ui-view/>',
             controller: function($state){
-                $state.go('.choose');// default go to choose page
+                $state.go('packages.create.feature.choose');// default go to choose page
             }
         })
         .state('packages.create.feature.choose', {
@@ -48,6 +48,22 @@ angular.module('packages').config(['$stateProvider',
         .state('packages.create.feature.spotlights', {
             url: '/spotlights',
             templateUrl: 'modules/spotlights/client/views/export-spotlights.client.view.html'
+        })
+        .state('packages.create.feature.discoverycentermenus', {
+            url: '/discoverycentermenus',
+            templateUrl: 'modules/discoverycentermenus/client/views/export-discoverycentermenus.client.view.html'
+        })
+        .state('packages.create.feature.discoverycenterbanners', {
+            url: '/discoverycenterbanners',
+            templateUrl: 'modules/discoverycenterbanners/client/views/export-discoverycenterbanners.client.view.html'
+        })
+        .state('packages.create.feature.settingmenus', {
+            url: '/settingmenus',
+            templateUrl: 'modules/settingmenus/client/views/export-settingmenus.client.view.html'
+        })
+        .state('packages.create.feature.keyboardmenus', {
+            url: '/keyboardmenus',
+            templateUrl: 'modules/keyboardmenus/client/views/export-keyboardmenus.client.view.html'
         })
         .state('packages.create.download', {
             url: '/download',

@@ -1,0 +1,6 @@
+<section ng-controller="ManageKeyboardmenusController">
+  <div class="page-header">
+    <h1>{{ 'KEYBOARDMENU_MANAGE_TITLE' | translate }}</h1>
+  </div>
+  <ui-grid-one title="{{ 'KEYBOARDMENU_MANAGE_ONE_TITLE' | translate }}" data="keyboardmenus" grid-options="keyboardmenuGridOptions" add-click="addKeyboardmenu()" remove-click="removeKeyboardmenu(removeEntity)" begin-cell-edit="beginEditKeyboardmenu(rowEntity, colDef, triggerEvent)" after-cell-edit="afterEditKeyboardmenu(rowEntity, colDef, newValue, oldValue)" import-click="importKeyboardmenu(grid, newObjects)" uploader="uploader" upload-click="uploadPicture()"></ui-grid-one>
+</section>

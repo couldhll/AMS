@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<% for ( var i = 0; i < keyboardmenus.length; i++ ) { %>
+	<% if ( keyboardmenus[i].type=='classic' && keyboardmenus[i].position=='toolbar' ) { %>
+	<dict>
+		<key>Name</key>
+		<string><%=keyboardmenus[i].name%></string>
+		<key>Images</key>
+		<dict>
+			<key>Normal</key>
+			<dict>
+				<key>Normal</key>
+				<string><%=keyboardmenus[i].exportIconFile==null?keyboardmenus[i].iconFile:keyboardmenus[i].exportIconFile%></string>
+				<key>Highlight</key>
+				<string><%=keyboardmenus[i].exportHighlightIconFile==null?keyboardmenus[i].highlightIconFile:keyboardmenus[i].exportHighlightIconFile%></string>
+				<key>Selected</key>
+				<string><%=keyboardmenus[i].exportSelectIconFile==null?keyboardmenus[i].selectIconFile:keyboardmenus[i].exportIconFile%></string>
+			</dict>
+			<key>Theme</key>
+			<dict>
+				<key>Normal</key>
+				<string><%=keyboardmenus[i].exportIconThemeFile==null?keyboardmenus[i].iconThemeFile:keyboardmenus[i].exportIconThemeFile%></string>
+				<key>Highlight</key>
+				<string><%=keyboardmenus[i].exportHighlightIconThemeFile==null?keyboardmenus[i].highlightIconThemeFile:keyboardmenus[i].exportHighlightIconThemeFile%></string>
+				<key>Selected</key>
+				<string><%=keyboardmenus[i].exportSelectIconThemeFile==null?keyboardmenus[i].selectIconThemeFile:keyboardmenus[i].exportSelectIconThemeFile%></string>
+			</dict>
+		</dict>
+	</dict>
+	<% } %>
+	<% } %>
+</array>
+</plist>
