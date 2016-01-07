@@ -27,6 +27,7 @@ module.exports = {
         'public/lib/jszip-utils/dist/jszip-utils.min.js',
         'public/lib/jquery/dist/jquery.min.js',
         'public/lib/moment/min/moment.min.js',
+        'public/lib/bootstrap/dist/js/bootstrap.min.js',
         'public/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
         'public/lib/checklist-model/checklist-model.js',
         'public/lib/microtemplates/index.js',
