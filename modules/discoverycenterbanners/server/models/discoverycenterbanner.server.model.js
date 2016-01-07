@@ -26,7 +26,7 @@ var DiscoverycenterbannerSchema = new Schema({
   },
   bannerImage1xURL: {
     type: String,
-    default: 'modules/discoverycenterbanners/client/img/image/discoverycenter_banner.png'
+    default: 'modules/discoverycenterbanners/client/img/discoverycenter_banner.png'
   },
   user: {
     type: Schema.ObjectId,

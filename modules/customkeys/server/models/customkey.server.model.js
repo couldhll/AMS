@@ -26,7 +26,7 @@ var CustomkeySchema = new Schema({
   },
   settingImage2xURL: {
     type: String,
-    default: 'modules/customkeys/client/img/image/settingImage@2x.png'
+    default: 'modules/customkeys/client/img/settingImage@2x.png'
   },
   keyboardImageFile: {
     type: String,
@@ -34,7 +34,7 @@ var CustomkeySchema = new Schema({
   },
   keyboardImage2xURL: {
     type: String,
-    default: 'modules/customkeys/client/img/image/keyboardImage@2x.png'
+    default: 'modules/customkeys/client/img/keyboardImage@2x.png'
   },
   user: {
     type: Schema.ObjectId,

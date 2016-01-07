@@ -115,13 +115,13 @@ exports.changeIcon2x = function (req, res) {
   var message = null;
 
   if (emojiGroup) {
-    fs.writeFile('./modules/emojis/client/img/icon/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        emojiGroup.icon2xURL = 'modules/emojis/client/img/icon/uploads/' + req.files.file.name;
+        emojiGroup.icon2xURL = 'uploads/' + req.files.file.name;
 
         emojiGroup.save(function (err) {
           if (err) {
@@ -149,13 +149,13 @@ exports.changeIcon3x = function (req, res) {
   var message = null;
 
   if (emojiGroup) {
-    fs.writeFile('./modules/emojis/client/img/icon/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        emojiGroup.icon3xURL = 'modules/emojis/client/img/icon/uploads/' + req.files.file.name;
+        emojiGroup.icon3xURL = 'uploads/' + req.files.file.name;
 
         emojiGroup.save(function (err) {
           if (err) {

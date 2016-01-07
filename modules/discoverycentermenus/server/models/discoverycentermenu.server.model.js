@@ -37,15 +37,15 @@ var DiscoverycentermenuSchema = new Schema({
   },
   icon1xURL: {
     type: String,
-    default: 'modules/discoverycentermenus/client/img/image/icon.png'
+    default: 'modules/discoverycentermenus/client/img/icon.png'
   },
   icon2xURL: {
     type: String,
-    default: 'modules/discoverycentermenus/client/img/image/icon@2x.png'
+    default: 'modules/discoverycentermenus/client/img/icon@2x.png'
   },
   icon3xURL: {
     type: String,
-    default: 'modules/discoverycentermenus/client/img/image/icon@3x.png'
+    default: 'modules/discoverycentermenus/client/img/icon@3x.png'
   },
   user: {
     type: Schema.ObjectId,

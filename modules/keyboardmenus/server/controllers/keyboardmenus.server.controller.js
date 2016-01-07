@@ -105,13 +105,13 @@ exports.changeIconiPad1x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.iconiPad1xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.iconiPad1xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -139,13 +139,13 @@ exports.changeIconiPad2x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.iconiPad2xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.iconiPad2xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -173,13 +173,13 @@ exports.changeIconiPhone2x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.iconiPhone2xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.iconiPhone2xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -207,13 +207,13 @@ exports.changeIconiPhone3x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.iconiPhone3xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.iconiPhone3xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -241,13 +241,13 @@ exports.changeSelectIconiPad1x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.selectIconiPad1xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.selectIconiPad1xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -275,13 +275,13 @@ exports.changeSelectIconiPad2x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.selectIconiPad2xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.selectIconiPad2xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -309,13 +309,13 @@ exports.changeSelectIconiPhone2x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.selectIconiPhone2xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.selectIconiPhone2xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -343,13 +343,13 @@ exports.changeSelectIconiPhone3x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.selectIconiPhone3xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.selectIconiPhone3xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -377,13 +377,13 @@ exports.changeHighlightIconiPad1x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.highlightIconiPad1xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.highlightIconiPad1xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -411,13 +411,13 @@ exports.changeHighlightIconiPad2x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.highlightIconiPad2xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.highlightIconiPad2xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -445,13 +445,13 @@ exports.changeHighlightIconiPhone2x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.highlightIconiPhone2xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.highlightIconiPhone2xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -479,13 +479,13 @@ exports.changeHighlightIconiPhone3x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.highlightIconiPhone3xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.highlightIconiPhone3xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -513,13 +513,13 @@ exports.changeIconThemeiPad1x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.iconThemeiPad1xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.iconThemeiPad1xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -547,13 +547,13 @@ exports.changeIconThemeiPad2x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.iconThemeiPad2xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.iconThemeiPad2xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -581,13 +581,13 @@ exports.changeIconThemeiPhone2x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.iconThemeiPhone2xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.iconThemeiPhone2xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -615,13 +615,13 @@ exports.changeIconThemeiPhone3x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.iconThemeiPhone3xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.iconThemeiPhone3xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -649,13 +649,13 @@ exports.changeSelectIconThemeiPad1x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.selectIconThemeiPad1xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.selectIconThemeiPad1xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -683,13 +683,13 @@ exports.changeSelectIconThemeiPad2x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.selectIconThemeiPad2xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.selectIconThemeiPad2xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -717,13 +717,13 @@ exports.changeSelectIconThemeiPhone2x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.selectIconThemeiPhone2xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.selectIconThemeiPhone2xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -751,13 +751,13 @@ exports.changeSelectIconThemeiPhone3x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.selectIconThemeiPhone3xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.selectIconThemeiPhone3xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -785,13 +785,13 @@ exports.changeHighlightIconThemeiPad1x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.highlightIconThemeiPad1xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.highlightIconThemeiPad1xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -819,13 +819,13 @@ exports.changeHighlightIconThemeiPad2x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.highlightIconThemeiPad2xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.highlightIconThemeiPad2xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -853,13 +853,13 @@ exports.changeHighlightIconThemeiPhone2x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.highlightIconThemeiPhone2xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.highlightIconThemeiPhone2xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {
@@ -887,13 +887,13 @@ exports.changeHighlightIconThemeiPhone3x = function (req, res) {
   var message = null;
 
   if (keyboardmenu) {
-    fs.writeFile('./modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        keyboardmenu.highlightIconThemeiPhone3xURL = 'modules/keyboardmenus/client/img/image/uploads/' + req.files.file.name;
+        keyboardmenu.highlightIconThemeiPhone3xURL = 'uploads/' + req.files.file.name;
 
         keyboardmenu.save(function (err) {
           if (err) {

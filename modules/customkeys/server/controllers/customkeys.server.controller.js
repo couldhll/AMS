@@ -97,13 +97,13 @@ exports.changeSettingImage2x = function (req, res) {
   var message = null;
 
   if (customkey) {
-    fs.writeFile('./modules/customkeys/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading image'
         });
       } else {
-        customkey.settingImage2xURL = 'modules/customkeys/client/img/image/uploads/' + req.files.file.name;
+        customkey.settingImage2xURL = 'uploads/' + req.files.file.name;
 
         customkey.save(function (err) {
           if (err) {
@@ -131,13 +131,13 @@ exports.changeKeyboardImage2x = function (req, res) {
   var message = null;
 
   if (customkey) {
-    fs.writeFile('./modules/customkeys/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading image'
         });
       } else {
-        customkey.keyboardImage2xURL = 'modules/customkeys/client/img/image/uploads/' + req.files.file.name;
+        customkey.keyboardImage2xURL = 'uploads/' + req.files.file.name;
 
         customkey.save(function (err) {
           if (err) {

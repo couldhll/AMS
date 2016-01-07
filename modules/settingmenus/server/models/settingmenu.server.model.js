@@ -31,15 +31,15 @@ var SettingmenuSchema = new Schema({
   },
   icon1xURL: {
     type: String,
-    default: 'modules/settingmenus/client/img/image/normal.png'
+    default: 'modules/settingmenus/client/img/normal.png'
   },
   icon2xURL: {
     type: String,
-    default: 'modules/settingmenus/client/img/image/normal@2x.png'
+    default: 'modules/settingmenus/client/img/normal@2x.png'
   },
   icon3xURL: {
     type: String,
-    default: 'modules/settingmenus/client/img/image/normal@3x.png'
+    default: 'modules/settingmenus/client/img/normal@3x.png'
   },
   selectIconFile: {
     type: String,
@@ -47,15 +47,15 @@ var SettingmenuSchema = new Schema({
   },
   selectIcon1xURL: {
     type: String,
-    default: 'modules/settingmenus/client/img/image/select.png'
+    default: 'modules/settingmenus/client/img/select.png'
   },
   selectIcon2xURL: {
     type: String,
-    default: 'modules/settingmenus/client/img/image/select@2x.png'
+    default: 'modules/settingmenus/client/img/select@2x.png'
   },
   selectIcon3xURL: {
     type: String,
-    default: 'modules/settingmenus/client/img/image/select@3x.png'
+    default: 'modules/settingmenus/client/img/select@3x.png'
   },
   user: {
     type: Schema.ObjectId,

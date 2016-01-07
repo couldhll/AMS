@@ -49,19 +49,19 @@ var KeyboardmenuSchema = new Schema({
   },
   iconiPad1xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/normal_ipad.png'
+    default: 'modules/keyboardmenus/client/img/normal_ipad.png'
   },
   iconiPad2xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/normal_ipad@2x.png'
+    default: 'modules/keyboardmenus/client/img/normal_ipad@2x.png'
   },
   iconiPhone2xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/normal_iphone@2x.png'
+    default: 'modules/keyboardmenus/client/img/normal_iphone@2x.png'
   },
   iconiPhone3xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/normal_iphone@3x.png'
+    default: 'modules/keyboardmenus/client/img/normal_iphone@3x.png'
   },
   selectIconFile: {
     type: String,
@@ -69,19 +69,19 @@ var KeyboardmenuSchema = new Schema({
   },
   selectIconiPad1xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/select_ipad.png'
+    default: 'modules/keyboardmenus/client/img/select_ipad.png'
   },
   selectIconiPad2xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/select_ipad@2x.png'
+    default: 'modules/keyboardmenus/client/img/select_ipad@2x.png'
   },
   selectIconiPhone2xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/select_iphone@2x.png'
+    default: 'modules/keyboardmenus/client/img/select_iphone@2x.png'
   },
   selectIconiPhone3xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/select_iphone@3x.png'
+    default: 'modules/keyboardmenus/client/img/select_iphone@3x.png'
   },
   highlightIconFile: {
     type: String,
@@ -89,19 +89,19 @@ var KeyboardmenuSchema = new Schema({
   },
   highlightIconiPad1xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/toolbar_selection@2x.png'
+    default: 'modules/keyboardmenus/client/img/toolbar_selection@2x.png'
   },
   highlightIconiPad2xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/toolbar_selection@2x.png'
+    default: 'modules/keyboardmenus/client/img/toolbar_selection@2x.png'
   },
   highlightIconiPhone2xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/toolbar_selection@2x.png'
+    default: 'modules/keyboardmenus/client/img/toolbar_selection@2x.png'
   },
   highlightIconiPhone3xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/toolbar_selection@2x.png'
+    default: 'modules/keyboardmenus/client/img/toolbar_selection@2x.png'
   },
   iconThemeFile: {
     type: String,
@@ -109,19 +109,19 @@ var KeyboardmenuSchema = new Schema({
   },
   iconThemeiPad1xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/theme_ipad.png'
+    default: 'modules/keyboardmenus/client/img/theme_ipad.png'
   },
   iconThemeiPad2xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/theme_ipad@2x.png'
+    default: 'modules/keyboardmenus/client/img/theme_ipad@2x.png'
   },
   iconThemeiPhone2xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/theme_iphone@2x.png'
+    default: 'modules/keyboardmenus/client/img/theme_iphone@2x.png'
   },
   iconThemeiPhone3xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/theme_iphone@3x.png'
+    default: 'modules/keyboardmenus/client/img/theme_iphone@3x.png'
   },
   selectIconThemeFile: {
     type: String,
@@ -129,19 +129,19 @@ var KeyboardmenuSchema = new Schema({
   },
   selectIconThemeiPad1xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/select_ipad.png'
+    default: 'modules/keyboardmenus/client/img/select_ipad.png'
   },
   selectIconThemeiPad2xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/select_ipad@2x.png'
+    default: 'modules/keyboardmenus/client/img/select_ipad@2x.png'
   },
   selectIconThemeiPhone2xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/select_iphone@2x.png'
+    default: 'modules/keyboardmenus/client/img/select_iphone@2x.png'
   },
   selectIconThemeiPhone3xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/select_iphone@3x.png'
+    default: 'modules/keyboardmenus/client/img/select_iphone@3x.png'
   },
   highlightIconThemeFile: {
     type: String,
@@ -149,19 +149,19 @@ var KeyboardmenuSchema = new Schema({
   },
   highlightIconThemeiPad1xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/toolbar_selection_theme@2x.png'
+    default: 'modules/keyboardmenus/client/img/toolbar_selection_theme@2x.png'
   },
   highlightIconThemeiPad2xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/toolbar_selection_theme@2x.png'
+    default: 'modules/keyboardmenus/client/img/toolbar_selection_theme@2x.png'
   },
   highlightIconThemeiPhone2xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/toolbar_selection_theme@2x.png'
+    default: 'modules/keyboardmenus/client/img/toolbar_selection_theme@2x.png'
   },
   highlightIconThemeiPhone3xURL: {
     type: String,
-    default: 'modules/keyboardmenus/client/img/image/toolbar_selection_theme@2x.png'
+    default: 'modules/keyboardmenus/client/img/toolbar_selection_theme@2x.png'
   },
   user: {
     type: Schema.ObjectId,

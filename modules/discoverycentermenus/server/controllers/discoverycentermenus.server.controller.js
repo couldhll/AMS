@@ -98,13 +98,13 @@ exports.changeIcon1x = function (req, res) {
   var message = null;
 
   if (discoverycentermenu) {
-    fs.writeFile('./modules/discoverycentermenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        discoverycentermenu.icon1xURL = 'modules/discoverycentermenus/client/img/image/uploads/' + req.files.file.name;
+        discoverycentermenu.icon1xURL = 'uploads/' + req.files.file.name;
 
         discoverycentermenu.save(function (err) {
           if (err) {
@@ -132,13 +132,13 @@ exports.changeIcon2x = function (req, res) {
   var message = null;
 
   if (discoverycentermenu) {
-    fs.writeFile('./modules/discoverycentermenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        discoverycentermenu.icon2xURL = 'modules/discoverycentermenus/client/img/image/uploads/' + req.files.file.name;
+        discoverycentermenu.icon2xURL = 'uploads/' + req.files.file.name;
 
         discoverycentermenu.save(function (err) {
           if (err) {
@@ -166,13 +166,13 @@ exports.changeIcon3x = function (req, res) {
   var message = null;
 
   if (discoverycentermenu) {
-    fs.writeFile('./modules/discoverycentermenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        discoverycentermenu.icon3xURL = 'modules/discoverycentermenus/client/img/image/uploads/' + req.files.file.name;
+        discoverycentermenu.icon3xURL = 'uploads/' + req.files.file.name;
 
         discoverycentermenu.save(function (err) {
           if (err) {

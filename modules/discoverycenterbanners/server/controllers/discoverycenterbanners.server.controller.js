@@ -97,13 +97,13 @@ exports.changeBannerImage1x = function (req, res) {
   var message = null;
 
   if (discoverycenterbanner) {
-    fs.writeFile('./modules/discoverycenterbanners/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading image'
         });
       } else {
-        discoverycenterbanner.bannerImage1xURL = 'modules/discoverycenterbanners/client/img/image/uploads/' + req.files.file.name;
+        discoverycenterbanner.bannerImage1xURL = 'uploads/' + req.files.file.name;
 
         discoverycenterbanner.save(function (err) {
           if (err) {

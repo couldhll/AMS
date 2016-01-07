@@ -34,11 +34,11 @@ var EmojiGroupSchema = new Schema({
   },
   icon2xURL: {
     type: String,
-    default: 'modules/emojis/client/img/icon/default@2x.png'
+    default: 'modules/emojis/client/img/default@2x.png'
   },
   icon3xURL: {
     type: String,
-    default: 'modules/emojis/client/img/icon/default@3x.png'
+    default: 'modules/emojis/client/img/default@3x.png'
   },
   seperate: {
     type: String,

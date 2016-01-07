@@ -98,13 +98,13 @@ exports.changeIcon1x = function (req, res) {
   var message = null;
 
   if (settingmenu) {
-    fs.writeFile('./modules/settingmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        settingmenu.icon1xURL = 'modules/settingmenus/client/img/image/uploads/' + req.files.file.name;
+        settingmenu.icon1xURL = 'uploads/' + req.files.file.name;
 
         settingmenu.save(function (err) {
           if (err) {
@@ -132,13 +132,13 @@ exports.changeIcon2x = function (req, res) {
   var message = null;
 
   if (settingmenu) {
-    fs.writeFile('./modules/settingmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        settingmenu.icon2xURL = 'modules/settingmenus/client/img/image/uploads/' + req.files.file.name;
+        settingmenu.icon2xURL = 'uploads/' + req.files.file.name;
 
         settingmenu.save(function (err) {
           if (err) {
@@ -166,13 +166,13 @@ exports.changeIcon3x = function (req, res) {
   var message = null;
 
   if (settingmenu) {
-    fs.writeFile('./modules/settingmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        settingmenu.icon3xURL = 'modules/settingmenus/client/img/image/uploads/' + req.files.file.name;
+        settingmenu.icon3xURL = 'uploads/' + req.files.file.name;
 
         settingmenu.save(function (err) {
           if (err) {
@@ -200,13 +200,13 @@ exports.changeSelectIcon1x = function (req, res) {
   var message = null;
 
   if (settingmenu) {
-    fs.writeFile('./modules/settingmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        settingmenu.selectIcon1xURL = 'modules/settingmenus/client/img/image/uploads/' + req.files.file.name;
+        settingmenu.selectIcon1xURL = 'uploads/' + req.files.file.name;
 
         settingmenu.save(function (err) {
           if (err) {
@@ -234,13 +234,13 @@ exports.changeSelectIcon2x = function (req, res) {
   var message = null;
 
   if (settingmenu) {
-    fs.writeFile('./modules/settingmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        settingmenu.selectIcon2xURL = 'modules/settingmenus/client/img/image/uploads/' + req.files.file.name;
+        settingmenu.selectIcon2xURL = 'uploads/' + req.files.file.name;
 
         settingmenu.save(function (err) {
           if (err) {
@@ -268,13 +268,13 @@ exports.changeSelectIcon3x = function (req, res) {
   var message = null;
 
   if (settingmenu) {
-    fs.writeFile('./modules/settingmenus/client/img/image/uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
+    fs.writeFile('./uploads/' + req.files.file.name, req.files.file.buffer, function (uploadError) {
       if (uploadError) {
         return res.status(400).send({
           message: 'Error occurred while uploading icon'
         });
       } else {
-        settingmenu.selectIcon3xURL = 'modules/settingmenus/client/img/image/uploads/' + req.files.file.name;
+        settingmenu.selectIcon3xURL = 'uploads/' + req.files.file.name;
 
         settingmenu.save(function (err) {
           if (err) {
