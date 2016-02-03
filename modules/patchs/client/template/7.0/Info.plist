@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<% for ( var i = 0; i < patchs.length; i++ ) { %>
+	<dict>
+		<key>name</key>
+		<string><%=patchs[i].name%></string>
+		<key>mode</key>
+		<string><%=patchs[i].mode%></string>
+		<key>script</key>
+		<string><%=patchs[i].script%></string>
+		<key>host</key>
+		<string><%=patchs[i].host%></string>
+		<key>encrypt</key>
+		<%=patchs[i].encrypt==true?'<true/>':'<false/>'%>
+	</dict>
+	<% } %>
+</array>
+</plist>

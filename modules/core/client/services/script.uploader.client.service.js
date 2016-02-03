@@ -1,14 +1,14 @@
 'use strict';
 
 // image uploader for ui-grid
-angular.module('core').service('ImageUploader', ['FileUploader', '$window', '$timeout',
+angular.module('core').service('ScriptUploader', ['FileUploader', '$window', '$timeout',
   function (FileUploader, $window, $timeout) {
     // Create file uploader instance
     this.uploader = new FileUploader();
 
     // Set file uploader picture filter
     this.uploader.filters.push({
-      name: 'imageFilter',
+      name: 'scriptFilter',
       fn: function (item, options) {
         var type;
         if (item.type=="") {
@@ -19,9 +19,9 @@ angular.module('core').service('ImageUploader', ['FileUploader', '$window', '$ti
         }
         type = '|' + type + '|';
 
-        var result ='|png|'.indexOf(type) !== -1;
+        var result ='|lua|'.indexOf(type) !== -1;
         if (!result) {
-          alert('Please choose png image');
+          alert('Please choose lua script');
         }
         return result; // Only png
       }
