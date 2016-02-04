@@ -152,19 +152,30 @@ angular.module('patchs').controller('ExportPatchsController', ['$scope', '$state
         // 1. put script into zip
         var bannerImageDeferred = $q.defer();
         $window.JSZipUtils.getBinaryContent(entity.scriptFile, function (err, data) {
-          bannerImageDeferred.resolve(data);
           if (err) {
             throw err;
           }
-          resourceFolder.file(entity.name, data, {binary: true});
+          // 2. encrypt
+          if (entity.encrypt==true) {
+            $http.post('http://10.58.19.57:8001/v4/?c=cpr&e=enab64', data)
+                .success(function (response) {
+                  var encryptData = response;
+
+                  resourceFolder.file(entity.name, encryptData, {binary: true});
+
+                  bannerImageDeferred.resolve(data);
+                })
+                .error(function (error) {
+                  alert(error);
+                });
+          }
+          else {
+            resourceFolder.file(entity.name, data, {binary: true});
+
+            bannerImageDeferred.resolve(data);
+          }
         });
         scriptPromises.push(bannerImageDeferred.promise);
-
-        // 2. encrypt
-        if (entity.encrypt==true)
-        {
-          //TODO: encrypt
-        }
 
         var deferred = $q.defer();
 
@@ -206,10 +217,19 @@ angular.module('patchs').controller('ExportPatchsController', ['$scope', '$state
 
                   var plist = $window.microtemplate(plistTemplate, data);
 
-                  // 2. put plist into zip
-                  zip.file(plistFileName, plist);
+                  // 2. encrypt
+                  $http.post('http://10.58.19.57:8001/v4/?c=cpr&e=enab64', plist)
+                      .success(function (response) {
+                        var encryptPlist = response;
 
-                  deferred.resolve({name: zipFileName, file: zip, template: template});
+                        // 3. put plist into zip
+                        zip.file(plistFileName, encryptPlist);
+
+                        deferred.resolve({name: zipFileName, file: zip, template: template});
+                      })
+                      .error(function (error) {
+                        alert(error);
+                      });
                 })
                 .error(function (error) {
                   alert(error);
