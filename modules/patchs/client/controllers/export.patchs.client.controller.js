@@ -107,7 +107,7 @@ angular.module('patchs').controller('ExportPatchsController', ['$scope', '$state
 
             // alert MD5
             var spark = new $window.SparkMD5.ArrayBuffer();
-            var fileReader = new FileReader;
+            var fileReader = new FileReader();
             fileReader.onload = function (event) {
               spark.append(event.target.result);
               var md5 = spark.end();
