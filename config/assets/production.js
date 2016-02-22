@@ -35,7 +35,8 @@ module.exports = {
         'public/lib/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
         'public/lib/angular-cookies/angular-cookies.min.js',
         'public/lib/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js',
-        'public/lib/angular-translate-storage-local/angular-translate-storage-local.min.js'
+        'public/lib/angular-translate-storage-local/angular-translate-storage-local.min.js',
+        'public/lib/SparkMD5/spark-md5.min.js'
       ]
     },
     css: 'public/dist/application.min.css',

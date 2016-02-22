@@ -104,6 +104,16 @@ angular.module('patchs').controller('ExportPatchsController', ['$scope', '$state
 
             var content = zipFileZip.generate({type: "blob"});
             Download.downloadFile(zipFileName, content);
+
+            // alert MD5
+            var spark = new $window.SparkMD5.ArrayBuffer();
+            var fileReader = new FileReader;
+            fileReader.onload = function (event) {
+              spark.append(event.target.result);
+              var md5 = spark.end();
+              alert("文件已下载，此文件的MD5是:"+md5);
+            };
+            fileReader.readAsArrayBuffer(content);
           });
     };
 

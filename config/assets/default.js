@@ -35,7 +35,8 @@ module.exports = {
         'public/lib/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
         'public/lib/angular-cookies/angular-cookies.js',
         'public/lib/angular-translate-storage-cookie/angular-translate-storage-cookie.js',
-        'public/lib/angular-translate-storage-local/angular-translate-storage-local.js'
+        'public/lib/angular-translate-storage-local/angular-translate-storage-local.js',
+        'public/lib/SparkMD5/spark-md5.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },
