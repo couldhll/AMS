@@ -102,17 +102,17 @@ angular.module('patchs').controller('ExportPatchsController', ['$scope', '$state
             var zipFileName = zipFile.name;
             var zipFileZip = zipFile.file;
 
-            var content = zipFileZip.generate({type: "blob"});
-            Download.downloadFile(zipFileName, content);
-
-            // alert MD5
-            var spark = new $window.SparkMD5.ArrayBuffer();
+            // md5 file name
             var fileReader = new FileReader();
             fileReader.onload = function (event) {
+              var spark = new $window.SparkMD5.ArrayBuffer();
               spark.append(event.target.result);
               var md5 = spark.end();
-              alert("文件已下载，此文件的MD5是:"+md5);
+              var md5ZipFileName = md5 + "__" + zipFileName;
+              Download.downloadFile(md5ZipFileName, content);
             };
+
+            var content = zipFileZip.generate({type: "blob"});
             fileReader.readAsArrayBuffer(content);
           });
     };
