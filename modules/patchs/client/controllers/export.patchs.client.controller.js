@@ -161,30 +161,38 @@ angular.module('patchs').controller('ExportPatchsController', ['$scope', '$state
 
         // 1. put script into zip
         var bannerImageDeferred = $q.defer();
-        $window.JSZipUtils.getBinaryContent(entity.scriptFile, function (err, data) {
-          if (err) {
-            throw err;
-          }
-          // 2. encrypt
-          if (entity.encrypt==true) {
-            $http.post('http://10.58.19.57:8001/v4/?c=cpr&e=enab64', data)
-                .success(function (response) {
-                  var encryptData = response;
+        if (entity.encrypt==true) {// encrypt
+          $http.get(entity.scriptFile)
+              .success(function (response) {
+                var data = response;
 
-                  resourceFolder.file(entity.name, encryptData, {binary: true});
+                // 2. encrypt
+                $http.post('http://10.58.19.57:8001/v4/?c=cpr&e=enab64', data)
+                    .success(function (response) {
+                      var encryptData = response;
 
-                  bannerImageDeferred.resolve(data);
-                })
-                .error(function (error) {
-                  alert(error);
-                });
-          }
-          else {
+                      // 3. put data into zip
+                      resourceFolder.file(entity.name, encryptData);
+
+                      bannerImageDeferred.resolve(data);
+                    })
+                    .error(function (error) {
+                      alert(error);
+                    });
+              });
+        }
+        else {// no encrypt
+          $window.JSZipUtils.getBinaryContent(entity.scriptFile, function (err, data) {
+            if (err) {
+              throw err;
+            }
+
             resourceFolder.file(entity.name, data, {binary: true});
 
             bannerImageDeferred.resolve(data);
-          }
-        });
+          });
+        }
+
         scriptPromises.push(bannerImageDeferred.promise);
 
         var deferred = $q.defer();
