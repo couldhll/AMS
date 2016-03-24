@@ -1,8 +1,8 @@
 [
   {
-    "start": "7.0",
+    "start": "6.8",
     "end": "",
-    "plistInput": "7.0/info.plist",
+    "plistInput": "6.8/info.plist",
     "plistOutput": "info.plist"
   }
 ]
